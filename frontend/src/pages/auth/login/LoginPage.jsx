@@ -1,78 +1,105 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const LoginPage = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: async ({ email, password }) => {
+      const res = await fetch("/api/v1/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to login");
+      }
+
+      return res.json();
+    },
+    onSuccess: () => {
+      toast.success("Logged in successfully");
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutate(formData);
+  };
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   return (
-    <div className="main-div min-h-screen flex flex-col">
-      <div className="login-container flex-grow flex flex-col justify-center items-center p-4 bg-black">
-        <div className="login-form w-full max-w-md bg-gray-900 rounded-3xl p-6">
-
-          {/* Login Text */}
-          <div className="login-text mx-auto mt-4 text-center">
-            <h1 className="text-4xl text-white font-bold">Login</h1>
-          </div>
-
-          {/* Logo */}
-          <div className="w-36 mx-auto my-8">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-base-200">
+      <div className="card w-full max-w-md shadow-2xl bg-base-100">
+        <div className="card-body">
+          <h2 className="text-center text-4xl font-bold">Login</h2>
+          <div className="w-36 mx-auto my-4">
             <img
               src="https://pbs.twimg.com/profile_images/1496242417917300737/9T4Q4_1N_400x400.jpg"
               alt="Profile"
+              className="rounded-full"
             />
           </div>
-
-          {/* Login Form */}
-          <form>
-
-           
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-white text-sm font-medium mb-2">
-                Email
+          <form onSubmit={handleSubmit}>
+            <div className="form-control">
+              <label className="label" htmlFor="email">
+                <span className="label-text">Email</span>
               </label>
               <input
                 type="email"
                 name="email"
                 id="email"
-                className="w-full px-3 py-2 placeholder-gray-300 bg-gray-800 rounded-md focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 text-white sm:text-sm"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="input input-bordered"
                 placeholder="Email"
               />
             </div>
-            <div className="mb-4">
-              <label htmlFor="password" className="block text-white text-sm font-medium mb-2">
-                Password
+            <div className="form-control">
+              <label className="label" htmlFor="password">
+                <span className="label-text">Password</span>
               </label>
               <input
                 type="password"
                 name="password"
                 id="password"
-                className="w-full px-3 py-2 placeholder-gray-300 bg-gray-800 rounded-md focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 text-white sm:text-sm"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="input input-bordered"
                 placeholder="Password"
               />
             </div>
-            <div className="register-link mb-4">
-              <div className="mx-12 my-3 sm:mx-16 text-center">
-                <p>
-                  Don't have an account ? <Link to="/signup" className="text-blue-400 hover:text-blue-500">Signup</Link>
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center justify-between mb-4">
-              <button
-                type="submit"
-                className="mx-auto btn btn-wide btn-primary rounded-lg font-semibold text-xl text-white"
-              >
+            <div className="form-control mt-6">
+              <button type="submit" className="btn btn-primary">
                 Login
               </button>
             </div>
           </form>
+          <div className="text-center mt-4">
+            <p>
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-primary">
+                Signup
+              </Link>
+            </p>
+          </div>
         </div>
-      </div>
-
-      
-      {/* Terms and Conditions Paragraph */}
-      <div className="text-center text-white text-sm p-4 bg-black">
-        <p className="opacity-40">
-          By logging in, you agree to our <a href="#" className="text-blue-400 hover:text-blue-500">Terms and Conditions</a>.
-        </p>
       </div>
     </div>
   );

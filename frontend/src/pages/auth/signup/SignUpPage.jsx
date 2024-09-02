@@ -1,103 +1,142 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const SignUpPage = () => {
-  return <div>
-        <div className="main-div min-h-screen flex flex-col">
-          <div className="login-container flex-grow flex flex-col justify-center items-center p-4 bg-black">
-          <div className="login-form w-full max-w-md bg-gray-900 rounded-3xl p-6">
+  const [formData, setFormData] = useState({
+    email: "",
+    username: "",
+    fullName: "",
+    password: "",
+  });
 
-          {/* signup text */}
-          <div className="login-text mx-auto mt-4 text-center">
-            <h1 className="text-4xl text-white font-bold">Signup</h1>
-          </div>
+  const queryClient = useQueryClient();
 
-          {/* logo */}
-          <div className="w-36 mx-auto my-8">
+  const { mutate } = useMutation({
+    mutationFn: async ({ email, username, fullName, password }) => {
+      const res = await fetch("/api/v1/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, username, fullName, password }),
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to create account");
+      }
+
+      return res.json();
+    },
+    onSuccess: () => {
+      toast.success("Account created successfully");
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutate(formData);
+  };
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-base-200">
+      <div className="card w-full max-w-md shadow-2xl bg-base-100">
+        <div className="card-body">
+          <h2 className="text-center text-4xl font-bold">Signup</h2>
+          <div className="w-36 mx-auto my-4">
             <img
               src="https://pbs.twimg.com/profile_images/1496242417917300737/9T4Q4_1N_400x400.jpg"
               alt="Profile"
+              className="rounded-full"
             />
           </div>
-
-          {/* signup form */}
-          <form>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-white text-sm font-medium mb-2">
-                Email
+          <form onSubmit={handleSubmit}>
+            <div className="form-control">
+              <label className="label" htmlFor="email">
+                <span className="label-text">Email</span>
               </label>
               <input
                 type="email"
                 name="email"
                 id="email"
-                className="w-full px-3 py-2 placeholder-gray-300 bg-gray-800 rounded-md focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 text-white sm:text-sm"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="input input-bordered"
                 placeholder="Email"
+                required
               />
             </div>
-            <div className="mb-4">
-              <label htmlFor="password" className="block text-white text-sm font-medium mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                className="w-full px-3 py-2 placeholder-gray-300 bg-gray-800 rounded-md focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 text-white sm:text-sm"
-                placeholder="Password"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="password" className="block text-white text-sm font-medium mb-2">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                className="w-full px-3 py-2 placeholder-gray-300 bg-gray-800 rounded-md focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 text-white sm:text-sm"
-                placeholder="Confirm Password"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-white text-sm font-medium mb-2">
-                College ID *
+            <div className="form-control">
+              <label className="label" htmlFor="username">
+                <span className="label-text">Username</span>
               </label>
               <input
                 type="text"
-                name="email"
-                id="email"
-                className="w-full px-3 py-2 placeholder-gray-300 bg-gray-800 rounded-md focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 text-white sm:text-sm"
-                placeholder="college id"
+                name="username"
+                id="username"
+                value={formData.username}
+                onChange={handleInputChange}
+                className="input input-bordered"
+                placeholder="Username"
+                required
               />
             </div>
-            <div className="register-link mb-4">
-              <div className="mx-12 my-3 sm:mx-16 text-center">
-                <p>
-                  Already have an account !  <Link to="/" className="text-blue-400 hover:text-blue-500">Login</Link>
-                </p>
-              </div>
+            <div className="form-control">
+              <label className="label" htmlFor="fullName">
+                <span className="label-text">Full Name</span>
+              </label>
+              <input
+                type="text"
+                name="fullName"
+                id="fullName"
+                value={formData.fullName}
+                onChange={handleInputChange}
+                className="input input-bordered"
+                placeholder="Full Name"
+                required
+              />
             </div>
-            <div className="flex items-center justify-between mb-4">
-              <button
-                type="submit"
-                className="mx-auto btn btn-wide btn-primary rounded-lg font-semibold text-xl text-white"
-              >
+            <div className="form-control">
+              <label className="label" htmlFor="password">
+                <span className="label-text">Password</span>
+              </label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="input input-bordered"
+                placeholder="Password"
+                required
+              />
+            </div>
+            <div className="form-control mt-6">
+              <button type="submit" className="btn btn-primary">
                 Signup
               </button>
             </div>
           </form>
+          <div className="text-center mt-4">
+            <p>
+              Already have an account?{" "}
+              <Link to="/login" className="text-primary">
+                Login
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
-
-
-      {/* Terms and Conditions Paragraph */}
-      <div className="text-center text-white text-sm p-4 bg-black">
-        <p className="opacity-40">
-          By Signing up, you agree to our <a href="#" className="text-blue-400 hover:text-blue-500">Terms and Conditions</a>.
-        </p>
-      </div>
     </div>
-  </div>;
+  );
 };
 
 export default SignUpPage;
