@@ -69,6 +69,7 @@ const LoginPage = () => {
                 onChange={handleInputChange}
                 className="input input-bordered"
                 placeholder="Email"
+                required
               />
             </div>
             <div className="form-control">
@@ -83,6 +84,7 @@ const LoginPage = () => {
                 onChange={handleInputChange}
                 className="input input-bordered"
                 placeholder="Password"
+                required
               />
             </div>
             <div className="form-control mt-6">
