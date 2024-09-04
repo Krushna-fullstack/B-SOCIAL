@@ -8,6 +8,7 @@ import SignUpPage from "./pages/auth/signup/SignUpPage";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import BottomNavbar from "./components/common/BottomNavbar";
+import Profile from "./pages/profile/Profile";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -53,6 +54,7 @@ const App = () => {
           path="/signup"
           element={!authUser ? <SignUpPage /> : <Navigate to="/" />}
         />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <Toaster />
       <BottomNavbar />
