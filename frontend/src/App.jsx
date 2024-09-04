@@ -7,6 +7,7 @@ import LoginPage from "./pages/auth/login/LoginPage";
 import SignUpPage from "./pages/auth/signup/SignUpPage";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "./components/common/LoadingSpinner";
+import BottomNavbar from "./components/common/BottomNavbar";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -54,6 +55,7 @@ const App = () => {
         />
       </Routes>
       <Toaster />
+      <BottomNavbar />
     </div>
   );
 };
