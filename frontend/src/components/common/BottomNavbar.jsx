@@ -1,42 +1,32 @@
-// src/BottomNavbar.js
 import React from "react";
 import { Link } from "react-router-dom";
-
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { MdContentCopy } from "react-icons/md";
-import { PiHandbag } from "react-icons/pi";
-import { RiHotelLine } from "react-icons/ri";
-
 import { AiOutlineFilePdf } from "react-icons/ai";
-
+import { RiHotelLine } from "react-icons/ri";
+import { PiHandbag } from "react-icons/pi";
 
 function BottomNavbar() {
+  const navItems = [
+    { icon: HiOutlineUserGroup, label: "Community", to: "" },
+    { icon: MdContentCopy, label: "Notice", to: "" },
+    { icon: AiOutlineFilePdf, label: "Resource", to: "" },
+    { icon: RiHotelLine, label: "PG", to: "" },
+    { icon: PiHandbag, label: "Job", to: "" },
+  ];
+
   return (
-    <div className="btm-nav fixed inset-x-0 bottom-0 bg-black rounded-lg border-t border-gray-200 z-10 gap-3 justify-evenly">
-      <Link className="btm-nav-icon text-white hover:text-primary" to="">
-        <HiOutlineUserGroup className="w-10 h-8" />
-        <span className="text-sm">Community</span>
-      </Link>
-
-      <Link className="btm-nav-icon text-white hover:text-primary" to="">
-        <MdContentCopy  className="w-10 h-8" />
-        <span className="text-sm">Notice</span>
-      </Link>
-
-      <Link className="btm-nav-icon text-white hover:text-primary"to="">
-        <AiOutlineFilePdf className="w-10 h-8" />
-        <span className="text-sm">Resource</span>
-      </Link>
-
-      <Link className="btm-nav-icon text-white hover:text-primary" to="">
-        <RiHotelLine className="w-10 h-8" />
-        <span className="text-sm">PG</span>
-      </Link>
-
-      <Link className="btm-nav-icon text-white hover:text-primary" to="">
-        <PiHandbag className="w-10 h-8" />
-        <span className="text-sm">Job</span>
-      </Link>
+    <div className="btm-nav fixed inset-x-0 bottom-0 bg-base-100 z-10 flex justify-evenly p-2">
+      {navItems.map(({ icon: Icon, label, to }) => (
+        <Link
+          key={label}
+          className="btm-nav-icon text-neutral-content hover:text-primary flex flex-col items-center"
+          to={to}
+        >
+          <Icon className="w-8 h-8" />
+          <span className="text-xs">{label}</span>
+        </Link>
+      ))}
     </div>
   );
 }
