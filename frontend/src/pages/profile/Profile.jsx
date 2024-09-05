@@ -14,7 +14,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full min-h-screen  flex flex-col items-center bg-secondary" >
+    <div className="w-full min-h-screen  flex flex-col items-center bg-secondary">
       {/* Banner */}
       <div className="w-full h-48  flex flex-col justify-end bg-white">
         <img src="https://dummyimage.com/hd1080"></img>
@@ -48,7 +48,7 @@ const Profile = () => {
           <div className="mt-4 flex space-x-4 justify-center mb-3">
             <button
               className="btn btn-primary btn-wide mt-2 text-white rounded-lg text-lg hover:opacity-75"
-              onClick={()=>{
+              onClick={() => {
                 cFollow();
               }}
             >
