@@ -12,7 +12,7 @@ import { AiOutlineFilePdf } from "react-icons/ai";
 
 function BottomNavbar() {
   return (
-    <div className="btm-nav fixed inset-x-0 bottom-0 bg-black rounded-lg border-t border-gray-200 z-10 gap-3 justify-evenly">
+    <div className="btm-nav fixed inset-x-0 bottom-0 bg-black rounded-t-lg border-t border-gray-200 z-10 gap-3 justify-evenly">
       <Link className="btm-nav-icon text-white hover:text-primary" to="">
         <HiOutlineUserGroup className="w-10 h-8" />
         <span className="text-sm">Community</span>
