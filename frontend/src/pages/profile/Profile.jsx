@@ -14,7 +14,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full min-h-screen  flex flex-col items-center bg-secondary">
+    <div className="w-full min-h-screen  flex flex-col items-center bg-secondary" >
       {/* Banner */}
       <div className="w-full h-48  flex flex-col justify-end bg-white">
         <img src="https://dummyimage.com/hd1080"></img>
