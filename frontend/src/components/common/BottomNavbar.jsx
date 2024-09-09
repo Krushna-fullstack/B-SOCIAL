@@ -16,17 +16,22 @@ function BottomNavbar() {
   ];
 
   return (
-    <div className="btm-nav fixed inset-x-0 bottom-0 bg-base-100 z-10 flex justify-evenly p-2">
-      {navItems.map(({ icon: Icon, label, to }) => (
-        <Link
-          key={label}
-          className="btm-nav-icon text-neutral-content hover:text-primary flex flex-col items-center"
-          to={to}
-        >
-          <Icon className="w-8 h-8" />
-          <span className="text-xs">{label}</span>
-        </Link>
-      ))}
+    <div
+      className="fixed inset-x-0 bottom-0 lg:left-0 lg:top-0 lg:w-[20%] lg:h-full bg-base-100 z-10 p-2 lg:p-4"
+      style={{ borderRight: "1px solid gray" }}
+    >
+      <div className="flex justify-evenly lg:flex-col lg:items-center lg:justify-around lg:h-full lg:w-38">
+        {navItems.map(({ icon: Icon, label, to }) => (
+          <Link
+            key={label}
+            className="btm-nav-icon text-neutral-content hover:text-primary flex flex-col items-center lg:space-x-2"
+            to={to}
+          >
+            <Icon className="w-8 h-8" />
+            <span className="text-xs lg:text-lg font-semibold">{label}</span>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
