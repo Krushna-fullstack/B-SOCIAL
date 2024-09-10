@@ -1,14 +1,12 @@
-import React from "react";
-import { FaHeart } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaHeart, FaShare } from "react-icons/fa";
 import { MdModeComment } from "react-icons/md";
-import { FaShare } from "react-icons/fa";
-import { useState } from "react";
 import { FcLike } from "react-icons/fc";
+import { LuUserPlus } from "react-icons/lu";
 
 const Post = ({ profile, id, username, imageUrl, caption }) => {
   const [countLike, setCountLike] = useState(0);
   let [isLike, setIsLike] = useState(false);
-  // let [likeClick,setLikeClick] = useState(0);
 
   const like = () => {
     setIsLike(!isLike);
@@ -20,11 +18,15 @@ const Post = ({ profile, id, username, imageUrl, caption }) => {
   return (
     <div>
       <div className="max-w-md mx-auto bg-secondary shadow-lg rounded-lg overflow-hidden my-4">
-        <div className="flex items-center px-4 py-2">
-          <img className="w-10 h-10 rounded-full" src={profile} alt="Profile" />
-          <div className="ml-3">
-            <p className="text-white font-semibold">{username}</p>
+        <div className="flex items-center justify-between px-4 py-2">
+          <div className="flex items-center">
+            <img className="w-10 h-10 rounded-full" src={profile} alt="Profile" />
+            <div className="ml-3">
+              <p className="text-white font-semibold">{username}</p>
+            </div>
           </div>
+          <button className="bg-black text-white py-1 px-2 rounded-lg flex cursor-pointer"><LuUserPlus className="mr-2 mt-1" />Follow</button>
+          
         </div>
 
         <div className="px-4 py-2">
@@ -36,6 +38,7 @@ const Post = ({ profile, id, username, imageUrl, caption }) => {
             className="w-full h-auto object-cover rounded-lg"
             src={imageUrl}
             alt="Post"
+            onDoubleClick={like}
           />
         </div>
 
@@ -50,7 +53,7 @@ const Post = ({ profile, id, username, imageUrl, caption }) => {
           </div>
           <div className="flex items-center">
             <MdModeComment className="w-10 h-4 cursor-pointer" />
-            <p>1</p>{" "}
+            <p>1</p>
           </div>
           <FaShare className="w-10 h-4 cursor-pointer" />
         </div>

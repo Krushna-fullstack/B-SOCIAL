@@ -60,7 +60,7 @@ const CommunityPosts = () => {
           </label>
           <button
             onClick={handlePostSubmit}
-            className="bg-primary text-white py-2 px-4 rounded-xl"
+            className="bg-black text-white py-2 px-4 rounded-xl"
           >
             Post
           </button>
@@ -77,6 +77,7 @@ const CommunityPosts = () => {
           </div>
         )}
       </div>
+
 
       <Posts />
     </div>

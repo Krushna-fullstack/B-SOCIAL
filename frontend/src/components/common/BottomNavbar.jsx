@@ -27,7 +27,7 @@ function BottomNavbar() {
             className="btm-nav-icon text-neutral-content hover:text-primary flex flex-col items-center lg:space-x-2"
             to={to}
           >
-            <Icon className="w-8 h-8" />
+            <Icon className="w-9 h-8" />
             <span className="text-xs lg:text-lg font-semibold">{label}</span>
           </Link>
         ))}
