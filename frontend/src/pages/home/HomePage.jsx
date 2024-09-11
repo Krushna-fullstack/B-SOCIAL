@@ -1,16 +1,10 @@
 import React from "react";
 import CommunityPosts from "../../components/common/CommunityPosts";
-import { Link } from "react-router-dom";
-
-
 
 const HomePage = () => {
   return (
     <div>
-
-        
-        <CommunityPosts />
-
+      <CommunityPosts />
     </div>
   );
 };

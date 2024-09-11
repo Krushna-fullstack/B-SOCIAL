@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Posts from "./Posts"; // Assuming Posts component handles the display of posts
 import { FaImage } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const CommunityPosts = () => {
   const [userCaption, setUserCaption] = useState("");
@@ -28,15 +29,21 @@ const CommunityPosts = () => {
     setSelectedImage(null);
   };
 
+  const { username } = useParams();
+  const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+  const queryClient = useQueryClient();
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen mx-6">
       {/* Input section for adding a new post */}
       <div className="bg-secondary max-w-md w-full p-4 rounded-lg shadow-lg mb-6 mt-8">
         <div className="flex items-center">
-          <Link to="/profile">
+          <Link to={`/profile/${authUser?.username}`}>
             <CgProfile className="text-3xl text-white mr-2 mb-2" />
           </Link>
-          <label className="text-white font-semibold mb-2">Username</label>
+          <label className="text-white font-semibold mb-2">
+            {authUser?.username}
+          </label>
         </div>
         <input
           value={userCaption}
@@ -77,7 +84,6 @@ const CommunityPosts = () => {
           </div>
         )}
       </div>
-
 
       <Posts />
     </div>

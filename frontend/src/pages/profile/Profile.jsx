@@ -1,7 +1,9 @@
-import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { FaPlus, FaCheck } from "react-icons/fa6"; // Add FaCheck for Unfollow icon
 import handleImageChange from "../../components/common/CommunityPosts";
+import { useQuery } from "@tanstack/react-query";
+import ProfileHeaderSkeleton from "../../components/skeletons/ProfileHeaderSkeleton";
 
 const Profile = () => {
   let [isFollowing, setIsFollowing] = useState(false); // Track follow status
@@ -13,9 +15,61 @@ const Profile = () => {
     setCountFollower(isFollowing ? countFollower - 1 : countFollower + 1); // Adjust followers count
   };
 
+  const [coverImg, setCoverImg] = useState(null);
+  const [profileImg, setProfileImg] = useState(null);
+  const [feedType, setFeedType] = useState("posts");
+
+  const coverImgRef = useRef(null);
+  const profileImgRef = useRef(null);
+
+  const { username } = useParams();
+
+  const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+
+  const {
+    data: user,
+    isLoading,
+    refetch,
+    isRefetching,
+  } = useQuery({
+    queryKey: ["userProfile"],
+    queryFn: async () => {
+      try {
+        const res = await fetch(`/api/v1/user/profile/${username}`);
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error);
+        }
+        return data;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+  });
+
+  const isMyProfile = authUser._id === user?._id;
+  const amIFollowing = authUser?.following.includes(user?._id);
+
+  useEffect(() => {
+    refetch();
+  }, [username, refetch]);
+
+  const handleImgChange = (e, state) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        state === "coverImg" && setCoverImg(reader.result);
+        state === "profileImg" && setProfileImg(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="w-full min-h-screen  flex flex-col items-center bg-secondary">
       {/* Banner */}
+      {isLoading && <ProfileHeaderSkeleton />}
       <div className="w-full h-48  flex flex-col justify-end bg-white">
         <img src="https://dummyimage.com/hd1080" alt="Banner" />
         <input type="file" className="hidden" accept="/image" />
@@ -38,20 +92,24 @@ const Profile = () => {
           </div>
         </div>
         <div className="text-center mt-4">
-          <h2 className="text-2xl font-bold">John Doe</h2>
+          <h2 className="text-2xl font-bold">{authUser?.fullName}</h2>
           <p className="text-gray-500">
-            <span>@</span>john_doe
+            <span>@</span>
+            {authUser?.username}
           </p>
           <p className="mt-2 max-w-lg mx-auto text-center">
-            Hi! I'm John, a web developer passionate about building web
-            applications and learning new technologies.
+            {authUser?.bio || "No bio available"}
           </p>
-          <Link
-            to="https://instagram.com/johndoe"
-            className="text-primary font-semibold"
-          >
-            🔗Links
-          </Link>
+          {authUser?.link && (
+            <a
+              href={authUser?.link}
+              target="_blank"
+              rel="noreferrer"
+              className="text-primary"
+            >
+              {authUser?.link}
+            </a>
+          )}
 
           {/* Follow Button */}
           <div className="mt-4 flex space-x-4 justify-center mb-3">
