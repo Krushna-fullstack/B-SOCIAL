@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import BottomNavbar from "./components/common/BottomNavbar";
 import Profile from "./pages/profile/Profile";
+import JobPosts from "./components/common/job/JobPosts";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -57,6 +58,10 @@ const App = () => {
         <Route
           path="/profile/:username"
           element={authUser ? <Profile /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/jobs"
+          element={authUser ? <JobPosts /> : <Navigate to="/" />}
         />
       </Routes>
       <Toaster />

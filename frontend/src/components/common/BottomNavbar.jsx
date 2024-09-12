@@ -12,7 +12,7 @@ function BottomNavbar() {
     { icon: MdContentCopy, label: "Notice", to: "" },
     { icon: AiOutlineFilePdf, label: "Resource", to: "" },
     { icon: RiHotelLine, label: "PG", to: "" },
-    { icon: PiHandbag, label: "Job", to: "" },
+    { icon: PiHandbag, label: "Job", to: "/jobs" },
   ];
 
   return (
