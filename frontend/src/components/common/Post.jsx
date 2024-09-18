@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Post = ({ post }) => {
-  const { _id, text, img, user } = post;
+  const { text, img, user } = post;
   const { fullName, profileImg, username } = user;
 
   return (
-    <div className="bg-gray-600 shadow-lg rounded-lg p-4 mb-6 w-full max-w-sm mx-auto">
+    <div className="bg-slate-800 shadow-lg rounded-lg p-4 mb-6 w-full max-w-sm mx-auto">
       {/* Header: Profile Image and User Info */}
       <div className="flex items-center gap-3 mb-4">
         <Link to={`/profile/${username}`}>
@@ -28,7 +28,7 @@ const Post = ({ post }) => {
       </div>
 
       {/* Post Text */}
-      <p className="text-sm mb-3 text-gray-800 break-words">{text}</p>
+      <p className="text-sm mb-3 text-white break-words">{text}</p>
 
       {/* Post Image (if available) */}
       {img && (
