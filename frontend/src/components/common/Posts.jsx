@@ -1,74 +1,51 @@
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import PostSkeleton from "./../skeletons/PostSkeleton";
 import Post from "./Post";
 
 const Posts = () => {
-  const posts = [
-    {
-      profile:
-        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Prime_Minister_Of_Bharat_Shri_Narendra_Damodardas_Modi_with_Shri_Rohit_Gurunath_Sharma_%28Cropped%29.jpg",
-      id: 1,
-      username: "Subhransu",
-      caption: "I am subhransu and this is my first post",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT09r2FPzuoBBpajGqns8yvraTL3HC_gdbNdlCs4D4CkiVXJ7VFsHPadaWm0OneSaIiksI&usqp=CAU",
+  const {
+    data: posts = [],
+    isLoading,
+    refetch,
+    isRefetching,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["posts"],
+    queryFn: async () => {
+      const res = await fetch("/api/v1/posts/all");
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Something went wrong");
+      }
+      return data;
     },
-    {
-      profile:
-        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Prime_Minister_Of_Bharat_Shri_Narendra_Damodardas_Modi_with_Shri_Rohit_Gurunath_Sharma_%28Cropped%29.jpg",
-      id: 2,
-      username: "Lipsa",
-      caption: "I am Lipsa and this is my first post ",
-      imageUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Prime_Minister_Of_Bharat_Shri_Narendra_Damodardas_Modi_with_Shri_Rohit_Gurunath_Sharma_%28Cropped%29.jpg",
-    },
-    {
-      profile:
-        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Prime_Minister_Of_Bharat_Shri_Narendra_Damodardas_Modi_with_Shri_Rohit_Gurunath_Sharma_%28Cropped%29.jpg",
-      id: 3,
-      username: "Kruhsna",
-      caption: "I am krushna bf of lorensa ",
-      imageUrl:
-        "https://img.republicworld.com/tr:w-400,h-225,q-75,f-auto/all_images/gslxtatayaafnvo_16:9-1720694053147-16_9.webp",
-    },
-    {
-      profile:
-        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Prime_Minister_Of_Bharat_Shri_Narendra_Damodardas_Modi_with_Shri_Rohit_Gurunath_Sharma_%28Cropped%29.jpg",
-      id: 4,
-      username: "Lorensa",
-      caption: "I am lorensa gf of krushna ",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT09r2FPzuoBBpajGqns8yvraTL3HC_gdbNdlCs4D4CkiVXJ7VFsHPadaWm0OneSaIiksI&usqp=CAU",
-    },
-    {
-      profile:
-        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Prime_Minister_Of_Bharat_Shri_Narendra_Damodardas_Modi_with_Shri_Rohit_Gurunath_Sharma_%28Cropped%29.jpg",
-      id: 5,
-      username: "Badal",
-      caption: "I am badal bf of subhashree",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT09r2FPzuoBBpajGqns8yvraTL3HC_gdbNdlCs4D4CkiVXJ7VFsHPadaWm0OneSaIiksI&usqp=CAU",
-    },
-    {
-      profile:
-        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Prime_Minister_Of_Bharat_Shri_Narendra_Damodardas_Modi_with_Shri_Rohit_Gurunath_Sharma_%28Cropped%29.jpg",
-      id: 6,
-      username: "Subhashree",
-      caption: "I am Subhashree gf of badal",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT09r2FPzuoBBpajGqns8yvraTL3HC_gdbNdlCs4D4CkiVXJ7VFsHPadaWm0OneSaIiksI&usqp=CAU",
-    },
-  ];
+  });
+
+  if (isError) {
+    return <div className="text-red-500">Error: {error.message}</div>;
+  }
+
   return (
-    <div>
-      {posts.map((post) => (
-        <Post
-          key={post.id}
-          username={post.username}
-          imageUrl={post.imageUrl}
-          profile={post.profile}
-          caption={post.caption}
-        />
-      ))}
+    <div className="container mx-auto p-4">
+      {(isLoading || isRefetching) && (
+        <div>
+          <PostSkeleton />
+          <PostSkeleton />
+          <PostSkeleton />
+        </div>
+      )}
+
+      {!isLoading && !isRefetching && posts.length === 0 && <p>No Posts</p>}
+
+      {!isLoading && !isRefetching && posts.length > 0 && (
+        <div className="grid grid-cols-1 gap-4">
+          {posts.map((post) => (
+            <Post key={post._id} post={post} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

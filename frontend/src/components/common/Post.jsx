@@ -1,62 +1,51 @@
-import React, { useState } from "react";
-import { FaHeart, FaShare } from "react-icons/fa";
-import { MdModeComment } from "react-icons/md";
-import { FcLike } from "react-icons/fc";
-import { LuUserPlus } from "react-icons/lu";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Post = ({ profile, id, username, imageUrl, caption }) => {
-  const [countLike, setCountLike] = useState(0);
-  let [isLike, setIsLike] = useState(false);
-
-  const like = () => {
-    setIsLike(!isLike);
-    setCountLike(() => {
-      return isLike ? countLike - 1 : countLike + 1;
-    });
-  };
+const Post = ({ post }) => {
+  const { _id, text, img, user } = post;
+  const { fullName, profileImg, username } = user;
 
   return (
-    <div>
-      <div className="max-w-md mx-auto bg-secondary shadow-lg rounded-lg overflow-hidden my-4">
-        <div className="flex items-center justify-between px-4 py-2">
-          <div className="flex items-center">
-            <img className="w-10 h-10 rounded-full" src={profile} alt="Profile" />
-            <div className="ml-3">
-              <p className="text-white font-semibold">{username}</p>
-            </div>
-          </div>
-          <button className="bg-black text-white py-1 px-2 rounded-lg flex cursor-pointer"><LuUserPlus className="mr-2 mt-1" />Follow</button>
-          
-        </div>
-
-        <div className="px-4 py-2">
-          <p className="text-white">{caption}</p>
-        </div>
-
-        <div className="px-4 py-2">
+    <div className="bg-gray-600 shadow-lg rounded-lg p-4 mb-6 w-full max-w-sm mx-auto">
+      {/* Header: Profile Image and User Info */}
+      <div className="flex items-center gap-3 mb-4">
+        <Link to={`/profile/${username}`}>
           <img
-            className="w-full h-auto object-cover rounded-lg"
-            src={imageUrl}
-            alt="Post"
-            onDoubleClick={like}
+            className="w-12 h-12 rounded-full object-cover ring-2 ring-primary"
+            src={profileImg || "/avatar-placeholder.png"}
+            alt={fullName}
+          />
+        </Link>
+        <div>
+          <Link
+            to={`/profile/${username}`}
+            className="font-semibold text-lg text-primary hover:text-primary-focus transition duration-200"
+          >
+            {fullName}
+          </Link>
+          <p className="text-xs text-gray-500">@{username}</p>
+        </div>
+      </div>
+
+      {/* Post Text */}
+      <p className="text-sm mb-3 text-gray-800 break-words">{text}</p>
+
+      {/* Post Image (if available) */}
+      {img && (
+        <div className="mb-3">
+          <img
+            src={img}
+            alt="post"
+            className="rounded-lg object-cover w-full h-auto max-h-64"
           />
         </div>
+      )}
 
-        <div className="flex justify-evenly items-center px-2 py-2 border-t border-gray-200">
-          <div className="flex items-center" onClick={like}>
-            {isLike ? (
-              <FcLike className="w-10 h-6 cursor-pointer" />
-            ) : (
-              <FaHeart className="w-10 h-4 cursor-pointer" />
-            )}
-            <p>{countLike}</p>
-          </div>
-          <div className="flex items-center">
-            <MdModeComment className="w-10 h-4 cursor-pointer" />
-            <p>1</p>
-          </div>
-          <FaShare className="w-10 h-4 cursor-pointer" />
-        </div>
+      {/* Footer: Like, Comment, Share Buttons */}
+      <div className="flex justify-between items-center mt-4">
+        <button className="btn btn-sm btn-outline btn-primary">Like</button>
+        <button className="btn btn-sm btn-outline btn-accent">Comment</button>
+        <button className="btn btn-sm btn-outline btn-secondary">Share</button>
       </div>
     </div>
   );
