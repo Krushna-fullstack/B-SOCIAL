@@ -10,6 +10,7 @@ import LoadingSpinner from "./components/common/LoadingSpinner";
 import BottomNavbar from "./components/common/BottomNavbar";
 import Profile from "./pages/profile/Profile";
 import JobPosts from "./components/common/job/JobPosts";
+import AllResource from "./components/common/Resources/AllResource";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -62,6 +63,10 @@ const App = () => {
         <Route
           path="/jobs"
           element={authUser ? <JobPosts /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/resource"
+          element={authUser ? <AllResource /> : <Navigate to="/" />}
         />
       </Routes>
       <Toaster />
