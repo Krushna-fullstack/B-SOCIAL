@@ -5,6 +5,7 @@ import { CiImageOn } from "react-icons/ci";
 import { IoCloseSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
+
 const CreatePost = () => {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
@@ -58,28 +59,28 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-gray-100">
-      <div className="w-96 p-6 bg-[#313638] rounded-xl">
+    <div className="flex justify-center items-center mt-2">
+      <div className="w-96 p-6 bg-secondary rounded-xl">
         <div className="flex items-start gap-4 mb-4">
           <Link to={`/profile/${authUser?.username}`}>
             <img
-              className="w-12 h-12 rounded-full object-cover border border-gray-300"
+              className="w-12 h-12 rounded-full object-cover border "
               src={authUser?.profileImg || "/avatar-placeholder.png"}
               alt="Profile"
             />
           </Link>
-          <textarea
+          <input
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="What's happening?"
-            className="w-full h-24 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+            className="w-full h-12 p-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary resize-none"
           />
         </div>
 
         {img && (
           <div className="relative mb-4">
             <IoCloseSharp
-              className="absolute top-2 right-2 text-2xl text-red-500 cursor-pointer"
+              className="absolute top-2 right-2 text-3xl text-red-700 cursor-pointer hover:text-primary-focus"
               onClick={() => {
                 setImg(null);
                 imgRef.current.value = null;
@@ -105,11 +106,11 @@ const CreatePost = () => {
               onChange={handleImgChange}
               hidden
               accept="image/*"
-            />
+            /><span className="font-medium">Media</span>
           </div>
           <button
             type="submit"
-            className={`btn btn-primary rounded-full px-8 text-white transition-all ${
+            className={`btn bg-black rounded-full px-8 text-white transition-all text-lg ${
               isLoading ? "opacity-70 cursor-not-allowed" : ""
             }`}
             disabled={isPending}
