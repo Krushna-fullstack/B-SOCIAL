@@ -9,11 +9,11 @@ import Statistics from './Statistics'
 const AllScienceDept = () => {
   return (
     <div>
-        <PhysicsHons />
+        {/* <PhysicsHons />
         <ChemistryHons />
         <MathematicsHons />
         <ZoologyHons />
-        <BotanyHons />
+        <BotanyHons /> */}
         <Statistics />
     </div>
   )
