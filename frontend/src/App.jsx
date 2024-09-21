@@ -11,6 +11,20 @@ import BottomNavbar from "./components/common/BottomNavbar";
 import Profile from "./pages/profile/Profile";
 import JobPosts from "./components/common/job/JobPosts";
 import AllResource from "./components/common/Resources/AllResource";
+import AnthropologyYears from "./components/common/Resources/Arts/Anthropology/AnthropologyYears"; 
+import EconomicsYears from "./components/common/Resources/Arts/Economics/EconomicsYears";
+import EnglishYears from "./components/common/Resources/Arts/English/EnglishYears";
+import GeographyYears from "./components/common/Resources/Arts/Geography/GeographyYears";
+import HindiYears from "./components/common/Resources/Arts/Hindi/HindiYears";
+import HistoryYears from "./components/common/Resources/Arts/History/HistoryYears";
+import MusicYears from "./components/common/Resources/Arts/Music/MusicYears";
+import PhilosophyYears from "./components/common/Resources/Arts/Philosophy/PhilosophyYears";
+import OdiaYears from "./components/common/Resources/Arts/Odia/OdiaYears";
+import PoliticalScienceYears from "./components/common/Resources/Arts/Political Science/PoliticalScienceYears";
+import PsychologyYears from "./components/common/Resources/Arts/Psychology/PsychologyYears";
+import SanskritYears from "./components/common/Resources/Arts/Sanskrit/SanskritYears";
+import SociologyYears from "./components/common/Resources/Arts/Sociology/SociologyYears";
+
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -68,6 +82,20 @@ const App = () => {
           path="/resource"
           element={authUser ? <AllResource /> : <Navigate to="/" />}
         />
+        <Route path="/anthropologyyears" element={<AnthropologyYears />} />
+        <Route path="/economicsyears" element={<EconomicsYears />} />
+        <Route path="/englishyears" element={<EnglishYears />} />
+        <Route path="/geographyyears" element={<GeographyYears />} />
+        <Route path="/hindiyears" element={<HindiYears/>}/>
+        <Route path="/historyyears" element={<HistoryYears/>}/>
+        <Route path="/musicyears" element={<MusicYears/>}/>
+        <Route path="/philosophyyears" element={<PhilosophyYears/>}/>
+        <Route path="/odiayears" element={<OdiaYears/>}/>
+        <Route path="/politicalscienceyears" element={<PoliticalScienceYears/>}/>
+        <Route path="/psychologyyears" element={<PsychologyYears/>}/>
+        <Route path="/sanskrityears" element={<SanskritYears/>}/>
+        <Route path="/sociologyyears" element={<SociologyYears/>}/>
+
       </Routes>
       <Toaster />
       {authUser && <BottomNavbar />}
