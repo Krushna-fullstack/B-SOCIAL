@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { FaHeart, FaTrash } from "react-icons/fa";
-import { FcLike } from "react-icons/fc";
 import { MdInsertComment } from "react-icons/md";
 import { IoIosShareAlt } from "react-icons/io";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
 const Post = ({ post }) => {
-  const { text, img, user } = post;
+  const { text, img, user, likes } = post; // Added likes array from the post
   const { fullName, profileImg, username } = user;
 
   const queryClient = useQueryClient();
@@ -16,31 +15,15 @@ const Post = ({ post }) => {
 
   const postOwner = post.user;
   const isMyPost = authUser?._id === postOwner._id;
-  const isLiked = post.likes.includes(authUser?._id);
+  const isLiked = likes.includes(authUser?._id); // Check if the user has liked the post
 
-  const [like, setLike] = useState(isLiked);
-  const [likeCount, setLikeCount] = useState(post.likes.length);
-  const [commentCount, setCommentCount] = useState(post.comments.length);
-  const [shareCount, setShareCount] = useState(0);
-  const [isPending, setIsPending] = useState(false);
-
-  const { mutate: deletePost } = useMutation({
+  const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
-      setIsPending(true);
-      try {
-        const res = await fetch(`/api/v1/posts/${post._id}`, {
-          method: "DELETE",
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.error || "Something went wrong");
-        }
-        return data;
-      } catch (error) {
-        throw new Error(error);
-      } finally {
-        setIsPending(false);
-      }
+      const res = await fetch(`/api/v1/posts/${post._id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Something went wrong");
+      return res.json();
     },
     onSuccess: () => {
       toast.success("Post deleted successfully");
@@ -48,14 +31,28 @@ const Post = ({ post }) => {
     },
   });
 
-  const handleLike = () => {
-    setLike(!like);
-    setLikeCount(like ? likeCount - 1 : likeCount + 1);
-  };
+  const { mutate: likePost, isPending: isLiking } = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(`/api/v1/posts/like/${post._id}`, {
+        method: "POST",
+      });
+      if (!res.ok) throw new Error("Something went wrong");
+      return res.json();
+    },
+    onSuccess: (updatedLikes) => {
+      queryClient.setQueryData(["posts"], (oldData) => {
+        return oldData.map((p) =>
+          p._id === post._id ? { ...p, likes: updatedLikes } : p
+        );
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-  const handleDeletePost = () => {
-    deletePost();
-  };
+  const handleDeletePost = () => deletePost();
+  const handleLikePost = () => likePost();
 
   return (
     <div className="bg-secondary shadow-lg rounded-lg p-6 mb-6 w-full max-w-sm mx-auto">
@@ -77,16 +74,16 @@ const Post = ({ post }) => {
           </Link>
           <p className="text-xs text-gray-500">@{username}</p>
         </div>
+
         {/* Delete Post for My Post */}
         {isMyPost && (
           <span className="ml-auto">
-            {!isPending && (
+            {!isDeleting ? (
               <FaTrash
                 className="cursor-pointer hover:text-red-500 transition duration-200"
                 onClick={handleDeletePost}
               />
-            )}
-            {isPending && (
+            ) : (
               <div className="flex justify-center">
                 <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
               </div>
@@ -115,10 +112,19 @@ const Post = ({ post }) => {
       <div className="flex justify-around items-center mt-4 text-white">
         {/* Like Button */}
         <div className="flex items-center space-x-2">
-          <button className="text-xl" onClick={handleLike}>
-            {like ? <FcLike /> : <FaHeart />}
+          <button
+            className={`text-xl ${isLiked ? "text-red-500" : ""}`}
+            onClick={handleLikePost}
+            disabled={isLiking}
+          >
+            {isLiking ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+            ) : (
+              <FaHeart />
+            )}
           </button>
-          <span className="text-sm">{likeCount}</span>
+          <span className="text-sm">{likes.length}</span>{" "}
+          {/* Display likes count */}
         </div>
 
         {/* Comment Button */}
@@ -126,7 +132,7 @@ const Post = ({ post }) => {
           <button className="text-xl">
             <MdInsertComment />
           </button>
-          <span className="text-sm">{commentCount}</span>
+          <span className="text-sm">0</span>
         </div>
 
         {/* Share Button */}
@@ -134,7 +140,7 @@ const Post = ({ post }) => {
           <button className="text-xl">
             <IoIosShareAlt />
           </button>
-          <span className="text-sm">{shareCount}</span>
+          <span className="text-sm">0</span>
         </div>
       </div>
     </div>
