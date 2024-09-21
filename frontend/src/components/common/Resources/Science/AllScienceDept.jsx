@@ -1,22 +1,22 @@
-import React from 'react'
-import PhysicsHons from './PhysicsHons'
-import ChemistryHons from './ChemistryHons'
-import MathematicsHons from './MathematicsHons'
-import ZoologyHons from './ZoologyHons'
-import BotanyHons from './BotanyHons'
-import Statistics from './Statistics'
+import React from "react";
+import PhysicsHons from "./Physics/PhysicsHons";
+import ChemistryHons from "./Chemistry/ChemistryHons";
+import MathematicsHons from "./Mathematics/MathematicsHons";
+import ZoologyHons from "./Zoology/ZoologyHons";
+import BotanyHons from "./Botany/BotanyHons";
+import Statistics from "./Statistics/Statistics";
 
 const AllScienceDept = () => {
   return (
     <div>
-        {/* <PhysicsHons />
-        <ChemistryHons />
+      <PhysicsHons />
+      {/* <ChemistryHons />
         <MathematicsHons />
         <ZoologyHons />
-        <BotanyHons /> */}
-        <Statistics />
+        <BotanyHons />
+        <Statistics /> */}
     </div>
-  )
-}
+  );
+};
 
-export default AllScienceDept
+export default AllScienceDept;
