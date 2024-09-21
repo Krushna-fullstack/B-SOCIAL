@@ -3,8 +3,8 @@ import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { CiImageOn } from "react-icons/ci";
 import { IoCloseSharp } from "react-icons/io5";
+import { FaRegCircleUser } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-
 
 const CreatePost = () => {
   const [text, setText] = useState("");
@@ -63,11 +63,15 @@ const CreatePost = () => {
       <div className="w-96 p-6 bg-secondary rounded-xl">
         <div className="flex items-start gap-4 mb-4">
           <Link to={`/profile/${authUser?.username}`}>
-            <img
-              className="w-12 h-12 rounded-full object-cover border "
-              src={authUser?.profileImg || "/avatar-placeholder.png"}
-              alt="Profile"
-            />
+            {authUser?.profileImg ? (
+              <img
+                className="w-12 h-12 rounded-full object-cover border"
+                src={authUser?.profileImg}
+                alt="Profile"
+              />
+            ) : (
+              <FaRegCircleUser className="w-12 h-12 rounded-full border text-gray-400" />
+            )}
           </Link>
           <input
             value={text}
@@ -106,11 +110,12 @@ const CreatePost = () => {
               onChange={handleImgChange}
               hidden
               accept="image/*"
-            /><span className="font-medium">Media</span>
+            />
+            <span className="font-medium">Media</span>
           </div>
           <button
             type="submit"
-            className={`btn bg-black rounded-full px-8 text-white transition-all text-lg ${
+            className={`btn bg-primary rounded-full px-8 text-white transition-all text-lg ${
               isLoading ? "opacity-70 cursor-not-allowed" : ""
             }`}
             disabled={isPending}

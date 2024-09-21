@@ -1,26 +1,64 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaHeart } from "react-icons/fa6";
+import { FaHeart, FaTrash } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import { MdInsertComment } from "react-icons/md";
 import { IoIosShareAlt } from "react-icons/io";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 
 const Post = ({ post }) => {
   const { text, img, user } = post;
   const { fullName, profileImg, username } = user;
 
-  const [like, setLike] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const [commentCount, setCommentCount] = useState(0); // Track comments
-  const [shareCount, setShareCount] = useState(0); // Track shares
+  const queryClient = useQueryClient();
+  const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+
+  const postOwner = post.user;
+  const isMyPost = authUser?._id === postOwner._id;
+  const isLiked = post.likes.includes(authUser?._id);
+
+  const [like, setLike] = useState(isLiked);
+  const [likeCount, setLikeCount] = useState(post.likes.length);
+  const [commentCount, setCommentCount] = useState(post.comments.length);
+  const [shareCount, setShareCount] = useState(0);
+  const [isPending, setIsPending] = useState(false);
+
+  const { mutate: deletePost } = useMutation({
+    mutationFn: async () => {
+      setIsPending(true);
+      try {
+        const res = await fetch(`/api/v1/posts/${post._id}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Something went wrong");
+        }
+        return data;
+      } catch (error) {
+        throw new Error(error);
+      } finally {
+        setIsPending(false);
+      }
+    },
+    onSuccess: () => {
+      toast.success("Post deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
 
   const handleLike = () => {
     setLike(!like);
     setLikeCount(like ? likeCount - 1 : likeCount + 1);
   };
 
+  const handleDeletePost = () => {
+    deletePost();
+  };
+
   return (
-    <div className="bg-secondary shadow-lg rounded-lg p-4 mb-6 w-full max-w-sm mx-auto">
+    <div className="bg-secondary shadow-lg rounded-lg p-6 mb-6 w-full max-w-sm mx-auto">
       {/* Header: Profile Image and User Info */}
       <div className="flex items-center gap-3 mb-4">
         <Link to={`/profile/${username}`}>
@@ -39,6 +77,22 @@ const Post = ({ post }) => {
           </Link>
           <p className="text-xs text-gray-500">@{username}</p>
         </div>
+        {/* Delete Post for My Post */}
+        {isMyPost && (
+          <span className="ml-auto">
+            {!isPending && (
+              <FaTrash
+                className="cursor-pointer hover:text-red-500 transition duration-200"
+                onClick={handleDeletePost}
+              />
+            )}
+            {isPending && (
+              <div className="flex justify-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+              </div>
+            )}
+          </span>
+        )}
       </div>
 
       {/* Post Text */}
@@ -55,7 +109,7 @@ const Post = ({ post }) => {
         </div>
       )}
 
-      <hr/>
+      <hr />
 
       {/* Footer: Like, Comment, Share Buttons */}
       <div className="flex justify-around items-center mt-4 text-white">
