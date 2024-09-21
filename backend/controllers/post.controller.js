@@ -68,7 +68,7 @@ export const deletePost = async (req, res) => {
   }
 };
 
-export const commentOnPost = asyncHandler(async (req, res) => {
+export const commentOnPost = async (req, res) => {
   try {
     const { text } = req.body;
     const postId = req.params.id;
@@ -84,21 +84,17 @@ export const commentOnPost = asyncHandler(async (req, res) => {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    const comment = {
-      user: userId,
-      text,
-    };
-
+    const comment = { user: userId, text };
     post.comments.push(comment);
 
     await post.save();
 
-    res.status(201).json(post);
+    res.status(200).json(post);
   } catch (error) {
     console.log("Error in commentOnPost controller: ", error);
     res.status(500).json({ error: "Internal server error" });
   }
-});
+};
 
 export const likeUnlikePost = async (req, res) => {
   try {
