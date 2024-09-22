@@ -4,11 +4,12 @@ import ResourceCard from "./../../ResourceCard";
 const AnthropologyYears = () => {
   return (
     <div>
+      <h1 className="text-xl font-medium flex justify-center my-2">Choose Your Academic Year</h1>
       <div className="w-96 flex justify-center items-center bg-gradient-to-b p-4 mx-auto">
         <div className="w-full lg:w-3/4">
           <ResourceCard
             year="1st Year"
-            link="https://www.youtube.com/" // Same link for demo purposes
+            link="https://drive.google.com/file/d/1-TWXvHp-1JqogmWJMXgJtQXL40u1Ohvw/view?usp=sharing" // Same link for demo purposes
           />
         </div>
       </div>

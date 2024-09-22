@@ -115,7 +115,7 @@ const CreatePost = () => {
           </div>
           <button
             type="submit"
-            className={`btn bg-primary rounded-full px-8 text-white transition-all text-lg ${
+            className={`btn bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full px-8 text-white transition-all text-lg ${
               isLoading ? "opacity-70 cursor-not-allowed" : ""
             }`}
             disabled={isPending}
