@@ -109,7 +109,7 @@ const Post = ({ post }) => {
         <Link to={`/profile/${postOwner.username}`} className="flex-shrink-0">
           <img
             className="w-12 h-12 rounded-full object-cover ring-2 ring-primary"
-            src={postOwner.profileImage || "/avatar-placeholder.png"}
+            src={postOwner.profileImg || "/avatar-placeholder.png"}
             alt="Profile"
           />
         </Link>
@@ -201,9 +201,7 @@ const Post = ({ post }) => {
                 >
                   <div className="flex items-start">
                     <img
-                      src={
-                        comment.user.profileImage || "/avatar-placeholder.png"
-                      }
+                      src={comment.user.profileImg || "/avatar-placeholder.png"}
                       className="w-8 h-8 rounded-full mr-2"
                       alt="Commenter Avatar"
                     />

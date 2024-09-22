@@ -64,11 +64,13 @@ const CreatePost = () => {
         <div className="flex items-start gap-4 mb-4">
           <Link to={`/profile/${authUser?.username}`}>
             {authUser?.profileImg ? (
-              <img
-                className="w-12 h-12 rounded-full object-cover border"
-                src={authUser?.profileImg}
-                alt="Profile"
-              />
+              <div className="w-12 h-12 overflow-hidden rounded-full border border-gray-300">
+                <img
+                  className="w-full h-full object-cover"
+                  src={authUser?.profileImg}
+                  alt="Profile"
+                />
+              </div>
             ) : (
               <FaRegCircleUser className="w-12 h-12 rounded-full border text-gray-400" />
             )}

@@ -1,18 +1,25 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useFollow from "../../hooks/useFollow";
 import { formatMemberSinceDate } from "../../utils/date";
 import Posts from "../../components/common/Posts";
 import useUpdateUserProfile from "../../hooks/useUpdateUserProfile";
-import EditProfileModal from "./EditProfileModal";
 import { FaArrowLeft } from "react-icons/fa6";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaLink, FaCamera } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import EditProfileModal from "./EditProfileModal";
+import ProfileHeaderSkeleton from "./../../components/skeletons/ProfileHeaderSkeleton";
 
 const Profile = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   const { username } = useParams();
+  const [feedType, setFeedType] = useState("posts");
+
   const [coverImg, setCoverImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
   const coverImgRef = useRef(null);
@@ -24,6 +31,7 @@ const Profile = () => {
   const {
     data: user,
     isLoading,
+    isRefetching,
     refetch,
   } = useQuery({
     queryKey: ["userProfile"],
@@ -42,125 +50,185 @@ const Profile = () => {
   const isMyProfile = authUser?._id === user?._id;
   const amIFollowing = authUser?.following.includes(user?._id);
 
+  const memberSinceDate = formatMemberSinceDate(user?.createdAt);
+
   useEffect(() => {
     refetch();
   }, [username, refetch]);
 
-  // Handle cover image change
-  const handleCoverImgChange = (e) => {
+  const handleImgChange = (e, state) => {
     const file = e.target.files[0];
     if (file) {
-      setCoverImg(file);
-      updateProfile({ coverImg: file });
-    }
-  };
-
-  // Handle profile image change
-  const handleProfileImgChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfileImg(file);
-      updateProfile({ profileImg: file });
+      const reader = new FileReader();
+      reader.onload = () => {
+        state === "coverImg" && setCoverImg(reader.result);
+        state === "profileImg" && setProfileImg(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   return (
-    <div className="container mx-auto my-8">
-      <div className="bg-secondary rounded-lg shadow-lg">
-        {/* Cover Image */}
-        <div className="relative w-full h-56 bg-gray-300">
-          {user?.coverImg ? (
-            <img
-              src={user.coverImg}
-              alt="Cover"
-              className="w-full h-full object-cover rounded-t-lg"
-            />
-          ) : (
-            <div className="w-full h-full bg-gray-400 rounded-t-lg"></div>
-          )}
-
-          {isMyProfile && (
-            <div
-              className="absolute bottom-4 right-4 bg-gray-700 p-2 rounded-full cursor-pointer"
-              onClick={() => coverImgRef.current.click()}
-            >
-              <FaCamera className="text-white" />
-            </div>
-          )}
-          <input
-            type="file"
-            ref={coverImgRef}
-            className="hidden"
-            onChange={handleCoverImgChange}
-            accept="image/*"
-          />
-        </div>
-
-        {/* Profile Section */}
-        <div className="flex items-center p-4 -mt-16 relative">
-          {/* Profile Image */}
-          <div className="relative w-32 h-32 rounded-full border-4 border-secondary bg-gray-200 overflow-hidden">
-            {user?.profileImg ? (
-              <img
-                src={user.profileImg}
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full bg-gray-300"></div>
-            )}
-
-            {isMyProfile && (
-              <div
-                className="absolute bottom-0 right-0 bg-gray-700 p-1 rounded-full cursor-pointer"
-                onClick={() => profileImgRef.current.click()}
-              >
-                <FaCamera className="text-white" />
+    <div className="flex justify-center min-h-screen bg-black">
+      <div className="w-full max-w-3xl mx-auto border-r border-gray-700 min-h-screen flex flex-col">
+        {/* HEADER */}
+        {(isLoading || isRefetching) && <ProfileHeaderSkeleton />}
+        {!isLoading && !isRefetching && !user && (
+          <p className="text-center text-lg mt-4">User not found</p>
+        )}
+        <div className="flex flex-col">
+          {!isLoading && !isRefetching && user && (
+            <>
+              <div className="flex gap-10 px-4 py-2 items-center">
+                <Link to="/">
+                  <FaArrowLeft className="w-4 h-4" />
+                </Link>
+                <div className="flex flex-col">
+                  <p className="font-bold text-lg">{user?.fullName}</p>
+                </div>
               </div>
-            )}
-            <input
-              type="file"
-              ref={profileImgRef}
-              className="hidden"
-              onChange={handleProfileImgChange}
-              accept="image/*"
-            />
-          </div>
 
-          {/* User Info */}
-          <div className="ml-6">
-            <h1 className="text-3xl font-bold text-white">{user?.fullName}</h1>
-            <p className="text-gray-300">@{user?.username}</p>
-            <p className="text-gray-400 mt-1">
-              {user?.bio || "No bio available"}
-            </p>
-            <p className="text-gray-400">
-              Department: {user?.department || "N/A"}
-            </p>
-            <p className="text-gray-400">
-              Joined: {formatMemberSinceDate(user?.createdAt)}
-            </p>
-          </div>
+              {/* COVER IMAGE */}
+              <div className="relative group/cover">
+                <img
+                  src={coverImg || user?.coverImg || "/cover.png"}
+                  className="h-52 w-full object-cover"
+                  alt="cover"
+                />
+                {isMyProfile && (
+                  <div
+                    className="absolute top-2 right-2 rounded-full p-2 bg-gray-800 bg-opacity-75 cursor-pointer opacity-0 group-hover/cover:opacity-100 transition duration-200"
+                    onClick={() => coverImgRef.current.click()}
+                  >
+                    <MdEdit className="w-5 h-5 text-white" />
+                  </div>
+                )}
 
-          {/* Follow/Unfollow Button */}
-          {!isMyProfile && (
-            <button
-              className={`ml-auto btn ${
-                amIFollowing ? "btn-error" : "btn-primary"
-              } rounded-full`}
-              onClick={() => follow(user._id)}
-              disabled={isPending}
-            >
-              {amIFollowing ? "Unfollow" : "Follow"}
-            </button>
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  ref={coverImgRef}
+                  onChange={(e) => handleImgChange(e, "coverImg")}
+                />
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  ref={profileImgRef}
+                  onChange={(e) => handleImgChange(e, "profileImg")}
+                />
+
+                {/* USER AVATAR */}
+                <div className="avatar absolute -bottom-16 left-4">
+                  <div className="w-32 rounded-full relative group/avatar">
+                    <img
+                      src={
+                        profileImg ||
+                        user?.profileImg ||
+                        "/avatar-placeholder.png"
+                      }
+                      className="rounded-full"
+                      alt="profile"
+                    />
+                    {isMyProfile && (
+                      <div className="absolute top-5 right-3 p-1 bg-primary rounded-full group-hover/avatar:opacity-100 opacity-0 cursor-pointer">
+                        <MdEdit
+                          className="w-4 h-4 text-white"
+                          onClick={() => profileImgRef.current.click()}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* ACTION BUTTONS */}
+              <div className="flex justify-end px-4 mt-5">
+                {isMyProfile && <EditProfileModal authUser={authUser} />}
+                {!isMyProfile && (
+                  <button
+                    className="btn btn-outline rounded-full btn-sm"
+                    onClick={() => follow(user?._id)}
+                  >
+                    {isPending && "Loading..."}
+                    {!isPending && amIFollowing && "Unfollow"}
+                    {!isPending && !amIFollowing && "Follow"}
+                  </button>
+                )}
+                {(coverImg || profileImg) && (
+                  <button
+                    disabled={isUpdatingProfile}
+                    className="btn btn-primary rounded-full btn-sm text-white px-4 ml-2"
+                    onClick={async () => {
+                      await updateProfile({ coverImg, profileImg });
+                      setCoverImg(null);
+                      setProfileImg(null);
+                    }}
+                  >
+                    {isUpdatingProfile ? "Updating..." : "Update"}
+                  </button>
+                )}
+              </div>
+
+              {/* USER DETAILS */}
+              <div className="flex flex-col gap-4 mt-14 px-4">
+                <div className="flex flex-col">
+                  <span className="font-bold text-lg">{user?.fullName}</span>
+                  <span className="text-sm text-slate-500">
+                    @{user?.username}
+                  </span>
+                  <span className="text-sm my-1">{user?.bio}</span>
+                </div>
+
+                <div className="flex gap-2 flex-wrap">
+                  {user?.link && (
+                    <div className="flex gap-1 items-center">
+                      <FaLink className="w-3 h-3 text-slate-500" />
+                      <a
+                        href={
+                          user.link.startsWith("http")
+                            ? user.link
+                            : `https://${user.link}`
+                        }
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-sm text-blue-500 hover:underline"
+                      >
+                        {user?.link}
+                      </a>
+                    </div>
+                  )}
+                  <div className="flex gap-2 items-center">
+                    <IoCalendarOutline className="w-4 h-4 text-slate-500" />
+                    <span className="text-sm text-slate-500">
+                      {memberSinceDate}
+                    </span>
+                  </div>
+                </div>
+
+                {/* FOLLOW STATS */}
+                <div className="flex gap-2">
+                  <div className="flex gap-1 items-center">
+                    <span className="font-bold text-xs">
+                      {user?.following.length}
+                    </span>
+                    <span className="text-slate-500 text-xs">Following</span>
+                  </div>
+                  <div className="flex gap-1 items-center">
+                    <span className="font-bold text-xs">
+                      {user?.followers.length}
+                    </span>
+                    <span className="text-slate-500 text-xs">Followers</span>
+                  </div>
+                </div>
+              </div>
+            </>
           )}
 
-          {/* Edit Profile Button */}
-          {isMyProfile && <EditProfileModal authUser={authUser} />}
+          <Posts feedType={feedType} username={username} userId={user?._id} />
         </div>
       </div>
-
-      <Posts feedType="posts" username={username} />
     </div>
   );
 };

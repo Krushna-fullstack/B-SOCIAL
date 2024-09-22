@@ -9,7 +9,7 @@ const useUpdateUserProfile = () => {
       mutationFn: async (formData) => {
         try {
           const res = await fetch(`/api/v1/user/update`, {
-            method: "POST",
+            method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },
