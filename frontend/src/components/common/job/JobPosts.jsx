@@ -44,11 +44,13 @@ const JobPosts = () => {
     <div className="flex flex-col items-center py-8 px-4">
       <h1 className="text-3xl font-bold text-primary mb-4">Job Openings</h1>
       <p className="text-sm text-center text-white mb-4">
-        Apply to the latest job openings in Corporate Sector.</p>
+        Apply to the latest job openings according to your interest
+      </p>
       <div className="w-full max-w-4xl space-y-6">
         {jobData.map((job) => (
           <JobPost
             key={job.jobID}
+            jobID={job.jobID} // Pass jobID as a prop
             title={job.title}
             location={job.location}
             eligibility={job.eligibility}
@@ -57,7 +59,6 @@ const JobPosts = () => {
         ))}
       </div>
     </div>
-
   );
 };
 

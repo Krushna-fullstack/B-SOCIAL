@@ -19,7 +19,7 @@ const ResourceCard = ({ department, stream, link,year }) => {
           to={link}  // Link to the prop `link`
           className="text-indigo-500 hover:text-indigo-700 font-semibold text-md md:text-lg"
         >
-          See Docs <FaLongArrowAltRight />
+          Read Docs <FaLongArrowAltRight />
         </Link>
       </div>
     </div>
