@@ -1,20 +1,34 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import PostSkeleton from "./../skeletons/PostSkeleton";
 import Post from "./Post";
 
-const Posts = () => {
+const Posts = ({ feedType, username }) => {
+  const getPostEndpoint = () => {
+    switch (feedType) {
+      case "forYou":
+        return "/api/v1/posts/all";
+
+      case "posts":
+        return `/api/v1/posts/user/${username}`;
+
+      default:
+        return "/api/v1/posts/all";
+    }
+  };
+
+  const POST_ENDPOINT = getPostEndpoint();
+
   const {
-    data: posts = [],
+    data: posts,
     isLoading,
     refetch,
     isRefetching,
-    isError,
-    error,
   } = useQuery({
     queryKey: ["posts"],
+
     queryFn: async () => {
-      const res = await fetch("/api/v1/posts/all");
+      const res = await fetch(POST_ENDPOINT);
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.error || "Something went wrong");
@@ -23,9 +37,9 @@ const Posts = () => {
     },
   });
 
-  if (isError) {
-    return <div className="text-red-500">Error: {error.message}</div>;
-  }
+  useEffect(() => {
+    refetch();
+  }, [feedType, refetch, username]);
 
   return (
     <div className="container mx-auto p-4">

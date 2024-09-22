@@ -8,7 +8,7 @@ const useUpdateUserProfile = () => {
     useMutation({
       mutationFn: async (formData) => {
         try {
-          const res = await fetch(`/api/users/update`, {
+          const res = await fetch(`/api/v1/user/update`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
