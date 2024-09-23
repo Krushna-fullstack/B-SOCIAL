@@ -20,7 +20,7 @@ export const createJob = asyncHandler(async (req, res) => {
 });
 
 export const getAllJobs = asyncHandler(async (req, res) => {
-  const jobs = await Job.find();
+  const jobs = await Job.find().sort({ createdAt: -1 });
 
   return res.status(200).json(jobs);
 });
