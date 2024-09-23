@@ -27,3 +27,21 @@ export const protectRoute = async (req, res, next) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const isAdmin = async (req, res, next) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized: No User Found" });
+    }
+
+    if (!user.isAdmin) {
+      return res.status(401).json({ error: "Unauthorized: Admin Access Only" });
+    }
+
+    next();
+  } catch (err) {
+    console.log("Error in isAdmin middleware", err.message);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
