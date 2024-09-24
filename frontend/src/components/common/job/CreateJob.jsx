@@ -55,11 +55,17 @@ const CreateJob = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-base-200 rounded-lg shadow-lg pb-10 mb-10">
-      <h2 className="text-2xl font-bold mb-6 text-center">Create New Job</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="h-full w-80 mx-auto p-8 bg-white rounded-xl shadow-xl border border-gray-200 mb-12">
+      <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
+        Create New Job
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Job Title */}
         <div>
-          <label className="block text-sm font-semibold mb-2" htmlFor="title">
+          <label
+            className="block text-sm font-semibold mb-2 text-gray-700"
+            htmlFor="title"
+          >
             Job Title
           </label>
           <input
@@ -68,15 +74,16 @@ const CreateJob = () => {
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className="input input-bordered w-full"
+            className="input input-bordered w-full p-3 rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-150"
             placeholder="Enter job title"
             required
           />
         </div>
 
+        {/* Location */}
         <div>
           <label
-            className="block text-sm font-semibold mb-2"
+            className="block text-sm font-semibold mb-2 text-gray-700"
             htmlFor="location"
           >
             Location
@@ -87,15 +94,16 @@ const CreateJob = () => {
             name="location"
             value={formData.location}
             onChange={handleChange}
-            className="input input-bordered w-full"
+            className="input input-bordered w-full p-3 rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-150"
             placeholder="Enter location"
             required
           />
         </div>
 
+        {/* Eligibility */}
         <div>
           <label
-            className="block text-sm font-semibold mb-2"
+            className="block text-sm font-semibold mb-2 text-gray-700"
             htmlFor="eligibility"
           >
             Eligibility
@@ -106,15 +114,16 @@ const CreateJob = () => {
             name="eligibility"
             value={formData.eligibility}
             onChange={handleChange}
-            className="input input-bordered w-full"
+            className="input input-bordered w-full p-3 rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-150"
             placeholder="Enter eligibility criteria"
             required
           />
         </div>
 
+        {/* Apply Link */}
         <div>
           <label
-            className="block text-sm font-semibold mb-2"
+            className="block text-sm font-semibold mb-2 text-gray-700"
             htmlFor="applyLink"
           >
             Apply Link
@@ -125,14 +134,18 @@ const CreateJob = () => {
             name="applyLink"
             value={formData.applyLink}
             onChange={handleChange}
-            className="input input-bordered w-full"
+            className="input input-bordered w-full p-3 rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-150"
             placeholder="Enter apply link"
             required
           />
         </div>
 
+        {/* Submit Button */}
         <div>
-          <button type="submit" className="btn btn-primary w-full">
+          <button
+            type="submit"
+            className="w-full py-3 text-white bg-gradient-to-r from-blue-500 to-blue-700 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-150"
+          >
             Create Job
           </button>
         </div>

@@ -59,7 +59,7 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="flex justify-center items-center mt-2">
+    <div className="flex justify-center items-center">
       <div className="w-96 p-6 bg-secondary rounded-xl">
         <div className="flex items-start gap-4 mb-4">
           <Link to={`/profile/${authUser?.username}`}>
@@ -117,7 +117,7 @@ const CreatePost = () => {
           </div>
           <button
             type="submit"
-            className={`btn bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full px-8 text-white transition-all text-lg ${
+            className={`btn bg-primary rounded-full px-8 text-white transition-all text-lg ${
               isLoading ? "opacity-70 cursor-not-allowed" : ""
             }`}
             disabled={isPending}
