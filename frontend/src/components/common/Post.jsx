@@ -85,13 +85,13 @@ const Post = ({ post }) => {
       toast.success("Comment added successfully");
       setComment("");
       queryClient.invalidateQueries({ queryKey: ["posts"] });
-    },
+    }, 
     onError: (error) => {
       toast.error(error.message);
     },
   });
 
-  const handleDeletePost = () => deletePost();
+  const  handleDeletePost = () => deletePost();
   const handlePostComment = (e) => {
     e.preventDefault();
     if (!comment.trim() || isCommenting) return; // Avoid empty comments
@@ -103,7 +103,7 @@ const Post = ({ post }) => {
   };
 
   return (
-    <div className="bg-secondary rounded-xl shadow-md p-6 mb-6 w-full max-w-md mx-auto hover:shadow-xl transition-shadow duration-200">
+    <div className="bg-secondary rounded-xl shadow-md p-6 mb-2 w-full max-w-md mx-auto hover:shadow-xl transition-shadow duration-200">
       {/* Header: Profile and Info */}
       <div className="flex items-center mb-4">
         <Link to={`/profile/${postOwner.username}`} className="flex-shrink-0">
@@ -187,13 +187,11 @@ const Post = ({ post }) => {
         </div>
 
         {/* Comments Modal */}
-        <dialog id={`comments_modal${post._id}`} className="dialog">
+        <dialog id={`comments_modal${post._id}`} className="dialog rounded-xl">
           <div className="p-8">
-            <h3 className="text-lg font-semibold">COMMENTS</h3>
+            <h3 className="text-lg font-semibold">Comments</h3>
             <div className="mb-4">
-              {post.comments.length === 0 && (
-                <p>No comments yet 🤔 Be the first one 😉</p>
-              )}
+              {post.comments.length === 0 && <p>No comments yet</p>}
               {post.comments.map((comment) => (
                 <div
                   key={comment._id}
@@ -222,15 +220,16 @@ const Post = ({ post }) => {
             </div>
 
             {/* Comment Form */}
-            <form onSubmit={handlePostComment} className="flex">
-              <textarea
-                className="flex-1 p-2 rounded-lg border border-gray-600 bg-gray-800 text-white"
-                placeholder="Add a comment..."
+            <form onSubmit={handlePostComment} className="flex items-center">
+              <input
+                type="text"
+                className="flex-1 p-2 rounded-lg border border-gray-500 bg-gray-800 text-white focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-150"
+                placeholder="Write your comment here..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <button
-                className="ml-2 bg-blue-500 text-white rounded-lg px-4 py-2"
+                className="ml-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full px-5 py-2 text-sm font-medium hover:from-blue-600 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-150"
                 type="submit"
                 disabled={isCommenting}
               >
@@ -243,7 +242,7 @@ const Post = ({ post }) => {
             </form>
           </div>
           <form method="dialog" className="flex justify-end p-2">
-            <button className="text-white">Close</button>
+            <button className="btn bg-black rounded-lg">Close</button>
           </form>
         </dialog>
       </div>

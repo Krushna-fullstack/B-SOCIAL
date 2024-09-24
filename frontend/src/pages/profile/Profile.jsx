@@ -225,7 +225,7 @@ const Profile = () => {
               </div>
             </>
           )}
-
+        <h1 className="text-xl font-semibold flex justify-center mt-5">Posts</h1>
           <Posts feedType={feedType} username={username} userId={user?._id} />
         </div>
       </div>

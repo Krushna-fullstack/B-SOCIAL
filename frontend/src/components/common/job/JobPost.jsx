@@ -1,25 +1,50 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const JobPost = ({ title, location, eligibility, applyLink }) => {
+const JobPost = ({ jobID, title, location, eligibility, applyLink }) => {
+  const dialogId = `my_modal_${jobID}`; // Unique ID based on jobID
+  
   return (
-    <div className="bg-base-200 p-6 rounded-lg shadow-md space-y-4">
-      <h1 className="text-xl font-semibold text-primary">{title}</h1>
-      <p className="text-sm text-gray-500">
-        <span className="font-bold">Location: </span>
-        {location}
-      </p>
-      <p className="text-sm text-gray-500">
-        <span className="font-bold">Eligibility: </span>
-        {eligibility}
-      </p>
-      <a
-        href={applyLink}
-        target="_blank"
-        rel="noopener noreferrer" // for security reasons
-        className="inline-block mt-4 px-4 py-2 bg-primary text-white font-semibold rounded-lg shadow hover:bg-primary-focus transition-colors"
-      >
-        Apply Now
-      </a>
+    <div className="bg-black">
+      <div className="max-w-sm mx-auto bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg rounded-lg overflow-hidden my-2">
+        <div className="px-6 py-4">
+          <h1 className="text-xl font-bold text-white mb-2">{title}</h1>
+          <p className="text-white mb-4">
+            <span className="font-medium">Location: {location}</span>
+          </p>
+          <p className="text-white mb-4">
+            <span className="font-medium">Eligibility: {eligibility}</span>
+          </p>
+          <button
+            className="btn btn-wide mx-auto block bg-secondary text-white font-semibold px-4 py-2 rounded transition-all"
+            onClick={() => document.getElementById(dialogId).showModal()}
+          >
+            Apply
+          </button>
+          <dialog id={dialogId} className="modal">
+            <div className="modal-box bg-secondary">
+              <form method="dialog">
+                {/* Button to close the modal */}
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                  ✕
+                </button>
+              </form>
+              <h3 className="font-bold text-lg">{title}</h3>
+              <p className="py-4">
+                Click on the button below to redirect to the application page.
+              </p>
+              <a
+                className="bg-black text-white font-semibold px-4 py-2 rounded transition-all mx-auto block text-center w-32"
+                href={applyLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Apply Now
+              </a>
+            </div>
+          </dialog>
+        </div>
+      </div>
     </div>
   );
 };
