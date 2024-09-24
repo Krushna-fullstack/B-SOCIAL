@@ -36,7 +36,7 @@ const EditProfileModal = ({ authUser }) => {
   return (
     <>
       <button
-        className="btn  rounded-full btn-sm bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium"
+        className="btn  rounded-full btn-sm bg-primary text-white font-medium"
         onClick={() =>
           document.getElementById("edit_profile_modal").showModal()
         }
@@ -114,7 +114,7 @@ const EditProfileModal = ({ authUser }) => {
               name="link"
               onChange={handleInputChange}
             />
-            <button className="btn bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full btn-sm text-white">
+            <button className="btn bg-primary rounded-full btn-sm text-white">
               {isUpdatingProfile ? "Updating..." : "Update"}
             </button>
           </form>

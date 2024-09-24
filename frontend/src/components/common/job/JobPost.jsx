@@ -6,7 +6,8 @@ const JobPost = ({ jobID, title, location, eligibility, applyLink }) => {
   
   return (
     <div className="bg-black">
-      <div className="max-w-sm mx-auto bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg rounded-lg overflow-hidden my-2">
+      <div className="max-w-sm mx-auto bg-primary text-white shadow-lg rounded-lg overflow-hidden my-2">
+       
         <div className="px-6 py-4">
           <h1 className="text-xl font-bold text-white mb-2">{title}</h1>
           <p className="text-white mb-4">

@@ -25,6 +25,7 @@ const JobPosts = () => {
 
   return (
     <div className="flex flex-col items-center py-8 px-4">
+      <h1 className="text-white mt-0 my-3 font-medium text-4xl">Jobs</h1>
       {authUser && authUser.isAdmin === true && <CreateJob />}
 
       {(isLoading || isRefetching) && (

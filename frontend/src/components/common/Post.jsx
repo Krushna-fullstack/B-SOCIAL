@@ -6,6 +6,7 @@ import { MdInsertComment } from "react-icons/md";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import { formatPostDate } from "../../utils/date";
+import { BsFillSendFill } from "react-icons/bs";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
@@ -85,13 +86,13 @@ const Post = ({ post }) => {
       toast.success("Comment added successfully");
       setComment("");
       queryClient.invalidateQueries({ queryKey: ["posts"] });
-    }, 
+    },
     onError: (error) => {
       toast.error(error.message);
     },
   });
 
-  const  handleDeletePost = () => deletePost();
+  const handleDeletePost = () => deletePost();
   const handlePostComment = (e) => {
     e.preventDefault();
     if (!comment.trim() || isCommenting) return; // Avoid empty comments
@@ -127,7 +128,7 @@ const Post = ({ post }) => {
         </div>
         {isMyPost && (
           <button
-            className="text-red-500 hover:text-red-600 transition-colors ml-auto"
+            className="text-red-500 hover:text-red-600 transition-colors ml-auto mb-7"
             onClick={handleDeletePost}
           >
             {!isDeleting ? (
@@ -187,31 +188,39 @@ const Post = ({ post }) => {
         </div>
 
         {/* Comments Modal */}
-        <dialog id={`comments_modal${post._id}`} className="dialog rounded-xl">
-          <div className="p-8">
-            <h3 className="text-lg font-semibold">Comments</h3>
-            <div className="mb-4">
-              {post.comments.length === 0 && <p>No comments yet</p>}
+        <dialog
+          id={`comments_modal${post._id}`}
+          className="dialog rounded-xl bg-black shadow-2xl"
+        >
+          <div className="p-7">
+            <h3 className="text-xl font-bold text-white mb-6">Comments</h3>
+            <div className="mb-6 space-y-4">
+              {post.comments.length === 0 && (
+                <p className="text-gray-400">No comments yet</p>
+              )}
               {post.comments.map((comment) => (
                 <div
                   key={comment._id}
-                  className="flex items-start justify-between mb-2"
+                  className="flex items-start justify-between p-4 rounded-lg bg-gray-800 shadow-md hover:bg-gray-700 transition-all"
                 >
-                  <div className="flex items-start">
+                  <div className="flex items-start space-x-3">
                     <img
                       src={comment.user.profileImg || "/avatar-placeholder.png"}
-                      className="w-8 h-8 rounded-full mr-2"
+                      className="w-10 h-10 rounded-full border-2 border-blue-500"
                       alt="Commenter Avatar"
                     />
                     <div>
-                      <p className="font-semibold">{comment.user.fullName}</p>
-                      <p className="text-gray-300">@{comment.user.username}</p>
-                      <p>{comment.text}</p>
+                      <p className="font-semibold text-white">
+                        {comment.user.fullName}
+                      </p>
+                      <p className="text-gray-400 text-sm">
+                        @{comment.user.username}
+                      </p>
+                      <p className="text-gray-200">{comment.text}</p>
                     </div>
                   </div>
-                  {/* Conditional Delete Button for comment owner */}
                   {authUser._id === comment.user._id && (
-                    <button className="text-red-500 hover:text-red-600 transition-colors">
+                    <button className="text-red-500 hover:text-red-600 transition-colors ml-3 mt-1">
                       <FaTrash />
                     </button>
                   )}
@@ -220,29 +229,36 @@ const Post = ({ post }) => {
             </div>
 
             {/* Comment Form */}
-            <form onSubmit={handlePostComment} className="flex items-center">
+            <form
+              onSubmit={handlePostComment}
+              className="flex items-center space-x-4"
+            >
               <input
                 type="text"
-                className="flex-1 p-2 rounded-lg border border-gray-500 bg-gray-800 text-white focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-150"
+                className="flex-1 h-9 p-2 rounded-lg border border-gray-600 bg-gray-800 text-white focus:ring-4 focus:ring-blue-500 outline-none transition-all duration-150"
                 placeholder="Write your comment here..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <button
-                className="ml-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full px-5 py-2 text-sm font-medium hover:from-blue-600 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-150"
+                className="text-primary text-xl transition-all duration-150 disabled:opacity-50"
                 type="submit"
                 disabled={isCommenting}
               >
                 {isCommenting ? (
                   <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
                 ) : (
-                  "Post"
+                  <BsFillSendFill />
                 )}
               </button>
             </form>
           </div>
-          <form method="dialog" className="flex justify-end p-2">
-            <button className="btn bg-black rounded-lg">Close</button>
+
+          <form method="dialog">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
           </form>
         </dialog>
       </div>
