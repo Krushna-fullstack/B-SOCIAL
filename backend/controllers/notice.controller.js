@@ -39,3 +39,75 @@ export const createNotice = asyncHandler(async (req, res) => {
     console.log("Error in createNotice controller: ", error);
   }
 });
+
+export const deleteNotice = async (req, res) => {
+  try {
+    const notice = await Notice.findById(req.params.id);
+
+    if (!notice) {
+      return res.status(404).json({ error: "Notice not found" });
+    }
+
+    if (notice.user.toString() !== req.user._id.toString()) {
+      return res
+        .status(401)
+        .json({ error: "You are not authorized to delete this notice" });
+    }
+
+    if (notice.img) {
+      const imgId = notice.img.split("/").pop().split(".")[0];
+      await clodinary.uploader.destroy(imgId);
+    }
+
+    await Notice.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ message: "Notice deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+    console.log("Error in deleteNotice controller: ", error);
+  }
+};
+
+export const likeUnlikeNotice = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { id: noticeId } = req.params;
+
+    const notice = await Notice.findById(noticeId);
+
+    if (!notice) {
+      return res.status(404).json({ error: "Notice not found" });
+    }
+
+    const userLikedNotice = notice.likes.includes(userId);
+
+    if (userLikedNotice) {
+      // Unlike Notice
+      notice.likes = notice.likes.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+      await notice.save();
+
+      await User.updateOne(
+        { _id: userId },
+        { $pull: { likedNotices: noticeId } }
+      );
+
+      res.status(200).json(notice.likes);
+    } else {
+      // Like Notice
+      notice.likes.push(userId);
+      await notice.save();
+
+      await User.updateOne(
+        { _id: userId },
+        { $push: { likedNotices: noticeId } }
+      );
+
+      res.status(200).json(notice.likes);
+    }
+  } catch (error) {
+    console.log("Error in likeUnlikeNotice controller: ", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
