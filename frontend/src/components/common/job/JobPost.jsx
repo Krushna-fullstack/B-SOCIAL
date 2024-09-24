@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 const JobPost = ({ jobID, title, location, eligibility, applyLink }) => {
   const dialogId = `my_modal_${jobID}`; // Unique ID based on jobID
-  
+
   return (
     <div className="bg-black">
-      <div className="max-w-sm mx-auto bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg rounded-lg overflow-hidden my-2">
+      <div className="max-w-sm mx-auto bg-secondary text-white shadow-lg rounded-lg overflow-hidden my-2">
         <div className="px-6 py-4">
           <h1 className="text-xl font-bold text-white mb-2">{title}</h1>
           <p className="text-white mb-4">
@@ -16,7 +16,7 @@ const JobPost = ({ jobID, title, location, eligibility, applyLink }) => {
             <span className="font-medium">Eligibility: {eligibility}</span>
           </p>
           <button
-            className="btn btn-wide mx-auto block bg-secondary text-white font-semibold px-4 py-2 rounded transition-all"
+            className="btn btn-wide mx-auto block bg-secondary text-white font-semibold px-4 py-2 rounded-lg transition-all bg-gradient-to-r from-blue-500 to-indigo-600"
             onClick={() => document.getElementById(dialogId).showModal()}
           >
             Apply
@@ -34,7 +34,7 @@ const JobPost = ({ jobID, title, location, eligibility, applyLink }) => {
                 Click on the button below to redirect to the application page.
               </p>
               <a
-                className="bg-black text-white font-semibold px-4 py-2 rounded transition-all mx-auto block text-center w-32"
+                className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold px-4 py-2 rounded transition-all mx-auto block text-center w-32"
                 href={applyLink}
                 target="_blank"
                 rel="noopener noreferrer"
