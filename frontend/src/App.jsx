@@ -9,9 +9,11 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import BottomNavbar from "./components/common/BottomNavbar";
 import Profile from "./pages/profile/Profile";
-import JobPosts from "./components/common/job/JobPosts";
+import JobPosts from "./components/common/Job/JobPosts";
+import Notices from "./components/common/Notice/Notices";
+
 import AllResource from "./components/common/Resources/AllResource";
-import AnthropologyYears from "./components/common/Resources/Arts/Anthropology/AnthropologyYears"; 
+import AnthropologyYears from "./components/common/Resources/Arts/Anthropology/AnthropologyYears";
 import EconomicsYears from "./components/common/Resources/Arts/Economics/EconomicsYears";
 import EnglishYears from "./components/common/Resources/Arts/English/EnglishYears";
 import GeographyYears from "./components/common/Resources/Arts/Geography/GeographyYears";
@@ -24,7 +26,6 @@ import PoliticalScienceYears from "./components/common/Resources/Arts/Political 
 import PsychologyYears from "./components/common/Resources/Arts/Psychology/PsychologyYears";
 import SanskritYears from "./components/common/Resources/Arts/Sanskrit/SanskritYears";
 import SociologyYears from "./components/common/Resources/Arts/Sociology/SociologyYears";
-
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -79,6 +80,10 @@ const App = () => {
           element={authUser ? <JobPosts /> : <Navigate to="/" />}
         />
         <Route
+          path="/notices"
+          element={authUser ? <Notices /> : <Navigate to="/" />}
+        />
+        <Route
           path="/resource"
           element={authUser ? <AllResource /> : <Navigate to="/" />}
         />
@@ -86,16 +91,18 @@ const App = () => {
         <Route path="/economicsyears" element={<EconomicsYears />} />
         <Route path="/englishyears" element={<EnglishYears />} />
         <Route path="/geographyyears" element={<GeographyYears />} />
-        <Route path="/hindiyears" element={<HindiYears/>}/>
-        <Route path="/historyyears" element={<HistoryYears/>}/>
-        <Route path="/musicyears" element={<MusicYears/>}/>
-        <Route path="/philosophyyears" element={<PhilosophyYears/>}/>
-        <Route path="/odiayears" element={<OdiaYears/>}/>
-        <Route path="/politicalscienceyears" element={<PoliticalScienceYears/>}/>
-        <Route path="/psychologyyears" element={<PsychologyYears/>}/>
-        <Route path="/sanskrityears" element={<SanskritYears/>}/>
-        <Route path="/sociologyyears" element={<SociologyYears/>}/>
-
+        <Route path="/hindiyears" element={<HindiYears />} />
+        <Route path="/historyyears" element={<HistoryYears />} />
+        <Route path="/musicyears" element={<MusicYears />} />
+        <Route path="/philosophyyears" element={<PhilosophyYears />} />
+        <Route path="/odiayears" element={<OdiaYears />} />
+        <Route
+          path="/politicalscienceyears"
+          element={<PoliticalScienceYears />}
+        />
+        <Route path="/psychologyyears" element={<PsychologyYears />} />
+        <Route path="/sanskrityears" element={<SanskritYears />} />
+        <Route path="/sociologyyears" element={<SociologyYears />} />
       </Routes>
       <Toaster />
       {authUser && <BottomNavbar />}

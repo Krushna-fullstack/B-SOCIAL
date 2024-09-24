@@ -26,7 +26,7 @@ const BottomNavbar = () => {
 
   const navItems = [
     { icon: AiOutlineHome, label: "Home", to: "/" },
-    { icon: MdContentCopy, label: "Notice", to: "/notice" },
+    { icon: MdContentCopy, label: "Notices", to: "/notices" },
     { icon: AiOutlineFilePdf, label: "Resource", to: "/resource" },
     { icon: RiHotelLine, label: "PG", to: "/pg" },
     { icon: PiHandbag, label: "Job", to: "/jobs" },

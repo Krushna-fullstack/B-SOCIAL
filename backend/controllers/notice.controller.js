@@ -111,3 +111,14 @@ export const likeUnlikeNotice = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export const getAllNotices = asyncHandler(async (req, res) => {
+  try {
+    const notices = await Notice.find().sort({ createdAt: -1 });
+
+    res.status(200).json(notices);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+    console.log("Error in getAllNotices controller: ", error);
+  }
+});
