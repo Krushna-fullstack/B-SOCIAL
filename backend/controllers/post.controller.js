@@ -184,3 +184,25 @@ export const getUserPosts = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export const deleteComment = asyncHandler(async (req, res) => {
+  const postId = req.params.postId;
+  const commentId = req.params.commentId;
+
+  const post = await Post.findById(postId);
+  if (!post) {
+    return res.status(404).json({ error: "Post not found" });
+  }
+
+  const commentIndex = post.comments.findIndex(
+    (comment) => comment._id.toString() === commentId
+  );
+  if (commentIndex === -1) {
+    return res.status(404).json({ error: "Comment not found" });
+  }
+
+  post.comments.splice(commentIndex, 1);
+  await post.save();
+
+  res.status(200).json({ message: "Comment deleted successfully" });
+});

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaHeart, FaTrash, FaRegComment, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaTrash, FaRegHeart } from "react-icons/fa";
 import { IoIosShareAlt } from "react-icons/io";
 import { MdInsertComment } from "react-icons/md";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -92,6 +92,27 @@ const Post = ({ post }) => {
     },
   });
 
+  const { mutate: deleteComment, isPending: isDeletingComment } = useMutation({
+    mutationFn: async (commentId) => {
+      const res = await fetch(
+        `/api/v1/posts/${post._id}/comments/${commentId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
+      return data;
+    },
+    onSuccess: () => {
+      toast.success("Comment deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const handleDeletePost = () => deletePost();
   const handlePostComment = (e) => {
     e.preventDefault();
@@ -101,6 +122,10 @@ const Post = ({ post }) => {
   const handleLikePost = () => {
     if (isLiking) return;
     likePost();
+  };
+
+  const handleDeleteComment = (commentId) => {
+    deleteComment(commentId);
   };
 
   return (
@@ -220,7 +245,10 @@ const Post = ({ post }) => {
                     </div>
                   </div>
                   {authUser._id === comment.user._id && (
-                    <button className="text-red-500 hover:text-red-600 transition-colors ml-3 mt-1">
+                    <button
+                      className="text-red-500 hover:text-red-600 transition-colors ml-3 mt-1"
+                      onClick={() => handleDeleteComment(comment._id)}
+                    >
                       <FaTrash />
                     </button>
                   )}
