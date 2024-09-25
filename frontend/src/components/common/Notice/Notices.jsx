@@ -27,6 +27,8 @@ const Notices = () => {
 
   return (
     <div className="p-4 bg-base-100 rounded-lg shadow-lg">
+      <h1 className="text-white my-3 mt-3 font-medium text-4xl flex justify-center">Notices</h1>
+      <h1 className="flex justify-center text-gray-500">(Admins Only)</h1>
       {authUser && authUser.isAdmin === true && <CreateNotice />}
       <div className="mt-5">
         {notices ? (
