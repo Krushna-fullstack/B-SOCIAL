@@ -1,8 +1,13 @@
 import React from 'react'
+import Commerce from './Commerce'
+import CommerceSyllabus from './CommerceSyllabus'
 
 const AllCommerceDept = () => {
   return (
-    <div>AllCommerce</div>
+    <div>
+      <CommerceSyllabus />
+      <Commerce />
+    </div>
   )
 }
 

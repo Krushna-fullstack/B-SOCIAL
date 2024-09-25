@@ -1,20 +1,16 @@
 import React from "react";
 import ResourceCard from "../../ResourceCard";
 
-const ChemistryHons = () => {
+const Imca = () => {
   return (
     <div>
       <div className="md:w-max w-96 flex justify-center items-center bg-gradient-to-b p-4">
         <div className="w-full lg:w-3/4">
-          <ResourceCard
-            department="Chemistry Honours"
-            stream="Science"
-            link="/chemistryyears"
-          />
+          <ResourceCard department="IMCA" link="/imcayears" />
         </div>
       </div>
     </div>
   );
 };
 
-export default ChemistryHons;
+export default Imca;

@@ -12,12 +12,14 @@ import PoliticalScienceHons from './Political Science/PoliticalScienceHons'
 import PsychologyHons from './Psychology/PsychologyHons'
 import SanskritHons from './Sanskrit/SanskritHons'
 import SociologyHons from './Sociology/SociologyHons'
+import ArtsSyllabus from './ArtsSyllabus/ArtsSyllabus'
 
 
 
 const AllArtsDept = () => {
   return (
     <div>
+      <ArtsSyllabus/>
       <AnthropolgyHons/>
       <EconomicsHons/>
       <EnglishHons/>
