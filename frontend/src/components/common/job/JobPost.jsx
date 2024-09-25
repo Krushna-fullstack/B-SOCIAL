@@ -35,7 +35,7 @@ const JobPost = ({ jobID, title, location, eligibility, applyLink }) => {
                 Click on the button below to redirect to the application page.
               </p>
               <a
-                className="bg-black text-white font-semibold px-4 py-2 rounded transition-all mx-auto block text-center w-32"
+                className="bg-primary text-white font-semibold px-4 py-2 rounded transition-all mx-auto block text-center w-32"
                 href={applyLink}
                 target="_blank"
                 rel="noopener noreferrer"
