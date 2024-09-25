@@ -1,15 +1,15 @@
 import React from "react";
-import ResourceCard from "../../ResourceCard";
+import ResourceCard from "../ResourceCard";
 
-const ChemistryHons = () => {
+const Commerce = () => {
   return (
     <div>
       <div className="md:w-max w-96 flex justify-center items-center bg-gradient-to-b p-4">
         <div className="w-full lg:w-3/4">
           <ResourceCard
-            department="Chemistry Honours"
-            stream="Science"
-            link="/chemistryyears"
+            department="Commerce"
+            stream="Commerce"
+            link="/commerceyears"
           />
         </div>
       </div>
@@ -17,4 +17,4 @@ const ChemistryHons = () => {
   );
 };
 
-export default ChemistryHons;
+export default Commerce;

@@ -26,6 +26,28 @@ import PoliticalScienceYears from "./components/common/Resources/Arts/Political 
 import PsychologyYears from "./components/common/Resources/Arts/Psychology/PsychologyYears";
 import SanskritYears from "./components/common/Resources/Arts/Sanskrit/SanskritYears";
 import SociologyYears from "./components/common/Resources/Arts/Sociology/SociologyYears";
+import BotanyYears from "./components/common/Resources/Science/Botany/BotanyYears";
+import ChemistryYears from "./components/common/Resources/Science/Chemistry/ChemistryYears";
+import MathematicsYears from "./components/common/Resources/Science/Mathematics/MathematicsYears";
+import PhysicsYears from "./components/common/Resources/Science/Physics/PhysicsYears";
+import ZoologyYears from "./components/common/Resources/Science/Zoology/ZoologyYears";
+import StatisticsYears from "./components/common/Resources/Science/Statistics/StatisticsYears";
+import CommerceYears from "./components/common/Resources/Commerce/CommerceYears";
+import BedYears from "./components/common/Resources/SF-Regular/BED/BedYears";
+import BioTechnologyYears from "./components/common/Resources/SF-Regular/Bio Technology/BioTechnologyYears";
+import SocialWorkYears from "./components/common/Resources/SF-Regular/Social Work/SocialWorkYears";
+import ComputerScienceYears from "./components/common/Resources/SF-Regular/Computer Science/ComputerScienceYears";
+import ItmYears from "./components/common/Resources/SF_PPP/BSC ITM/ItmYears";
+import ImbaYears from "./components/common/Resources/SF_PPP/IMBA/ImbaYears";
+import ImcaYears from "./components/common/Resources/SF_PPP/IMCA/ImcaYears";
+import BioinformaticsYears from "./components/common/Resources/SF_PPP/IMSC BI/BioinformaticsYears";
+import EtcYears from "./components/common/Resources/SF_PPP/IMSC ETC/EtcYears";
+import LawYears from "./components/common/Resources/SF_PPP/LAW/LawYears";
+import PmirYears from "./components/common/Resources/SF_PPP/MA PMIR/PmirYears";
+import MajmcYears from "./components/common/Resources/SF_PPP/MAJMC/MajmcYears";
+import MathmYears from "./components/common/Resources/SF_PPP/MATHM/MathmYears";
+import MbaAbYears from "./components/common/Resources/SF_PPP/MBA AB/MbaAbYears";
+import McfcYears from "./components/common/Resources/SF_PPP/MCFC/McfcYears";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -103,6 +125,30 @@ const App = () => {
         <Route path="/psychologyyears" element={<PsychologyYears />} />
         <Route path="/sanskrityears" element={<SanskritYears />} />
         <Route path="/sociologyyears" element={<SociologyYears />} />
+        <Route path="botanyyears" element={<BotanyYears />} />
+        <Route path="/chemistryyears" element={<ChemistryYears />} />
+        <Route path="/mathematicsyears" element={<MathematicsYears />} />
+        <Route path="/physicsyears" element={<PhysicsYears />} />
+        <Route path="/zoologyyears" element={<ZoologyYears />} />
+        <Route path="/statisticsyears" element={<StatisticsYears />} />
+        <Route path="/commerceyears" element={<CommerceYears />} />
+        <Route path="/bedyears" element={<BedYears />} /> 
+        <Route path="/biotechnologyyears" element={<BioTechnologyYears />} />
+        <Route path="/computerscienceyears" element={<ComputerScienceYears />} />
+        <Route path="/socialworkyears" element={<SocialWorkYears />} />
+        <Route path="/itmyears" element={<ItmYears />} />
+        <Route path="/imbaYears" element={<ImbaYears/> }/>
+        <Route path="/imcayears" element={<ImcaYears/> }/>
+        <Route path="/bioinformaticsyears" element={<BioinformaticsYears/>} />
+        <Route path="/etcyears" element={<EtcYears/>}/>
+        <Route path="/lawyears" element={<LawYears/>}/>
+        <Route path="/pmiryears" element={<PmirYears/>}/>
+        <Route path="/majmcyears" element={<MajmcYears/>}/>
+        <Route path="/mathmyears" element={<MathmYears/>}/>
+        <Route path="/mbaabyears" element={<MbaAbYears/>}/>
+        <Route path="/mcfcyears" element={<McfcYears/>}/>
+
+
       </Routes>
       <Toaster />
       {authUser && <BottomNavbar />}
