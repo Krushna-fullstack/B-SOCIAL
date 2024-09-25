@@ -4,6 +4,8 @@ import Notice from "./Notice"; // Import the new Notice component
 import { useQuery } from "@tanstack/react-query";
 
 const Notices = () => {
+  const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+
   const {
     data: notices,
     isLoading,
@@ -25,8 +27,8 @@ const Notices = () => {
 
   return (
     <div className="p-4 bg-base-100 rounded-lg shadow-lg">
-      <CreateNotice />
-      <div>
+      {authUser && authUser.isAdmin === true && <CreateNotice />}
+      <div className="mt-5">
         {notices ? (
           notices.map((notice) => <Notice key={notice._id} notice={notice} />)
         ) : (

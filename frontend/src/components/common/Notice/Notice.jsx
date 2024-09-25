@@ -9,12 +9,19 @@ const Notice = ({ notice }) => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
   const queryClient = useQueryClient();
 
+  // Get the owner of the notice
   const noticeOwner = notice.user;
-  const isMyNotice = authUser?._id === noticeOwner._id;
 
+  // Ensure IDs are both strings to avoid type mismatches during comparison
+  const isMyNotice = authUser?._id?.toString() === noticeOwner?._id?.toString();
+
+  // Check if the notice is liked by the authenticated user
   const isLiked = notice.likes.includes(authUser?._id);
+
+  // Format the createdAt date for display
   const formattedDate = formatPostDate(notice.createdAt);
 
+  // Mutation for liking a notice
   const { mutate: likeNotice, isPending: isLiking } = useMutation({
     mutationFn: async () => {
       const res = await fetch(`/api/v1/notices/like/${notice._id}`, {
@@ -33,6 +40,7 @@ const Notice = ({ notice }) => {
     onError: (error) => toast.error(error.message),
   });
 
+  // Mutation for deleting a notice
   const { mutate: deleteNotice, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
       const res = await fetch(`/api/v1/notices/${notice._id}`, {
@@ -47,20 +55,19 @@ const Notice = ({ notice }) => {
     },
   });
 
+  // Handler for delete button click
   const handleDeleteNotice = () => {
     deleteNotice();
   };
 
+  // Handler for like button click
   const handleLikeNotice = () => {
     if (isLiking) return;
     likeNotice();
   };
 
   console.log("Auth User:", authUser);
-  console.log("Notice Owner:", notice.user);
-
-  console.log("Notice Owner ID:", noticeOwner?._id);
-  console.log("Is My Notice:", isMyNotice);
+  console.log("Notice Owner:", noticeOwner);
 
   return (
     <div className="bg-secondary rounded-xl shadow-md p-6 mb-2 w-full max-w-md mx-auto hover:shadow-xl transition-shadow duration-200 flex flex-col items-center">
@@ -69,7 +76,7 @@ const Notice = ({ notice }) => {
         <Link to={`/profile/${noticeOwner.username}`} className="flex-shrink-0">
           <img
             className="w-12 h-12 rounded-full object-cover ring-2 ring-primary"
-            src={noticeOwner.profileImg || "/avatar-placeholder.png"}
+            src={noticeOwner?.profileImg || "/avatar-placeholder.png"}
             alt="Profile"
           />
         </Link>
@@ -85,6 +92,7 @@ const Notice = ({ notice }) => {
           </p>
           <p className="text-xs text-gray-500">{formattedDate}</p>
         </div>
+        {/* Display delete button only for the notice owner */}
         {isMyNotice && (
           <button
             className="text-red-500 hover:text-red-600 transition-colors ml-auto mb-7"
@@ -102,10 +110,10 @@ const Notice = ({ notice }) => {
       </div>
 
       {/* Notice Image */}
-      {notice.image && (
+      {notice.img && (
         <img
           className="mb-4 w-full h-auto rounded-lg"
-          src={notice.image}
+          src={notice.img}
           alt="Notice"
         />
       )}
