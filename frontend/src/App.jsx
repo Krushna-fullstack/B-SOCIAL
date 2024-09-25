@@ -1,16 +1,16 @@
 import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
 
 import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/auth/login/LoginPage";
 import SignUpPage from "./pages/auth/signup/SignUpPage";
-import { useQuery } from "@tanstack/react-query";
-import LoadingSpinner from "./components/common/LoadingSpinner";
 import BottomNavbar from "./components/common/BottomNavbar";
 import Profile from "./pages/profile/Profile";
 import JobPosts from "./components/common/Job/JobPosts";
 import Notices from "./components/common/Notice/Notices";
+import LoadingSpinner from "./components/common/LoadingSpinner";
 
 import AllResource from "./components/common/Resources/AllResource";
 import AnthropologyYears from "./components/common/Resources/Arts/Anthropology/AnthropologyYears";
@@ -48,6 +48,7 @@ import MajmcYears from "./components/common/Resources/SF_PPP/MAJMC/MajmcYears";
 import MathmYears from "./components/common/Resources/SF_PPP/MATHM/MathmYears";
 import MbaAbYears from "./components/common/Resources/SF_PPP/MBA AB/MbaAbYears";
 import McfcYears from "./components/common/Resources/SF_PPP/MCFC/McfcYears";
+import Pg from "./components/common/Pg/Pg";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -109,6 +110,9 @@ const App = () => {
           path="/resource"
           element={authUser ? <AllResource /> : <Navigate to="/" />}
         />
+
+        <Route path="/pg" element={authUser ? <Pg /> : <Navigate to="/" />} />
+
         <Route path="/anthropologyyears" element={<AnthropologyYears />} />
         <Route path="/economicsyears" element={<EconomicsYears />} />
         <Route path="/englishyears" element={<EnglishYears />} />
@@ -132,23 +136,24 @@ const App = () => {
         <Route path="/zoologyyears" element={<ZoologyYears />} />
         <Route path="/statisticsyears" element={<StatisticsYears />} />
         <Route path="/commerceyears" element={<CommerceYears />} />
-        <Route path="/bedyears" element={<BedYears />} /> 
+        <Route path="/bedyears" element={<BedYears />} />
         <Route path="/biotechnologyyears" element={<BioTechnologyYears />} />
-        <Route path="/computerscienceyears" element={<ComputerScienceYears />} />
+        <Route
+          path="/computerscienceyears"
+          element={<ComputerScienceYears />}
+        />
         <Route path="/socialworkyears" element={<SocialWorkYears />} />
         <Route path="/itmyears" element={<ItmYears />} />
-        <Route path="/imbaYears" element={<ImbaYears/> }/>
-        <Route path="/imcayears" element={<ImcaYears/> }/>
-        <Route path="/bioinformaticsyears" element={<BioinformaticsYears/>} />
-        <Route path="/etcyears" element={<EtcYears/>}/>
-        <Route path="/lawyears" element={<LawYears/>}/>
-        <Route path="/pmiryears" element={<PmirYears/>}/>
-        <Route path="/majmcyears" element={<MajmcYears/>}/>
-        <Route path="/mathmyears" element={<MathmYears/>}/>
-        <Route path="/mbaabyears" element={<MbaAbYears/>}/>
-        <Route path="/mcfcyears" element={<McfcYears/>}/>
-
-
+        <Route path="/imbaYears" element={<ImbaYears />} />
+        <Route path="/imcayears" element={<ImcaYears />} />
+        <Route path="/bioinformaticsyears" element={<BioinformaticsYears />} />
+        <Route path="/etcyears" element={<EtcYears />} />
+        <Route path="/lawyears" element={<LawYears />} />
+        <Route path="/pmiryears" element={<PmirYears />} />
+        <Route path="/majmcyears" element={<MajmcYears />} />
+        <Route path="/mathmyears" element={<MathmYears />} />
+        <Route path="/mbaabyears" element={<MbaAbYears />} />
+        <Route path="/mcfcyears" element={<McfcYears />} />
       </Routes>
       <Toaster />
       {authUser && <BottomNavbar />}

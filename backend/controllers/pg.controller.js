@@ -4,16 +4,18 @@ import { v2 as clodinary } from "cloudinary";
 
 export const createPg = asyncHandler(async (req, res) => {
   try {
-    const { name, location, description, pricePerMonth } = req.body;
-    let { image } = req.body;
+    const { name, location, description, pricePerMonth, contact } = req.body;
+    let { img } = req.body;
 
     if (!name || !location || !pricePerMonth) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    if (image) {
-      const uploadedResponse = await clodinary.uploader.upload(image);
-      image = uploadedResponse.secure_url;
+    if (img) {
+      const uploadedResponse = await clodinary.uploader.upload(
+        createImageBitmap
+      );
+      img = uploadedResponse.secure_url;
     }
 
     const newPg = new Pg({
@@ -21,7 +23,8 @@ export const createPg = asyncHandler(async (req, res) => {
       location,
       description,
       pricePerMonth,
-      image,
+      img,
+      contact,
     });
 
     newPg.save();

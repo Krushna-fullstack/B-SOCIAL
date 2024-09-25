@@ -17,7 +17,10 @@ const pgSchema = new Schema(
     description: {
       type: String,
     },
-    image: {
+    img: {
+      type: String,
+    },
+    contact: {
       type: String,
     },
   },
