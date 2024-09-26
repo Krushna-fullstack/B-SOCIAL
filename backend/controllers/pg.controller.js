@@ -43,7 +43,7 @@ export const createPg = asyncHandler(async (req, res) => {
 
 export const getAllPgs = asyncHandler(async (req, res) => {
   try {
-    const pgs = await Pg.find();
+    const pgs = await Pg.find().sort({ createdAt: -1 });
 
     if (pgs.length === 0) {
       return res.status(200).json([]);

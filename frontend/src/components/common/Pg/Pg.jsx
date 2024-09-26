@@ -29,12 +29,12 @@ const Pg = () => {
   });
 
   return (
-    <div className="min-h-screen p-6 bg-black">
+    <div className="min-h-screen p-6 flex flex-col items-center">
       <h1 className="text-4xl font-bold text-center mb-12 text-white">
-        PG / Hostel
+        PG / Hostel Listings
       </h1>
 
-      <CreatePg />
+      {authUser && authUser.isAdmin === true && <CreatePg />}
 
       {/* Display Loading Spinner */}
       {isLoading && (
@@ -52,31 +52,38 @@ const Pg = () => {
 
       {/* Display PG Listings */}
       {pgs && pgs.length > 0 ? (
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+        <div className="flex flex-col items-center space-y-6 w-full max-w-xl mt-5">
           {pgs.map((pg) => (
             <div
               key={pg._id}
-              className="card bg-white shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-300 ease-in-out overflow-hidden"
+              className="card w-full bg-white shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-300 ease-in-out overflow-hidden"
             >
-              <div className="relative h-48">
+              <div className="relative h-48 md:h-64">
                 <img
                   src={pg.img}
                   alt={pg.name}
                   className="rounded-t-lg w-full h-full object-cover"
                 />
-                <span className="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded-full shadow flex">
-                <LiaRupeeSignSolid className="text-sm" />{pg.pricePerMonth} / month
+                <span className="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded-full shadow flex items-center">
+                  <LiaRupeeSignSolid className="mr-1 text-sm" />
+                  {pg.pricePerMonth} / month
                 </span>
               </div>
               <div className="p-6">
                 <h2 className="text-2xl font-semibold mb-2 text-gray-800">
                   {pg.name}
                 </h2>
-                <p className="text-sm text-black mb-4 flex"><FaLocationDot className="mr-1" /><span>{pg.location}</span></p>
+                <p className="text-sm text-black mb-4 flex items-center">
+                  <FaLocationDot className="mr-1" />
+                  <span>{pg.location}</span>
+                </p>
                 <p className="text-gray-700 line-clamp-3">{pg.description}</p>
                 <div className="mt-4">
                   <p className="text-gray-800 font-bold text-lg">
-                    Contact: <a className="text-gray-800 font-bold text-lg">{pg.contact}</a>
+                    Contact:{" "}
+                    <a className="text-gray-800 font-bold text-lg">
+                      {pg.contact}
+                    </a>
                   </p>
                 </div>
               </div>

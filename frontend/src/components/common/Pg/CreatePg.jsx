@@ -13,7 +13,13 @@ const CreatePg = () => {
 
   const queryClient = useQueryClient();
 
-  const { mutate: createPg } = useMutation({
+  const {
+    mutate: createPg,
+    isLoading,
+    isError,
+    error,
+    isPending,
+  } = useMutation({
     mutationFn: async ({
       name,
       location,
@@ -166,8 +172,14 @@ const CreatePg = () => {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary w-full mt-6">
-          Create PG
+        <button
+          type="submit"
+          className={`btn btn-primary w-full mt-6 ${
+            isPending ? "loading" : ""
+          }`}
+          disabled={isPending}
+        >
+          {isPending ? "Creating..." : "Create PG"}
         </button>
       </form>
     </div>
