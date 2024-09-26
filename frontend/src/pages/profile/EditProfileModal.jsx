@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import useUpdateUserProfile from "../../hooks/useUpdateUserProfile";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const EditProfileModal = ({ authUser }) => {
   const [formData, setFormData] = useState({
@@ -44,8 +46,39 @@ const EditProfileModal = ({ authUser }) => {
         Edit profile
       </button>
       <dialog id="edit_profile_modal" className="modal">
-        <div className="modal-box border rounded-md border-gray-700 shadow-md ">
-          <h3 className="font-bold text-lg my-3">Update Profile</h3>
+        <div className="modal-box border rounded-md border-gray-700 shadow-md">
+          <div className="flex justify-between items-center">
+            <h3 className="font-bold text-lg my-3">Update Profile</h3>
+            <form method="dialog">
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                ✕
+              </button>
+            </form>
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn m-1 bg-black border-none"
+              >
+                <BsThreeDotsVertical className="text-xl" />
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-white font-normal"
+              >
+                <li>
+                  <a href="https://www.youtube.com/" >Feedback</a>
+                </li>
+                <li>
+                  <a>Report a bug</a>
+                </li>
+                <li>
+                  <a href="https://www.youtube.com/">Help & Support</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
           <form
             className="flex flex-col gap-4"
             onSubmit={(e) => {
@@ -54,6 +87,7 @@ const EditProfileModal = ({ authUser }) => {
             }}
           >
             <div className="flex flex-wrap gap-2">
+              {" "}
               <input
                 type="text"
                 placeholder="Full Name"
@@ -61,7 +95,7 @@ const EditProfileModal = ({ authUser }) => {
                 value={formData.fullName}
                 name="fullName"
                 onChange={handleInputChange}
-              />
+              />{" "}
               <input
                 type="text"
                 placeholder="Username"
@@ -69,9 +103,10 @@ const EditProfileModal = ({ authUser }) => {
                 value={formData.username}
                 name="username"
                 onChange={handleInputChange}
-              />
-            </div>
+              />{" "}
+            </div>{" "}
             <div className="flex flex-wrap gap-2">
+              {" "}
               <input
                 type="email"
                 placeholder="Email"
@@ -79,16 +114,17 @@ const EditProfileModal = ({ authUser }) => {
                 value={formData.email}
                 name="email"
                 onChange={handleInputChange}
-              />
+              />{" "}
               <textarea
                 placeholder="Bio"
                 className="flex-1 input border border-gray-700 rounded p-2 input-md"
                 value={formData.bio}
                 name="bio"
                 onChange={handleInputChange}
-              />
-            </div>
+              />{" "}
+            </div>{" "}
             <div className="flex flex-wrap gap-2">
+              {" "}
               <input
                 type="password"
                 placeholder="Current Password"
@@ -96,7 +132,7 @@ const EditProfileModal = ({ authUser }) => {
                 value={formData.currentPassword}
                 name="currentPassword"
                 onChange={handleInputChange}
-              />
+              />{" "}
               <input
                 type="password"
                 placeholder="New Password"
@@ -104,8 +140,8 @@ const EditProfileModal = ({ authUser }) => {
                 value={formData.newPassword}
                 name="newPassword"
                 onChange={handleInputChange}
-              />
-            </div>
+              />{" "}
+            </div>{" "}
             <input
               type="text"
               placeholder="Link"
@@ -119,9 +155,6 @@ const EditProfileModal = ({ authUser }) => {
             </button>
           </form>
         </div>
-        <form method="dialog" className="modal-backdrop">
-          <button className="outline-none">close</button>
-        </form>
       </dialog>
     </>
   );

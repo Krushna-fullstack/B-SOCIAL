@@ -7,6 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import { formatPostDate } from "../../utils/date";
 import { BsFillSendFill } from "react-icons/bs";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
@@ -142,7 +143,7 @@ const Post = ({ post }) => {
         <div className="ml-4 flex-1">
           <Link
             to={`/profile/${postOwner.username}`}
-            className="text-lg font-semibold text-white hover:text-primary transition-colors"
+            className="text-md font-semibold text-white hover:text-primary transition-colors"
           >
             {postOwner.fullName}
           </Link>
@@ -151,21 +152,62 @@ const Post = ({ post }) => {
           </p>
           <p className="text-xs text-gray-500">{formattedDate}</p>
         </div>
+
         {isMyPost && (
-          <button
-            className="text-red-500 hover:text-red-600 transition-colors ml-auto mb-7"
-            onClick={handleDeletePost}
-          >
-            {!isDeleting ? (
-              <FaTrash />
-            ) : (
-              <div className="flex justify-center">
-                <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
-              </div>
-            )}
-          </button>
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn m-1 bg-secondary border-none"
+            >
+              <BsThreeDotsVertical className="text-xl" />
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu rounded-box z-[1] w-40 p-2 shadow text-white font-normal bg-none "
+            >
+              <li>
+                <button
+                  className="text-red-500 hover:text-red-600 transition-colors ml-auto mb-7"
+                  onClick={() =>
+                    document
+                      .getElementById(`delete_modal_${post._id}`)
+                      .showModal()
+                  }
+                >
+                  Delete Post
+                  <FaTrash />
+                </button>
+              </li>
+              {/* <li>
+                <button className="text-red-500 hover:text-red-600 transition-colors ml-auto mb-7">
+                  Report
+                </button>
+              </li> */}
+            </ul>
+          </div>
         )}
       </div>
+      {/* Delete Post Modal */}
+      <dialog id={`delete_modal_${post._id}`} className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Delete Post</h3>
+          <p className="py-4">Are you sure you want to delete this post?</p>
+          <div className="modal-action">
+            <button className="btn text-red-600" onClick={handleDeletePost}>
+              {isDeleting ? "Deleting..." : "Yes, Delete"}
+            </button>
+            <button
+              className="btn"
+              onClick={() =>
+                document.getElementById(`delete_modal_${post._id}`).close()
+              }
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </dialog>
 
       {/* Post Text */}
       <p className="text-white text-sm mb-4">{post.text}</p>

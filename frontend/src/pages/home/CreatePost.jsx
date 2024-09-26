@@ -60,7 +60,8 @@ const CreatePost = () => {
 
   return (
     <div className="flex justify-center items-center">
-      <div className="w-96 p-6 bg-secondary rounded-xl">
+      {/* Add responsive width adjustments for laptop (lg) and smaller screens */}
+      <div className="w-full p-6 bg-secondary rounded-xl max-w-lg lg:max-w-xl xl:max-w-3xl ">
         <div className="flex items-start gap-4 mb-4">
           <Link to={`/profile/${authUser?.username}`}>
             {authUser?.profileImg ? (

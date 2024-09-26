@@ -154,19 +154,22 @@ const Notice = ({ notice }) => {
       </div>
 
       {/* Modal for Full Image */}
+      {/* Modal for Full Image */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="relative">
+          <div className="relative p-4">
+            {/* Ensure the image fits the screen */}
             <img
               src={selectedImage}
               alt="Full Notice"
-              className="max-w-full max-h-full"
+              className="max-w-[90vw] max-h-[90vh] object-contain" // Updated styles for responsive scaling
             />
+            {/* Close button with improved visibility */}
             <button
-              className="absolute top-2 right-2 text-white bg-primary p-2 rounded-full"
+              className="absolute top-4 right-4 text-white bg-primary p-2 rounded-full hover:bg-red-500 transition"
               onClick={closeModal}
             >
-              <RxCross2 />
+              <RxCross2 size={24} />
             </button>
           </div>
         </div>
