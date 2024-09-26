@@ -14,13 +14,15 @@ const pgSchema = new Schema(
       type: Number,
       required: true,
     },
-    description: {
-      type: String,
-    },
     img: {
       type: String,
+      required: true,
     },
     contact: {
+      type: String,
+      required: true,
+    },
+    description: {
       type: String,
     },
   },

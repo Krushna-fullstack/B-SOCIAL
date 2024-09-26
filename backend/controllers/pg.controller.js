@@ -7,14 +7,19 @@ export const createPg = asyncHandler(async (req, res) => {
     const { name, location, description, pricePerMonth, contact } = req.body;
     let { img } = req.body;
 
-    if (!name || !location || !pricePerMonth) {
+    if (
+      !name ||
+      !location ||
+      !description ||
+      !pricePerMonth ||
+      !contact ||
+      !img
+    ) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
     if (img) {
-      const uploadedResponse = await clodinary.uploader.upload(
-        createImageBitmap
-      );
+      const uploadedResponse = await clodinary.uploader.upload(img);
       img = uploadedResponse.secure_url;
     }
 
@@ -23,11 +28,11 @@ export const createPg = asyncHandler(async (req, res) => {
       location,
       description,
       pricePerMonth,
-      img,
       contact,
+      img,
     });
 
-    newPg.save();
+    await newPg.save();
 
     res.status(201).json(newPg);
   } catch (error) {

@@ -55,7 +55,7 @@ const Pg = () => {
               className="card bg-white shadow-lg rounded-lg p-4"
             >
               <img
-                src={pg.image}
+                src={pg.img}
                 alt={pg.name}
                 className="rounded-lg h-48 w-full object-cover mb-4"
               />
