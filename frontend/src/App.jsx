@@ -48,7 +48,7 @@ import MathmYears from "./components/common/Resources/SF_PPP/MATHM/MathmYears";
 import MbaAbYears from "./components/common/Resources/SF_PPP/MBA AB/MbaAbYears";
 import McfcYears from "./components/common/Resources/SF_PPP/MCFC/McfcYears";
 import Pg from "./components/common/Pg/Pg";
-import Jobs from "./components/common/Job/Jobs";
+import Jobs from "./pages/jobs/Jobs";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({

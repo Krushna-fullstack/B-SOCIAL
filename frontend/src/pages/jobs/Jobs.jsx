@@ -2,7 +2,7 @@ import React from "react";
 import JobPost from "./JobPost";
 import CreateJob from "./CreateJob";
 import { useQuery } from "@tanstack/react-query";
-import JobPostSkeleton from "../../skeletons/JobPostSkeleton";
+import JobPostSkeleton from "../../components/skeletons/JobPostSkeleton";
 
 const Jobs = () => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
