@@ -3,7 +3,8 @@ import JobPost from "./JobPost";
 import CreateJob from "./CreateJob";
 import { useQuery } from "@tanstack/react-query";
 import JobPostSkeleton from "../../skeletons/JobPostSkeleton";
-const JobPosts = () => {
+
+const Jobs = () => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
   const {
@@ -59,4 +60,4 @@ const JobPosts = () => {
   );
 };
 
-export default JobPosts;
+export default Jobs;

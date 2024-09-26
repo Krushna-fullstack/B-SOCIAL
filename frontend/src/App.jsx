@@ -8,7 +8,6 @@ import LoginPage from "./pages/auth/login/LoginPage";
 import SignUpPage from "./pages/auth/signup/SignUpPage";
 import BottomNavbar from "./components/common/BottomNavbar";
 import Profile from "./pages/profile/Profile";
-import JobPosts from "./components/common/Job/JobPosts";
 import Notices from "./components/common/Notice/Notices";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 
@@ -49,6 +48,7 @@ import MathmYears from "./components/common/Resources/SF_PPP/MATHM/MathmYears";
 import MbaAbYears from "./components/common/Resources/SF_PPP/MBA AB/MbaAbYears";
 import McfcYears from "./components/common/Resources/SF_PPP/MCFC/McfcYears";
 import Pg from "./components/common/Pg/Pg";
+import Jobs from "./components/common/Job/Jobs";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -100,7 +100,7 @@ const App = () => {
         />
         <Route
           path="/jobs"
-          element={authUser ? <JobPosts /> : <Navigate to="/" />}
+          element={authUser ? <Jobs /> : <Navigate to="/" />}
         />
         <Route
           path="/notices"
