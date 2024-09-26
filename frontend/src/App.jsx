@@ -11,8 +11,8 @@ import Profile from "./pages/profile/Profile";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 
 import Jobs from "./pages/jobs/Jobs";
-import Pg from "./pages/pg/Pg";
-import Notices from "./pages/notice/Notices";
+import Pg from "./pages/Pg/Pg";
+import Notices from "./pages/Notice/Notices";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
