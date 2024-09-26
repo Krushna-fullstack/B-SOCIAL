@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { formatPostDate } from "../../../utils/date";
+import { formatPostDate } from "../../utils/date";
 import { FaHeart, FaTrash, FaRegHeart } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 import { RxCross2 } from "react-icons/rx";
