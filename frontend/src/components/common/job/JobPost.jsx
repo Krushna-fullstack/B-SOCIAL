@@ -1,13 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const JobPost = ({ jobID, title, location, eligibility, applyLink }) => {
   const dialogId = `my_modal_${jobID}`; // Unique ID based on jobID
-  
+
   return (
     <div className="bg-black">
       <div className="max-w-sm mx-auto bg-primary text-white shadow-lg rounded-lg overflow-hidden my-2">
-       
         <div className="px-6 py-4">
           <h1 className="text-xl font-bold text-white mb-2">{title}</h1>
           <p className="text-white mb-4">
