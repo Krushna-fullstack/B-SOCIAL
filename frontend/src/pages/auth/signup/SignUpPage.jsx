@@ -46,18 +46,25 @@ const SignUpPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-base-200">
-      <div className="card w-full max-w-md shadow-2xl bg-base-100">
+      <div className="card w-82 max-w-md shadow-2xl bg-base-100 rounded-xl mt-10">
         <div className="card-body">
-          <h2 className="text-center text-4xl font-bold">Signup</h2>
-          <div className="w-36 mx-auto my-4">
+          <div className="w-32 mx-auto my-4">
             <img
-              src="https://pbs.twimg.com/profile_images/1496242417917300737/9T4Q4_1N_400x400.jpg"
+              src="./../public/BJB-SOCIAL-LOGO.png"
               alt="Profile"
               className="rounded-full"
             />
           </div>
+          <h2 className="text-center text-3xl font-bold mt-7 mb-4">Signup</h2>
+
           <form onSubmit={handleSubmit}>
             <div className="form-control">
               <label className="label" htmlFor="email">
@@ -119,15 +126,32 @@ const SignUpPage = () => {
                 required
               />
             </div>
+            <div className="form-control mt-2">
+              <label className="label cursor-pointer">
+                <input
+                  onChange={handleCheckboxChange}
+                  type="checkbox"
+                  defaultChecked
+                  className="checkbox checkbox-primary mr-3"
+                />
+                <span className="label-text opacity-70">
+                  I have read all the terms & cookies
+                </span>
+              </label>
+            </div>
             <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary">
+              <button
+                type="submit"
+                className="btn btn-primary rounded-xl"
+                disabled={!isChecked}
+              >
                 Signup
               </button>
             </div>
           </form>
           <div className="text-center mt-4">
             <p>
-              Already have an account?{" "}
+              Already have an account ?{" "}
               <Link to="/login" className="text-primary">
                 Login
               </Link>
@@ -135,6 +159,7 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
+      <a className="opacity-50 cursor-pointer mt-auto">Terms and Conditions (BJB Social)</a>
     </div>
   );
 };
