@@ -41,9 +41,9 @@ const BottomNavbar = () => {
 
   return (
     <div
-      className={`fixed bottom-0 left-0 w-full lg:w-[15%] lg:h-full z-10 p-4 border-t lg:border-t-0 lg:border-r border-gray-300 transition-all duration-300 ${
+      className={`fixed bottom-0 left-0 w-full lg:w-[15%] lg:h-full z-10 p-4 border-t lg:border-t-0 lg:border-r border-gray-700 transition-all duration-300 ${
         isScrollingUp ? "opacity-100" : "opacity-50"
-      } bg-black lg:bg-secondary text-white`} 
+      } bg-black lg:bg-secondary text-white`}
     >
       <div className="flex justify-between lg:flex-col lg:justify-evenly lg:items-center lg:h-full">
         {navItems.map(({ icon: Icon, label, to }) => (

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaHeart, FaTrash, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaTrash, FaRegHeart, FaTimes } from "react-icons/fa"; // Import FaTimes for the cross icon
 import { IoIosShareAlt } from "react-icons/io";
 import { MdInsertComment } from "react-icons/md";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -11,6 +11,8 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
+
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
   const queryClient = useQueryClient();
 
@@ -18,6 +20,25 @@ const Post = ({ post }) => {
   const isLiked = post.likes.includes(authUser._id);
   const isMyPost = authUser._id === post.user._id;
   const formattedDate = formatPostDate(post.createdAt);
+
+  // Toggle scroll lock when the modal is open
+  const toggleBodyScroll = (shouldLock) => {
+    if (shouldLock) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+    toggleBodyScroll(true); // Disable scroll
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    toggleBodyScroll(false); // Enable scroll
+  };
 
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
@@ -179,35 +200,10 @@ const Post = ({ post }) => {
                   <FaTrash />
                 </button>
               </li>
-              {/* <li>
-                <button className="text-red-500 hover:text-red-600 transition-colors ml-auto mb-7">
-                  Report
-                </button>
-              </li> */}
             </ul>
           </div>
         )}
       </div>
-      {/* Delete Post Modal */}
-      <dialog id={`delete_modal_${post._id}`} className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Delete Post</h3>
-          <p className="py-4">Are you sure you want to delete this post?</p>
-          <div className="modal-action">
-            <button className="btn text-red-600" onClick={handleDeletePost}>
-              {isDeleting ? "Deleting..." : "Yes, Delete"}
-            </button>
-            <button
-              className="btn"
-              onClick={() =>
-                document.getElementById(`delete_modal_${post._id}`).close()
-              }
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </dialog>
 
       {/* Post Text */}
       <p className="text-white text-sm mb-4">{post.text}</p>
@@ -239,9 +235,7 @@ const Post = ({ post }) => {
 
         {/* Comment Button */}
         <div
-          onClick={() =>
-            document.getElementById(`comments_modal${post._id}`).showModal()
-          }
+          onClick={openModal}
           className="flex items-center space-x-1 cursor-pointer"
         >
           <MdInsertComment className="text-xl" />
@@ -253,49 +247,64 @@ const Post = ({ post }) => {
           <IoIosShareAlt className="text-xl" />
           <span>Share</span>
         </div>
+      </div>
 
-        {/* Comments Modal */}
+      {/* Comments Modal */}
+      {isModalOpen && (
         <dialog
           id={`comments_modal${post._id}`}
-          className="dialog rounded-xl bg-black shadow-2xl"
+          className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/70 rounded-xl"
         >
-          <div className="p-7">
-            <h3 className="text-xl font-bold text-white mb-6">Comments</h3>
-            <div className="mb-6 space-y-4">
-              {post.comments.length === 0 && (
+          <div className="p-7 bg-black rounded-lg w-full max-w-md relative">
+            {/* Cross Icon for Close */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-white hover:text-red-500 transition-all duration-200 text-xl"
+            >
+              <FaTimes />
+            </button>
+
+            <h3 className="text-lg text-white font-semibold mb-5">Comments</h3>
+
+            {/* Comments Section */}
+            <div className="space-y-4">
+              {post.comments.length === 0 ? (
                 <p className="text-gray-400">No comments yet</p>
-              )}
-              {post.comments.map((comment) => (
-                <div
-                  key={comment._id}
-                  className="flex items-start justify-between p-4 rounded-lg bg-gray-800 shadow-md hover:bg-gray-700 transition-all"
-                >
-                  <div className="flex items-start space-x-3">
-                    <img
-                      src={comment.user.profileImg || "/avatar-placeholder.png"}
-                      className="w-10 h-10 rounded-full border-2 border-blue-500"
-                      alt="Commenter Avatar"
-                    />
-                    <div>
-                      <p className="font-semibold text-white">
-                        {comment.user.fullName}
-                      </p>
-                      <p className="text-gray-400 text-sm">
-                        @{comment.user.username}
-                      </p>
-                      <p className="text-gray-200">{comment.text}</p>
+              ) : (
+                post.comments.map((comment) => (
+                  <div
+                    key={comment._id}
+                    className="flex items-start justify-between p-4 rounded-lg bg-gray-800 shadow-md hover:bg-gray-700 transition-all"
+                  >
+                    <div className="flex items-start space-x-3">
+                      <img
+                        src={
+                          comment.user.profileImg || "/avatar-placeholder.png"
+                        }
+                        className="w-10 h-10 rounded-full border-2 border-blue-500"
+                        alt="Commenter Avatar"
+                      />
+                      <div>
+                        <p className="font-semibold text-white">
+                          {comment.user.fullName}
+                        </p>
+                        <p className="text-gray-400 text-sm">
+                          @{comment.user.username}
+                        </p>
+                        <p className="text-gray-200">{comment.text}</p>
+                      </div>
                     </div>
+                    {authUser._id === comment.user._id && (
+                      <button
+                        className="text-red-500 hover:text-red-600 transition-colors ml-3 mt-1"
+                        onClick={() => handleDeleteComment(comment._id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    )}
                   </div>
-                  {authUser._id === comment.user._id && (
-                    <button
-                      className="text-red-500 hover:text-red-600 transition-colors ml-3 mt-1"
-                      onClick={() => handleDeleteComment(comment._id)}
-                    >
-                      <FaTrash />
-                    </button>
-                  )}
-                </div>
-              ))}
+                ))
+              )}
             </div>
 
             {/* Comment Form */}
@@ -305,33 +314,26 @@ const Post = ({ post }) => {
             >
               <input
                 type="text"
-                className="flex-1 h-9 p-2 rounded-lg border border-gray-600 bg-gray-800 text-white focus:ring-4 focus:ring-blue-500 outline-none transition-all duration-150"
+                className="flex-1 h-9 p-2 rounded-lg border border-gray-600 bg-gray-800 text-white focus:ring-4 focus:ring-gray-900 outline-none transition-all duration-150 sm:w-full md:w-[75%] mt-4"
                 placeholder="Write your comment here..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <button
-                className="text-primary text-xl transition-all duration-150 disabled:opacity-50"
+                className="text-primary text-xl transition-all duration-150 disabled:opacity-50 sm:text-lg"
                 type="submit"
                 disabled={isCommenting}
               >
                 {isCommenting ? (
                   <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
                 ) : (
-                  <BsFillSendFill />
+                  <BsFillSendFill className="mt-4 text-2xl" />
                 )}
               </button>
             </form>
           </div>
-
-          <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-              ✕
-            </button>
-          </form>
         </dialog>
-      </div>
+      )}
     </div>
   );
 };

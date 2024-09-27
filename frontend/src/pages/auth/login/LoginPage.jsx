@@ -46,16 +46,17 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-base-200">
-      <div className="card w-full max-w-md shadow-2xl bg-base-100">
+      <div className="card max-w-md w-80 shadow-2xl bg-base-100 rounded-xl">
         <div className="card-body">
-          <h2 className="text-center text-4xl font-bold">Login</h2>
-          <div className="w-36 mx-auto my-4">
+        <div className="w-32 mx-auto my-4">
             <img
-              src="https://pbs.twimg.com/profile_images/1496242417917300737/9T4Q4_1N_400x400.jpg"
+              src="./../public/BJB-SOCIAL-LOGO.png"
               alt="Profile"
-              className="rounded-full"
+              className="w-full rounded-full"
             />
           </div>
+          <h2 className="text-center text-3xl font-bold mt-6 mb-4">Login</h2>
+          
           <form onSubmit={handleSubmit}>
             <div className="form-control">
               <label className="label" htmlFor="email">
@@ -88,7 +89,7 @@ const LoginPage = () => {
               />
             </div>
             <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary rounded-xl">
                 Login
               </button>
             </div>
