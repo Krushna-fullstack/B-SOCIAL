@@ -15,15 +15,7 @@ const HomePage = () => {
     <div className="flex flex-col items-center">
       <div className="flex items-center justify-between w-full max-w-sm p-4 lg:ml-4">
         {/* Logo */}
-<<<<<<< HEAD
-        <img
-          src="./../public/logo.png"
-          alt="BJB Social Logo"
-          className="w-24 h-auto my-2"
-        />
-=======
-        <img src="/1.jpg" alt="BJB Social Logo" className="w-20 h-auto my-2" />
->>>>>>> 818b6a3c8dbf24a3757ec2a3f10425aeb6b0ac23
+        <img src="/logo.png" alt="BJB Social Logo" className="w-20 h-auto my-2" />
 
         {/* Search Input Box */}
         <div className="relative lg:flex justify-center items-center mx-auto">
