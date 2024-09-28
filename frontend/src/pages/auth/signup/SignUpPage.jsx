@@ -58,7 +58,7 @@ const SignUpPage = () => {
         <div className="card-body">
           <div className="w-32 mx-auto my-4">
             <img
-              src="./../public/BJB-SOCIAL-LOGO.png"
+              src="/BJB-SOCIAL-LOGO.png"
               alt="Profile"
               className="rounded-full"
             />
@@ -159,7 +159,9 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
-      <a className="opacity-50 cursor-pointer mt-auto">Terms and Conditions (BJB Social)</a>
+      <a className="opacity-50 cursor-pointer mt-auto">
+        Terms and Conditions (BJB Social)
+      </a>
     </div>
   );
 };

@@ -48,15 +48,15 @@ const LoginPage = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-base-200">
       <div className="card max-w-md w-80 shadow-2xl bg-base-100 rounded-xl">
         <div className="card-body">
-        <div className="w-32 mx-auto my-4">
+          <div className="w-32 mx-auto my-4">
             <img
-              src="./../public/BJB-SOCIAL-LOGO.png"
+              src="/BJB-SOCIAL-LOGO.png"
               alt="Profile"
               className="w-full rounded-full"
             />
           </div>
           <h2 className="text-center text-3xl font-bold mt-6 mb-4">Login</h2>
-          
+
           <form onSubmit={handleSubmit}>
             <div className="form-control">
               <label className="label" htmlFor="email">
