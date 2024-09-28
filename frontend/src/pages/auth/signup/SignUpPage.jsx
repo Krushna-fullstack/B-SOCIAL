@@ -58,13 +58,12 @@ const SignUpPage = () => {
         <div className="card-body">
           <div className="w-32 mx-auto my-4">
             <img
-              src="./../public/BJB-SOCIAL-LOGO.png"
+              src="./../public/logo.png"
               alt="Profile"
               className="rounded-full"
             />
           </div>
           <h2 className="text-center text-3xl font-bold mt-7 mb-4">Signup</h2>
-
           <form onSubmit={handleSubmit}>
             <div className="form-control">
               <label className="label" htmlFor="email">
@@ -159,7 +158,9 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
-      <a className="opacity-50 cursor-pointer mt-auto">Terms and Conditions (BJB Social)</a>
+      <a className="opacity-50 cursor-pointer mt-auto">
+        Terms and Conditions (BJB Social)
+      </a>
     </div>
   );
 };
