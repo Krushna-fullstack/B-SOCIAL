@@ -50,7 +50,7 @@ const LoginPage = () => {
         <div className="card-body">
           <div className="w-32 mx-auto my-4">
             <img
-              src="./../public/logo.png"
+              src="/logo.png"
               alt="Profile"
               className="w-full rounded-full"
             />
