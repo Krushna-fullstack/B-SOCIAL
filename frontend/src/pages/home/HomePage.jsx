@@ -13,11 +13,10 @@ const HomePage = () => {
 
   return (
     <div className="flex flex-col items-center">
-      
       <div className="flex items-center justify-between w-full max-w-sm p-4 lg:ml-4">
         {/* Logo */}
         <img
-          src="/BJB-SOCIAL-LOGO.png"
+          src="./../public/1.jpg"
           alt="BJB Social Logo"
           className="w-20 h-auto my-2"
         />
@@ -28,7 +27,6 @@ const HomePage = () => {
             type="text"
             value={searchTerm}
             onChange={handleSearchChange}
-            
             placeholder="Search...."
             className="p-2 w-64 border border-gray-600 rounded-md shadow-md focus:outline-none bg-secondary text-white"
           />
