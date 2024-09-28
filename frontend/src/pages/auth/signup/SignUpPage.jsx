@@ -58,7 +58,11 @@ const SignUpPage = () => {
         <div className="card-body">
           <div className="w-32 mx-auto my-4">
             <img
+<<<<<<< HEAD
               src="./../public/logo.png"
+=======
+              src="/BJB-SOCIAL-LOGO.png"
+>>>>>>> 818b6a3c8dbf24a3757ec2a3f10425aeb6b0ac23
               alt="Profile"
               className="rounded-full"
             />

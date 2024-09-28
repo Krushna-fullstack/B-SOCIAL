@@ -1,7 +1,7 @@
 import React from "react";
 
 const JobPost = ({ jobID, title, location, eligibility, applyLink }) => {
-  const dialogId = `my_modal_${jobID}`; // Unique ID based on jobID
+  const dialogId = `my_modal_${jobID}`;
 
   return (
     <div className="bg-black">
