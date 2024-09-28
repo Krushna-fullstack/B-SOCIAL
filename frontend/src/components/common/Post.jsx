@@ -310,24 +310,24 @@ const Post = ({ post }) => {
             {/* Comment Form */}
             <form
               onSubmit={handlePostComment}
-              className="flex items-center space-x-4"
+              className="flex flex-wrap items-center space-y-4 sm:space-y-0 sm:space-x-4"
             >
               <input
                 type="text"
-                className="flex-1 h-9 p-2 rounded-lg border border-gray-600 bg-gray-800 text-white focus:ring-4 focus:ring-gray-900 outline-none transition-all duration-150 sm:w-full md:w-[75%] mt-4"
+                className="flex-1 h-9 p-2 rounded-lg border border-gray-600 bg-gray-800 text-white focus:ring-4 focus:ring-gray-900 outline-none transition-all duration-150 w-full sm:w-auto mt-4 sm:mt-0"
                 placeholder="Write your comment here..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <button
-                className="text-primary text-xl transition-all duration-150 disabled:opacity-50 sm:text-lg"
+                className="text-primary text-xl transition-all duration-150 disabled:opacity-50 sm:text-lg sm:mt-0 mt-4"
                 type="submit"
                 disabled={isCommenting}
               >
                 {isCommenting ? (
                   <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
                 ) : (
-                  <BsFillSendFill className="mt-4 text-2xl" />
+                  <BsFillSendFill className="text-2xl mx-2" />
                 )}
               </button>
             </form>
