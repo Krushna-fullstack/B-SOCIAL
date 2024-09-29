@@ -4,7 +4,7 @@ const JobPostSkeleton = () => {
   return (
     <div className="bg-base-100 shadow-lg rounded-lg p-4 mb-6 w-full max-w-sm mx-auto animate-pulse">
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-12 h-12 rounded-full bg-gray-300"></div>
+        <div className="w-60 h-12 rounded-full bg-gray-300"></div>
         <div className="flex flex-col gap-2">
           <div className="h-4 bg-gray-300 rounded-md w-24"></div>
           <div className="h-3 bg-gray-200 rounded-md w-16"></div>
