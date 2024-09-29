@@ -3,6 +3,8 @@ import CreatePg from "./CreatePg";
 import { useQuery } from "@tanstack/react-query";
 import { FaLocationDot } from "react-icons/fa6";
 import { LiaRupeeSignSolid } from "react-icons/lia";
+import { AiFillMessage } from "react-icons/ai";
+
 
 const Pg = () => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
@@ -30,10 +32,10 @@ const Pg = () => {
 
   return (
     <div className="min-h-screen p-6 flex flex-col items-center">
-      <h1 className="text-4xl font-bold text-center mb-12 text-white">
-        PG / Hostel Listings
+      <h1 className="text-4xl font-bold text-center mb-5 text-white">
+        PG / Hostel
       </h1>
-
+      
       {authUser && authUser.isAdmin === true && <CreatePg />}
 
       {/* Display Loading Spinner */}
@@ -79,14 +81,23 @@ const Pg = () => {
                 </p>
                 <p className="text-gray-700 line-clamp-3">{pg.description}</p>
                 <div className="mt-4">
-                  <p className="text-gray-800 font-bold text-lg">
+                  <p className="text-gray-800 font-semibold text-md">
                     Contact:{" "}
-                    <a className="text-gray-800 font-bold text-lg">
+                    <a className="text-gray-800 font-semibold text-md">
                       {pg.contact}
                     </a>
                   </p>
+                  
                 </div>
+                <a className="btn bg-primary border-none rounded-xl ml-20 mt-5 text-sm">
+                  <AiFillMessage />
+                  Message
+                </a>
+                
               </div>
+              <p className="text-black opacity-70 mx-2">
+                Tab on message button to get details
+              </p>
             </div>
           ))}
         </div>

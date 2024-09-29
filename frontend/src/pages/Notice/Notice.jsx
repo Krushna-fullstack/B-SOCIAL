@@ -103,7 +103,7 @@ const Notice = ({ notice }) => {
             @{noticeOwner.username || "username"}
           </p>
         </div>
-        <p className="text-xs text-gray-400 ml-auto">{formattedDate} ago</p>
+        <p className="text-xs text-gray-400 ml-auto">{formattedDate}</p>
       </div>
 
       {/* Notice Content */}

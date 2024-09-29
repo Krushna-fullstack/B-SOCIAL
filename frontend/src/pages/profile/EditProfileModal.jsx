@@ -67,13 +67,16 @@ const EditProfileModal = ({ authUser }) => {
                 className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-white font-normal"
               >
                 <li>
-                  <a href="https://www.youtube.com/" >Feedback</a>
+                  <a href="https://www.youtube.com/">Feedback</a>
                 </li>
                 <li>
                   <a>Report a bug</a>
                 </li>
                 <li>
                   <a href="https://www.youtube.com/">Help & Support</a>
+                </li>
+                <li>
+                  <button className="text-red-600">Logout</button>
                 </li>
               </ul>
             </div>
