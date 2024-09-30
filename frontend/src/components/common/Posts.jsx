@@ -51,7 +51,9 @@ const Posts = ({ feedType, username }) => {
         </div>
       )}
 
-      {!isLoading && !isRefetching && posts.length === 0 && <p>No Posts</p>}
+      {!isLoading && !isRefetching && posts.length === 0 && (
+        <p className="text-center">No Posts</p>
+      )}
 
       {!isLoading && !isRefetching && posts.length > 0 && (
         <div className="grid grid-cols-1 gap-4">

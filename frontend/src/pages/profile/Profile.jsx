@@ -92,11 +92,11 @@ const Profile = () => {
               {/* COVER IMAGE */}
               <div className="relative group/cover">
                 <img
-                  src={coverImg || user?.coverImg || "/cover.png"}
+                  src={coverImg || user?.coverImg || "/coverImage.jpg"}
                   className="h-52 w-full object-cover"
                   alt="cover"
                 />
-                
+
                 {isMyProfile && (
                   <div
                     className="absolute top-2 right-2 rounded-full p-2 bg-gray-800 bg-opacity-75 cursor-pointer opacity-0 group-hover/cover:opacity-100 transition duration-200"
@@ -113,7 +113,7 @@ const Profile = () => {
                   ref={coverImgRef}
                   onChange={(e) => handleImgChange(e, "coverImg")}
                 />
-                
+
                 <input
                   type="file"
                   hidden
@@ -171,15 +171,12 @@ const Profile = () => {
                   >
                     {isUpdatingProfile ? "Updating..." : "Update"}
                   </button>
-                  
                 )}
                 {/* <BsThreeDotsVertical className="mt-10 text-xl" /> */}
-                
               </div>
               {/* <div className="flex justify-end mr-6 py-5 text-xl">
               <BsThreeDotsVertical />
               </div> */}
-              
 
               {/* USER DETAILS */}
               <div className="flex flex-col gap-4 mt-14 px-4">
@@ -235,7 +232,9 @@ const Profile = () => {
               </div>
             </>
           )}
-        <h1 className="text-xl font-semibold flex justify-center mt-5">Posts</h1>
+          <h1 className="text-xl font-semibold flex justify-center mt-5">
+            Posts
+          </h1>
           <Posts feedType={feedType} username={username} userId={user?._id} />
         </div>
       </div>
