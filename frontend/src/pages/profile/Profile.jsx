@@ -7,11 +7,10 @@ import Posts from "../../components/common/Posts";
 import useUpdateUserProfile from "../../hooks/useUpdateUserProfile";
 import { FaArrowLeft } from "react-icons/fa6";
 import { IoCalendarOutline } from "react-icons/io5";
-import { FaLink, FaCamera } from "react-icons/fa";
+import { FaLink } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import EditProfileModal from "./EditProfileModal";
 import ProfileHeaderSkeleton from "./../../components/skeletons/ProfileHeaderSkeleton";
-import { BsThreeDotsVertical } from "react-icons/bs";
 
 const Profile = () => {
   const location = useLocation();

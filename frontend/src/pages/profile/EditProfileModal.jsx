@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import useUpdateUserProfile from "../../hooks/useUpdateUserProfile";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const EditProfileModal = ({ authUser }) => {
   const [formData, setFormData] = useState({
@@ -14,6 +14,8 @@ const EditProfileModal = ({ authUser }) => {
     newPassword: "",
     currentPassword: "",
   });
+
+  const queryClient = useQueryClient();
 
   const { updateProfile, isUpdatingProfile } = useUpdateUserProfile();
 
@@ -34,6 +36,34 @@ const EditProfileModal = ({ authUser }) => {
       });
     }
   }, [authUser]);
+
+  const { mutate: logout } = useMutation({
+    mutationFn: async () => {
+      try {
+        const res = await fetch("/api/v1/auth/logout", {
+          method: "POST",
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Something went wrong");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    onSuccess: () => {
+      toast.success("Logout successful");
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+    onError: () => {
+      toast.error("Logout failed");
+    },
+  });
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <>
@@ -76,7 +106,10 @@ const EditProfileModal = ({ authUser }) => {
                   <a href="https://www.youtube.com/">Help & Support</a>
                 </li>
                 <li>
-                  <button className="text-red-600">Logout</button>
+                  {/* <button className="text-red-600">Logout</button> */}
+                  <button className="text-red-600" onClick={handleLogout}>
+                    Logout
+                  </button>
                 </li>
               </ul>
             </div>

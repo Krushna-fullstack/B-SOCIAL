@@ -12,19 +12,14 @@ const Notice = ({ notice }) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State to toggle modal
   const [selectedImage, setSelectedImage] = useState(null); // State to track selected image
 
-  // Get the owner of the notice
   const noticeOwner = notice.user;
 
-  // Ensure IDs are both strings to avoid type mismatches during comparison
   const isMyNotice = authUser?._id?.toString() === noticeOwner?._id?.toString();
 
-  // Check if the notice is liked by the authenticated user
   const isLiked = notice.likes.includes(authUser?._id);
 
-  // Format the createdAt date for display
   const formattedDate = formatPostDate(notice.createdAt);
 
-  // Mutation for liking a notice
   const { mutate: likeNotice, isPending: isLiking } = useMutation({
     mutationFn: async () => {
       const res = await fetch(`/api/v1/notices/like/${notice._id}`, {
@@ -153,7 +148,6 @@ const Notice = ({ notice }) => {
         )}
       </div>
 
-      {/* Modal for Full Image */}
       {/* Modal for Full Image */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
