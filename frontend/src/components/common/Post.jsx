@@ -150,6 +150,22 @@ const Post = ({ post }) => {
     deleteComment(commentId);
   };
 
+  const handleSharePost = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "Check out this post",
+          text: post.text,
+          url: window.location.href, // Use current URL or a specific post URL
+        })
+        .then(() => console.log("Successful share"))
+        .catch((error) => console.log("Error sharing", error));
+    } else {
+      console.log("Web Share API not supported");
+      toast.error("Sharing is not supported on this browser");
+    }
+  };
+
   return (
     <div className="bg-secondary rounded-xl shadow-md p-6 mb-2 w-full max-w-md mx-auto hover:shadow-xl transition-shadow duration-200">
       {/* Header: Profile and Info */}
@@ -243,7 +259,10 @@ const Post = ({ post }) => {
         </div>
 
         {/* Share Button */}
-        <div className="flex items-center space-x-1 cursor-pointer">
+        <div
+          className="flex items-center space-x-1 cursor-pointer"
+          onClick={handleSharePost}
+        >
           <IoIosShareAlt className="text-xl" />
           <span>Share</span>
         </div>
