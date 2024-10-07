@@ -41,7 +41,7 @@ const BottomNavbar = () => {
 
   return (
     <div
-      className={`fixed bottom-0 left-0 w-full lg:w-[15%] lg:h-full z-10 p-4 border-t lg:border-t-0 lg:border-r border-gray-700 transition-all duration-300 ${
+      className={`fixed bottom-0 left-0 w-full lg:w-[15%] lg:h-full z-10 p-4 border-t lg:border-t-0 lg:border-r border-gray-700 transition-all duration-300 rounded-xl ${
         isScrollingUp ? "opacity-100" : "opacity-50"
       } bg-black lg:bg-secondary text-white`}
     >
