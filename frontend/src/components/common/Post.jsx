@@ -151,12 +151,13 @@ const Post = ({ post }) => {
   };
 
   const handleSharePost = () => {
+    const postUrl = `${window.location.origin}/post/${post._id}`;
     if (navigator.share) {
       navigator
         .share({
           title: "Check out this post",
           text: post.text,
-          url: window.location.href, // Use current URL or a specific post URL
+          url: postUrl,
         })
         .then(() => console.log("Successful share"))
         .catch((error) => console.log("Error sharing", error));
