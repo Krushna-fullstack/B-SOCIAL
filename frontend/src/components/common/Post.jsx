@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaHeart, FaTrash, FaRegHeart, FaTimes } from "react-icons/fa"; // Import FaTimes for the cross icon
+import { FaHeart, FaTrash, FaRegHeart, FaTimes } from "react-icons/fa";
 import { IoIosShareAlt } from "react-icons/io";
 import { MdInsertComment } from "react-icons/md";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -11,7 +11,8 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Modal for delete confirmation
 
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
   const queryClient = useQueryClient();
@@ -21,66 +22,64 @@ const Post = ({ post }) => {
   const isMyPost = authUser._id === post.user._id;
   const formattedDate = formatPostDate(post.createdAt);
 
-  // Toggle scroll lock when the modal is open
   const toggleBodyScroll = (shouldLock) => {
-    if (shouldLock) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    document.body.style.overflow = shouldLock ? "hidden" : "auto";
   };
 
   const openModal = () => {
     setIsModalOpen(true);
-    toggleBodyScroll(true); // Disable scroll
+    toggleBodyScroll(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    toggleBodyScroll(false); // Enable scroll
+    toggleBodyScroll(false);
+  };
+
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+    toggleBodyScroll(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    toggleBodyScroll(false);
   };
 
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
-      try {
-        const res = await fetch(`/api/v1/posts/${post._id}`, {
-          method: "DELETE",
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error("Something went wrong");
-        return data;
-      } catch (error) {
-        throw new Error(error);
-      }
+      const res = await fetch(`/api/v1/posts/${post._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error("Something went wrong");
+      return data;
     },
     onSuccess: () => {
       toast.success("Post deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      closeDeleteModal(); // Close the modal after deletion
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 
   const { mutate: likePost, isPending: isLiking } = useMutation({
     mutationFn: async () => {
-      try {
-        const res = await fetch(`/api/v1/posts/like/${post._id}`, {
-          method: "POST",
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Something went wrong");
-        return data;
-      } catch (error) {
-        throw new Error(error);
-      }
+      const res = await fetch(`/api/v1/posts/like/${post._id}`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
+      return data;
     },
     onSuccess: (updatedLikes) => {
-      queryClient.setQueryData(["posts"], (oldData) => {
-        return oldData.map((p) => {
-          if (p._id === post._id) {
-            return { ...p, likes: updatedLikes };
-          }
-          return p;
-        });
-      });
+      queryClient.setQueryData(["posts"], (oldData) =>
+        oldData.map((p) =>
+          p._id === post._id ? { ...p, likes: updatedLikes } : p
+        )
+      );
     },
     onError: (error) => {
       toast.error(error.message);
@@ -89,20 +88,14 @@ const Post = ({ post }) => {
 
   const { mutate: commentPost, isPending: isCommenting } = useMutation({
     mutationFn: async () => {
-      try {
-        const res = await fetch(`/api/v1/posts/comment/${post._id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ text: comment }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error("Something went wrong");
-        return data;
-      } catch (error) {
-        throw new Error(error);
-      }
+      const res = await fetch(`/api/v1/posts/comment/${post._id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: comment }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error("Something went wrong");
+      return data;
     },
     onSuccess: () => {
       toast.success("Comment added successfully");
@@ -118,9 +111,7 @@ const Post = ({ post }) => {
     mutationFn: async (commentId) => {
       const res = await fetch(
         `/api/v1/posts/${post._id}/comments/${commentId}`,
-        {
-          method: "DELETE",
-        }
+        { method: "DELETE" }
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");
@@ -138,7 +129,7 @@ const Post = ({ post }) => {
   const handleDeletePost = () => deletePost();
   const handlePostComment = (e) => {
     e.preventDefault();
-    if (!comment.trim() || isCommenting) return; // Avoid empty comments
+    if (!comment.trim() || isCommenting) return;
     commentPost();
   };
   const handleLikePost = () => {
@@ -162,7 +153,6 @@ const Post = ({ post }) => {
         .then(() => console.log("Successful share"))
         .catch((error) => console.log("Error sharing", error));
     } else {
-      console.log("Web Share API not supported");
       toast.error("Sharing is not supported on this browser");
     }
   };
@@ -202,19 +192,14 @@ const Post = ({ post }) => {
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content menu rounded-box z-[1] w-40 p-2 shadow text-white font-normal bg-none "
+              className="dropdown-content menu rounded-box z-[1] w-40 p-2 shadow text-white font-normal bg-none"
             >
               <li>
                 <button
-                  className="text-red-500 hover:text-red-600 transition-colors ml-auto mb-7"
-                  onClick={() =>
-                    document
-                      .getElementById(`delete_modal_${post._id}`)
-                      .showModal()
-                  }
+                  className="text-red-500 hover:text-red-600 transition-colors ml-auto"
+                  onClick={openDeleteModal}
                 >
                   Delete Post
-                  <FaTrash />
                 </button>
               </li>
             </ul>
@@ -351,6 +336,36 @@ const Post = ({ post }) => {
                 )}
               </button>
             </form>
+          </div>
+        </dialog>
+      )}
+
+      {/* Delete Post Modal */}
+      {isDeleteModalOpen && (
+        <dialog className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/70 rounded-xl">
+          <div className="p-7 bg-black rounded-lg w-full max-w-md relative">
+            <h3 className="text-lg text-white font-semibold mb-5">
+              Confirm Deletion
+            </h3>
+            <p className="text-gray-400 mb-6">
+              Are you sure you want to delete this post? This Post will be lost
+              forever.
+            </p>
+
+            <div className="flex justify-end space-x-4">
+              <button
+                className="bg-gray-600 text-white px-4 py-2 rounded-lg"
+                onClick={closeDeleteModal}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                onClick={handleDeletePost}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </dialog>
       )}
