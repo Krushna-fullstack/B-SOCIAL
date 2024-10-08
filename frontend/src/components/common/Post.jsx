@@ -11,8 +11,8 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Modal for delete confirmation
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // For delete modal
 
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
   const queryClient = useQueryClient();
@@ -33,7 +33,7 @@ const Post = ({ post }) => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    toggleBodyScroll(false);
+    toggleBodyScroll(false); // Enable scroll
   };
 
   const openDeleteModal = () => {
@@ -126,12 +126,17 @@ const Post = ({ post }) => {
     },
   });
 
-  const handleDeletePost = () => deletePost();
+  const handleDeletePost = () => {
+    deletePost();
+    closeDeleteModal(); // Close delete modal on successful deletion
+  };
+
   const handlePostComment = (e) => {
     e.preventDefault();
     if (!comment.trim() || isCommenting) return;
     commentPost();
   };
+
   const handleLikePost = () => {
     if (isLiking) return;
     likePost();
@@ -196,7 +201,7 @@ const Post = ({ post }) => {
             >
               <li>
                 <button
-                  className="text-red-500 hover:text-red-600 transition-colors ml-auto"
+                  className="text-red-500 hover:text-red-600 transition-colors ml-auto mb-7"
                   onClick={openDeleteModal}
                 >
                   Delete Post
@@ -240,130 +245,125 @@ const Post = ({ post }) => {
           onClick={openModal}
           className="flex items-center space-x-1 cursor-pointer"
         >
-          <MdInsertComment className="text-xl" />
+          <MdInsertComment />
           <span>{post.comments.length}</span>
         </div>
 
         {/* Share Button */}
         <div
-          className="flex items-center space-x-1 cursor-pointer"
           onClick={handleSharePost}
+          className="flex items-center space-x-1 cursor-pointer"
         >
-          <IoIosShareAlt className="text-xl" />
-          <span>Share</span>
+          <IoIosShareAlt />
         </div>
       </div>
 
       {/* Comments Modal */}
       {isModalOpen && (
         <dialog
-          id={`comments_modal${post._id}`}
-          className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/70 rounded-xl"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+          open={isModalOpen}
         >
-          <div className="p-7 bg-black rounded-lg w-full max-w-md relative">
-            {/* Cross Icon for Close */}
-            <button
-              onClick={closeModal}
-              className="absolute top-4 right-4 text-white hover:text-red-500 transition-all duration-200 text-xl"
-            >
-              <FaTimes />
-            </button>
-
-            <h3 className="text-lg text-white font-semibold mb-5">Comments</h3>
-
-            {/* Comments Section */}
-            <div className="space-y-4">
-              {post.comments.length === 0 ? (
-                <p className="text-gray-400">No comments yet</p>
-              ) : (
-                post.comments.map((comment) => (
-                  <div
-                    key={comment._id}
-                    className="flex items-start justify-between p-4 rounded-lg bg-gray-800 shadow-md hover:bg-gray-700 transition-all"
-                  >
-                    <div className="flex items-start space-x-3">
-                      <img
-                        src={
-                          comment.user.profileImg || "/avatar-placeholder.png"
-                        }
-                        className="w-10 h-10 rounded-full border-2 border-blue-500"
-                        alt="Commenter Avatar"
-                      />
-                      <div>
-                        <p className="font-semibold text-white">
-                          {comment.user.fullName}
-                        </p>
-                        <p className="text-gray-400 text-sm">
-                          @{comment.user.username}
-                        </p>
-                        <p className="text-gray-200">{comment.text}</p>
-                      </div>
-                    </div>
-                    {authUser._id === comment.user._id && (
-                      <button
-                        className="text-red-500 hover:text-red-600 transition-colors ml-3 mt-1"
-                        onClick={() => handleDeleteComment(comment._id)}
-                      >
-                        <FaTrash />
-                      </button>
-                    )}
-                  </div>
-                ))
-              )}
+          <div className="bg-neutral-800 p-6 rounded-lg w-full max-w-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">Comments</h3>
+              <FaTimes
+                onClick={closeModal}
+                className="text-gray-500 cursor-pointer hover:text-gray-300"
+              />
             </div>
 
-            {/* Comment Form */}
             <form
               onSubmit={handlePostComment}
-              className="flex flex-wrap items-center space-y-4 sm:space-y-0 sm:space-x-4"
+              className="flex items-center space-x-2 mb-4"
             >
               <input
                 type="text"
-                className="flex-1 h-9 p-2 rounded-lg border border-gray-600 bg-gray-800 text-white focus:ring-4 focus:ring-gray-900 outline-none transition-all duration-150 w-full sm:w-auto mt-4 sm:mt-0"
-                placeholder="Write your comment here..."
+                className="flex-grow rounded-full p-2 bg-neutral-700 text-white focus:outline-none"
+                placeholder="Add a comment..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <button
-                className="text-primary text-xl transition-all duration-150 disabled:opacity-50 sm:text-lg sm:mt-0 mt-4"
                 type="submit"
+                className="bg-primary text-white px-4 py-2 rounded-full hover:bg-opacity-80 transition-colors"
                 disabled={isCommenting}
               >
                 {isCommenting ? (
                   <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
                 ) : (
-                  <BsFillSendFill className="text-2xl mx-2" />
+                  <BsFillSendFill />
                 )}
               </button>
             </form>
+
+            <ul className="space-y-4">
+              {post.comments.map((comment) => (
+                <li key={comment._id} className="flex items-start space-x-2">
+                  <img
+                    className="w-10 h-10 rounded-full object-cover"
+                    src={comment.user.profileImg || "/avatar-placeholder.png"}
+                    alt={comment.user.username}
+                  />
+                  <div className="bg-neutral-700 p-3 rounded-lg flex-grow">
+                    <div className="flex justify-between items-center">
+                      <Link
+                        to={`/profile/${comment.user.username}`}
+                        className="text-white font-semibold hover:underline"
+                      >
+                        {comment.user.username}
+                      </Link>
+                      {authUser._id === comment.user._id && (
+                        <button
+                          onClick={() => handleDeleteComment(comment._id)}
+                          className="text-red-500 hover:text-red-600 transition-colors"
+                        >
+                          <FaTrash />
+                        </button>
+                      )}
+                    </div>
+                    <p className="text-gray-300 text-sm mt-1">{comment.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </dialog>
       )}
 
-      {/* Delete Post Modal */}
+      {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
-        <dialog className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/70 rounded-xl">
-          <div className="p-7 bg-black rounded-lg w-full max-w-md relative">
-            <h3 className="text-lg text-white font-semibold mb-5">
-              Confirm Deletion
-            </h3>
-            <p className="text-gray-400 mb-6">
-              Are you sure you want to delete this post? This Post will be lost
-              forever.
+        <dialog
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+          open={isDeleteModalOpen}
+        >
+          <div className="bg-neutral-800 p-6 rounded-lg w-full max-w-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">Delete Post</h3>
+              <FaTimes
+                onClick={closeDeleteModal}
+                className="text-gray-500 cursor-pointer hover:text-gray-300"
+              />
+            </div>
+
+            <p className="text-white mb-6">
+              Are you sure you want to delete this post? This action cannot be
+              undone.
             </p>
 
             <div className="flex justify-end space-x-4">
               <button
-                className="bg-gray-600 text-white px-4 py-2 rounded-lg"
                 onClick={closeDeleteModal}
+                className="bg-gray-600 text-white px-4 py-2 rounded-full hover:bg-gray-500 transition-colors"
               >
                 Cancel
               </button>
               <button
-                className="bg-red-500 text-white px-4 py-2 rounded-lg"
                 onClick={handleDeletePost}
+                className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 transition-colors"
+                disabled={isDeleting}
               >
-                Delete
+                {isDeleting ? "Deleting..." : "Delete"}
               </button>
             </div>
           </div>
