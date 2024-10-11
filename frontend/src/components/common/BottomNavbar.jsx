@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { MdContentCopy } from "react-icons/md";
 import { AiOutlineFilePdf, AiOutlineHome } from "react-icons/ai";
 import { RiHotelLine } from "react-icons/ri";
@@ -47,14 +47,18 @@ const BottomNavbar = () => {
     >
       <div className="flex justify-between lg:flex-col lg:justify-evenly lg:items-center lg:h-full">
         {navItems.map(({ icon: Icon, label, to }) => (
-          <Link
+          <NavLink
             key={label}
-            className="flex flex-col items-center justify-center lg:space-y-2 space-y-1 text-neutral-content hover:text-primary transition-all ease-in-out"
+            className={({ isActive }) => {
+              isActive
+                ? "flex flex-col items-center justify-center lg:space-y-2 space-y-1 hover:text-primary transition-all ease-in-out text-primary"
+                : "flex flex-col items-center justify-center lg:space-y-2 space-y-1 text-neutral-content hover:text-primary transition-all ease-in-out";
+            }}
             to={to}
           >
             <Icon className="w-6 h-6 lg:w-10 lg:h-10" />
             <span className="hidden lg:block text-sm">{label}</span>
-          </Link>
+          </NavLink>
         ))}
       </div>
     </div>
