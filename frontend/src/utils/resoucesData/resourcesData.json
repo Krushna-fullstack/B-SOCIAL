@@ -1,0 +1,79 @@
+{
+    "Science": {
+      "Physics": {
+        "First Year": [
+          { "title": "Mechanics Notes", "url": "/path/to/mechanics-notes.pdf" },
+          { "title": "Electromagnetism Syllabus", "url": "/path/to/electromagnetism-syllabus.pdf" }
+        ],
+        "Second Year": [
+          { "title": "Quantum Mechanics Notes", "url": "/path/to/quantum-mechanics-notes.pdf" },
+          { "title": "Thermodynamics Textbook", "url": "/path/to/thermodynamics-textbook.pdf" }
+        ],
+        "Third Year": [
+          { "title": "Nuclear Physics Syllabus", "url": "/path/to/nuclear-physics-syllabus.pdf" }
+        ]
+      },
+      "Chemistry": {
+        "First Year": [
+          { "title": "Organic Chemistry Notes", "url": "/path/to/organic-chemistry-notes.pdf" },
+          { "title": "Inorganic Chemistry Syllabus", "url": "/path/to/inorganic-chemistry-syllabus.pdf" }
+        ],
+        "Second Year": [
+          { "title": "Physical Chemistry Textbook", "url": "/path/to/physical-chemistry-textbook.pdf" }
+        ],
+        "Third Year": [
+          { "title": "Biochemistry Lab Manual", "url": "/path/to/biochemistry-lab-manual.pdf" }
+        ]
+      }
+    },
+    "Commerce": {
+      "Accounting": {
+        "First Year": [
+          { "title": "Principles of Accounting", "url": "/path/to/principles-of-accounting.pdf" },
+          { "title": "Financial Accounting Notes", "url": "/path/to/financial-accounting-notes.pdf" }
+        ],
+        "Second Year": [
+          { "title": "Cost Accounting Syllabus", "url": "/path/to/cost-accounting-syllabus.pdf" }
+        ],
+        "Third Year": [
+          { "title": "Auditing Handbook", "url": "/path/to/auditing-handbook.pdf" }
+        ]
+      },
+      "Business Management": {
+        "First Year": [
+          { "title": "Introduction to Business Management", "url": "/path/to/business-management-intro.pdf" }
+        ],
+        "Second Year": [
+          { "title": "Marketing Principles", "url": "/path/to/marketing-principles.pdf" }
+        ],
+        "Third Year": [
+          { "title": "Strategic Management Notes", "url": "/path/to/strategic-management-notes.pdf" }
+        ]
+      }
+    },
+    "Arts": {
+      "History": {
+        "First Year": [
+          { "title": "Ancient Civilizations", "url": "/path/to/ancient-civilizations.pdf" }
+        ],
+        "Second Year": [
+          { "title": "Medieval History Notes", "url": "/path/to/medieval-history-notes.pdf" }
+        ],
+        "Third Year": [
+          { "title": "Modern History Textbook", "url": "/path/to/modern-history-textbook.pdf" }
+        ]
+      },
+      "Psychology": {
+        "First Year": [
+          { "title": "Introduction to Psychology", "url": "/path/to/intro-psychology.pdf" }
+        ],
+        "Second Year": [
+          { "title": "Cognitive Psychology Syllabus", "url": "/path/to/cognitive-psychology-syllabus.pdf" }
+        ],
+        "Third Year": [
+          { "title": "Clinical Psychology Handbook", "url": "/path/to/clinical-psychology-handbook.pdf" }
+        ]
+      }
+    }
+  }
+  

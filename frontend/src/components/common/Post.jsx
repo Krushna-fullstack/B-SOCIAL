@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaHeart, FaTrash, FaRegHeart, FaTimes } from "react-icons/fa"; // Import FaTimes for the cross icon
+import { FaHeart, FaTrash, FaRegHeart, FaTimes } from "react-icons/fa";
 import { IoIosShareAlt } from "react-icons/io";
 import { MdInsertComment } from "react-icons/md";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -22,18 +22,13 @@ const Post = ({ post }) => {
   const isMyPost = authUser._id === post.user._id;
   const formattedDate = formatPostDate(post.createdAt);
 
-  // Toggle scroll lock when the modal is open
   const toggleBodyScroll = (shouldLock) => {
-    if (shouldLock) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    document.body.style.overflow = shouldLock ? "hidden" : "auto";
   };
 
   const openModal = () => {
     setIsModalOpen(true);
-    toggleBodyScroll(true); // Disable scroll
+    toggleBodyScroll(true);
   };
 
   const closeModal = () => {
@@ -53,45 +48,38 @@ const Post = ({ post }) => {
 
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
-      try {
-        const res = await fetch(`/api/v1/posts/${post._id}`, {
-          method: "DELETE",
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error("Something went wrong");
-        return data;
-      } catch (error) {
-        throw new Error(error);
-      }
+      const res = await fetch(`/api/v1/posts/${post._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error("Something went wrong");
+      return data;
     },
     onSuccess: () => {
       toast.success("Post deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      closeDeleteModal(); // Close the modal after deletion
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 
   const { mutate: likePost, isPending: isLiking } = useMutation({
     mutationFn: async () => {
-      try {
-        const res = await fetch(`/api/v1/posts/like/${post._id}`, {
-          method: "POST",
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Something went wrong");
-        return data;
-      } catch (error) {
-        throw new Error(error);
-      }
+      const res = await fetch(`/api/v1/posts/like/${post._id}`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
+      return data;
     },
     onSuccess: (updatedLikes) => {
-      queryClient.setQueryData(["posts"], (oldData) => {
-        return oldData.map((p) => {
-          if (p._id === post._id) {
-            return { ...p, likes: updatedLikes };
-          }
-          return p;
-        });
-      });
+      queryClient.setQueryData(["posts"], (oldData) =>
+        oldData.map((p) =>
+          p._id === post._id ? { ...p, likes: updatedLikes } : p
+        )
+      );
     },
     onError: (error) => {
       toast.error(error.message);
@@ -100,20 +88,14 @@ const Post = ({ post }) => {
 
   const { mutate: commentPost, isPending: isCommenting } = useMutation({
     mutationFn: async () => {
-      try {
-        const res = await fetch(`/api/v1/posts/comment/${post._id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ text: comment }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error("Something went wrong");
-        return data;
-      } catch (error) {
-        throw new Error(error);
-      }
+      const res = await fetch(`/api/v1/posts/comment/${post._id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: comment }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error("Something went wrong");
+      return data;
     },
     onSuccess: () => {
       toast.success("Comment added successfully");
@@ -129,9 +111,7 @@ const Post = ({ post }) => {
     mutationFn: async (commentId) => {
       const res = await fetch(
         `/api/v1/posts/${post._id}/comments/${commentId}`,
-        {
-          method: "DELETE",
-        }
+        { method: "DELETE" }
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");
@@ -153,7 +133,7 @@ const Post = ({ post }) => {
 
   const handlePostComment = (e) => {
     e.preventDefault();
-    if (!comment.trim() || isCommenting) return; // Avoid empty comments
+    if (!comment.trim() || isCommenting) return;
     commentPost();
   };
 
@@ -178,7 +158,6 @@ const Post = ({ post }) => {
         .then(() => console.log("Successful share"))
         .catch((error) => console.log("Error sharing", error));
     } else {
-      console.log("Web Share API not supported");
       toast.error("Sharing is not supported on this browser");
     }
   };
@@ -226,7 +205,6 @@ const Post = ({ post }) => {
                   onClick={openDeleteModal}
                 >
                   Delete Post
-                  <FaTrash />
                 </button>
               </li>
             </ul>
@@ -283,32 +261,71 @@ const Post = ({ post }) => {
       {/* Comments Modal */}
       {isModalOpen && (
         <dialog
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto"
           open={isModalOpen}
         >
-          <div className="bg-neutral-800 p-6 rounded-lg w-full max-w-xl">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-white">Comments</h3>
+          <div className="bg-neutral-800 p-6 sm:p-8 rounded-lg w-full max-w-lg sm:max-w-2xl mx-4 sm:mx-0">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-white">
+                Comments
+              </h3>
               <FaTimes
                 onClick={closeModal}
                 className="text-gray-500 cursor-pointer hover:text-gray-300"
               />
             </div>
 
+            <ul className="space-y-5 mb-6">
+              {post.comments.length > 0 ? (
+                post.comments.map((comment) => (
+                  <li key={comment._id} className="flex items-start space-x-3">
+                    <img
+                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover"
+                      src={comment.user.profileImg || "/avatar-placeholder.png"}
+                      alt={comment.user.username}
+                    />
+                    <div className="bg-neutral-700 p-4 sm:p-5 rounded-lg flex-grow">
+                      <div className="flex justify-between items-center">
+                        <Link
+                          to={`/profile/${comment.user.username}`}
+                          className="text-white font-semibold hover:underline"
+                        >
+                          {comment.user.username}
+                        </Link>
+                        {authUser._id === comment.user._id && (
+                          <button
+                            onClick={() => handleDeleteComment(comment._id)}
+                            className="text-red-500 hover:text-red-600 transition-colors"
+                          >
+                            <FaTrash />
+                          </button>
+                        )}
+                      </div>
+                      <p className="text-gray-300 text-sm mt-2">
+                        {comment.text}
+                      </p>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <li className="text-gray-400">No comments yet.</li>
+              )}
+            </ul>
+
             <form
               onSubmit={handlePostComment}
-              className="flex items-center space-x-2 mb-4"
+              className="flex items-center space-y-3 sm:space-y-0 sm:space-x-3"
             >
               <input
                 type="text"
-                className="flex-grow rounded-full p-2 bg-neutral-700 text-white focus:outline-none"
+                className="flex-grow rounded-lg p-3 bg-neutral-700 text-white focus:outline-none"
                 placeholder="Add a comment..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <button
                 type="submit"
-                className="bg-primary text-white px-4 py-2 rounded-full hover:bg-opacity-80 transition-colors"
+                className="bg-primary text-white px-5 py-3 rounded-full hover:bg-opacity-80 transition-colors flex-shrink-0 ml-2"
                 disabled={isCommenting}
               >
                 {isCommenting ? (
@@ -318,37 +335,6 @@ const Post = ({ post }) => {
                 )}
               </button>
             </form>
-
-            <ul className="space-y-4">
-              {post.comments.map((comment) => (
-                <li key={comment._id} className="flex items-start space-x-2">
-                  <img
-                    className="w-10 h-10 rounded-full object-cover"
-                    src={comment.user.profileImg || "/avatar-placeholder.png"}
-                    alt={comment.user.username}
-                  />
-                  <div className="bg-neutral-700 p-3 rounded-lg flex-grow">
-                    <div className="flex justify-between items-center">
-                      <Link
-                        to={`/profile/${comment.user.username}`}
-                        className="text-white font-semibold hover:underline"
-                      >
-                        {comment.user.username}
-                      </Link>
-                      {authUser._id === comment.user._id && (
-                        <button
-                          onClick={() => handleDeleteComment(comment._id)}
-                          className="text-red-500 hover:text-red-600 transition-colors"
-                        >
-                          <FaTrash />
-                        </button>
-                      )}
-                    </div>
-                    <p className="text-gray-300 text-sm mt-1">{comment.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
           </div>
         </dialog>
       )}
@@ -356,10 +342,12 @@ const Post = ({ post }) => {
       {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
         <dialog
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" // Ensure z-index is higher
           open={isDeleteModalOpen}
         >
-          <div className="bg-neutral-800 p-6 rounded-lg w-full max-w-xl">
+          <div className="bg-neutral-800 p-6 rounded-lg w-full max-w-xl relative z-60">
+            {" "}
+            {/* Adjust z-index for content */}
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-white">Delete Post</h3>
               <FaTimes
@@ -367,12 +355,10 @@ const Post = ({ post }) => {
                 className="text-gray-500 cursor-pointer hover:text-gray-300"
               />
             </div>
-
             <p className="text-white mb-6">
               Are you sure you want to delete this post? This action cannot be
               undone.
             </p>
-
             <div className="flex justify-end space-x-4">
               <button
                 onClick={closeDeleteModal}
