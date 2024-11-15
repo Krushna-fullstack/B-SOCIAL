@@ -31,7 +31,7 @@ const JobPost = ({ jobID, title, location, eligibility, applyLink }) => {
                 <form method="dialog">
                   {/* Button to close the modal */}
                   <button
-                    className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                    className="btn btn-sm bg-red-600 btn-circle btn-ghost absolute right-2 top-2 mx-2 my-2"
                     onClick={handleCloseModal}
                   >
                     ✕
