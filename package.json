@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "backend/server.js",
   "type": "module",
+   "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"  
+  },
   "scripts": {
     "dev": "nodemon backend/server.js",
     "start": "node backend/server.js",
