@@ -17,8 +17,8 @@ const DocsPage = () => {
 
   return (
     <div className="text-center">
-      <h1 className="text-3xl font-bold my-8 mx-2">
-        Department of {honor}
+      <h1 className="text-3xl font-bold my-8">
+        {honor} - {department}
       </h1>
       <div className="flex flex-wrap justify-center">
         {Object.entries(yearsData).map(([year, resources]) => (
