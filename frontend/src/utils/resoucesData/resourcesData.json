@@ -1,79 +1,422 @@
 {
-    "Science": {
-      "Physics": {
-        "First Year": [
-          { "title": "Mechanics Notes", "url": "/path/to/mechanics-notes.pdf" },
-          { "title": "Electromagnetism Syllabus", "url": "/path/to/electromagnetism-syllabus.pdf" }
-        ],
-        "Second Year": [
-          { "title": "Quantum Mechanics Notes", "url": "/path/to/quantum-mechanics-notes.pdf" },
-          { "title": "Thermodynamics Textbook", "url": "/path/to/thermodynamics-textbook.pdf" }
-        ],
-        "Third Year": [
-          { "title": "Nuclear Physics Syllabus", "url": "/path/to/nuclear-physics-syllabus.pdf" }
-        ]
-      },
-      "Chemistry": {
-        "First Year": [
-          { "title": "Organic Chemistry Notes", "url": "/path/to/organic-chemistry-notes.pdf" },
-          { "title": "Inorganic Chemistry Syllabus", "url": "/path/to/inorganic-chemistry-syllabus.pdf" }
-        ],
-        "Second Year": [
-          { "title": "Physical Chemistry Textbook", "url": "/path/to/physical-chemistry-textbook.pdf" }
-        ],
-        "Third Year": [
-          { "title": "Biochemistry Lab Manual", "url": "/path/to/biochemistry-lab-manual.pdf" }
-        ]
-      }
+  "Science": {
+    "Physics": {
+      "First Year": [
+        { "title": "READ DOCS", "url": "https://subhransumishra.me" }
+      ],
+      "Second Year": [
+        { "title": "READ DOCS", "url": "/path/to/quantum-mechanics-notes.pdf" }
+      ],
+      "Third Year": [
+        { "title": "READ DOCS", "url": "/path/to/nuclear-physics-syllabus.pdf" }
+      ]
     },
-    "Commerce": {
-      "Accounting": {
-        "First Year": [
-          { "title": "Principles of Accounting", "url": "/path/to/principles-of-accounting.pdf" },
-          { "title": "Financial Accounting Notes", "url": "/path/to/financial-accounting-notes.pdf" }
-        ],
-        "Second Year": [
-          { "title": "Cost Accounting Syllabus", "url": "/path/to/cost-accounting-syllabus.pdf" }
-        ],
-        "Third Year": [
-          { "title": "Auditing Handbook", "url": "/path/to/auditing-handbook.pdf" }
-        ]
-      },
-      "Business Management": {
-        "First Year": [
-          { "title": "Introduction to Business Management", "url": "/path/to/business-management-intro.pdf" }
-        ],
-        "Second Year": [
-          { "title": "Marketing Principles", "url": "/path/to/marketing-principles.pdf" }
-        ],
-        "Third Year": [
-          { "title": "Strategic Management Notes", "url": "/path/to/strategic-management-notes.pdf" }
-        ]
-      }
+    "Chemistry": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/physical-chemistry-textbook.pdf"
+        }
+      ],
+      "Third Year": [
+        { "title": "READ DOCS", "url": "/path/to/biochemistry-lab-manual.pdf" }
+      ]
     },
-    "Arts": {
-      "History": {
-        "First Year": [
-          { "title": "Ancient Civilizations", "url": "/path/to/ancient-civilizations.pdf" }
-        ],
-        "Second Year": [
-          { "title": "Medieval History Notes", "url": "/path/to/medieval-history-notes.pdf" }
-        ],
-        "Third Year": [
-          { "title": "Modern History Textbook", "url": "/path/to/modern-history-textbook.pdf" }
-        ]
-      },
-      "Psychology": {
-        "First Year": [
-          { "title": "Introduction to Psychology", "url": "/path/to/intro-psychology.pdf" }
-        ],
-        "Second Year": [
-          { "title": "Cognitive Psychology Syllabus", "url": "/path/to/cognitive-psychology-syllabus.pdf" }
-        ],
-        "Third Year": [
-          { "title": "Clinical Psychology Handbook", "url": "/path/to/clinical-psychology-handbook.pdf" }
-        ]
-      }
+    "Mathematics": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/calculus-notes.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/algebra-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/geometry-textbook.pdf"
+        }
+      ]
+    },
+    "Zoology": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/cell-biology-notes.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/genetics-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ecology-textbook.pdf"
+        }
+      ]
+    },
+    "Computer Science": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/computer-fundamentals-notes.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/data-structures-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/algorithms-textbook.pdf"
+        }
+      ]
+    },
+    "Botany": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/plant-physiology-notes.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/plant-taxonomy-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/plant-ecology-textbook.pdf"
+        }
+      ]
     }
+  },
+  "Arts": {
+    "English": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ]
+    },
+    "History": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ]
+    },
+    "Psychology": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ]
+    },
+    "Sociology": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ]
+    },
+    "Political Science": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ]
+    },
+    "Economics": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ]
+    },
+    "Geography": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ]
+    },
+    "Philosophy": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ]
+    },
+    "Odia": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ]
+    },
+    "Hindi": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ]
+    },
+    "Sanskrit": {
+      "First Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "READ DOCS",
+          "url": "/path/to/ancient-civilizations.pdf"
+        }
+      ]
+    }
+
+  },
+  "Commerce": {
+    "Accounting": {
+      "First Year": [
+        {
+          "title": "Principles of Accounting",
+          "url": "/path/to/principles-of-accounting.pdf"
+        },
+        {
+          "title": "Financial Accounting Notes",
+          "url": "/path/to/financial-accounting-notes.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Cost Accounting Syllabus",
+          "url": "/path/to/cost-accounting-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Auditing Handbook",
+          "url": "/path/to/auditing-handbook.pdf"
+        }
+      ]
+    },
+    "Business Management": {
+      "First Year": [
+        {
+          "title": "Introduction to Business Management",
+          "url": "/path/to/business-management-intro.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Marketing Principles",
+          "url": "/path/to/marketing-principles.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Strategic Management Notes",
+          "url": "/path/to/strategic-management-notes.pdf"
+        }
+      ]
+    }
+  },
+  "Bsc ITM": {
+    "First Year": [
+      {
+        "title": "Introduction to ITM",
+        "url": "/path/to/introduction-to-itm.pdf"
+      }
+    ],
+    "Second Year": [
+      {
+        "title": "ITM Principles",
+        "url": "/path/to/itm-principles.pdf"
+      }
+    ],
+    "Third Year": [
+      {
+        "title": "ITM Applications",
+        "url": "/path/to/itm-applications.pdf"
+      }
+    ]
+  },
+  "IMBA": {
+    "First Year": [
+      {
+        "title": "Introduction to MBA",
+        "url": "/path/to/introduction-to-mba.pdf"
+      }
+    ],
+    "Second Year": [
+      {
+        "title": "MBA Principles",
+        "url": "/path/to/mba-principles.pdf"
+      }
+    ],
+    "Third Year": [
+      {
+        "title": "MBA Applications",
+        "url": "/path/to/mba-applications.pdf"
+      }
+    ]
   }
   
+}

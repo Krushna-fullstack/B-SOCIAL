@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import resourcesData from "./../../utils/resoucesData/resourcesData.json";
+import { FaArrowRight } from "react-icons/fa";
 
 const ResourcesList = () => {
   return (
@@ -23,12 +24,12 @@ const ResourcesList = () => {
                     {department}
                   </h2>
                 </div>
-                <div className="px-6 py-4">
+                <div className="px-6 py-4 ">
                   <Link
                     to={`/docs/${department}/${honor}`}
-                    className="text-indigo-500 hover:text-indigo-700 font-semibold text-md md:text-lg"
+                    className="flex gap-2 text-indigo-500 hover:text-indigo-700 font-semibold text-md md:text-lg"
                   >
-                    See Docs
+                    Browse {honor} resources <FaArrowRight className="pt-1" />
                   </Link>
                 </div>
               </div>
