@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useUpdateUserProfile from "../../hooks/useUpdateUserProfile";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const EditProfileModal = ({ authUser }) => {
   const [formData, setFormData] = useState({
@@ -97,13 +98,15 @@ const EditProfileModal = ({ authUser }) => {
                 className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-white font-normal"
               >
                 <li>
-                  <a href="https://www.youtube.com/">Feedback</a>
+                  <a href="https://forms.gle/KyCu78Zx9oLTX3m56">Feedback</a>
                 </li>
                 <li>
-                  <a>Report a bug</a>
+                  <Link to="https://forms.gle/xsKrDnecYTc7g2r78">
+                    Report a bug
+                  </Link>
                 </li>
                 <li>
-                  <a href="https://www.youtube.com/">Help & Support</a>
+                  <a href="mailto:bjbsocial1957@gmail.com">Help & Support</a>
                 </li>
                 <li>
                   {/* <button className="text-red-600">Logout</button> */}

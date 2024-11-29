@@ -58,7 +58,7 @@ const Pg = () => {
           {pgs.map((pg) => (
             <div
               key={pg._id}
-              className="card w-full bg-white shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-300 ease-in-out overflow-hidden"
+              className="card w-full bg-secondary shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-300 ease-in-out overflow-hidden"
             >
               <div className="relative h-48 md:h-64">
                 <img
@@ -72,18 +72,18 @@ const Pg = () => {
                 </span>
               </div>
               <div className="p-6">
-                <h2 className="text-2xl font-semibold mb-2 text-gray-800">
+                <h2 className="text-2xl font-semibold mb-2 text-white">
                   {pg.name}
                 </h2>
-                <p className="text-sm text-black mb-4 flex items-center">
+                <p className="text-sm text-white mb-4 flex items-center">
                   <FaLocationDot className="mr-1" />
                   <span>{pg.location}</span>
                 </p>
-                <p className="text-gray-700 line-clamp-3">{pg.description}</p>
+                <p className="text-white line-clamp-3">{pg.description}</p>
                 <div className="mt-4">
-                  <p className="text-gray-800 font-semibold text-md">
+                  <p className="text-white font-semibold text-md">
                     Contact:{" "}
-                    <a className="text-gray-800 font-semibold text-md">
+                    <a className="text-white font-semibold text-md">
                       {pg.contact}
                     </a>
                   </p>
@@ -91,13 +91,13 @@ const Pg = () => {
                 </div>
                 <a className="btn bg-primary border-none rounded-xl ml-20 mt-5 text-sm">
                   <AiFillMessage />
-                  Message
+                  Get Details
                 </a>
                 
               </div>
-              <p className="text-black opacity-70 mx-2">
+              {/* <p className="text-white opacity-70 mx-2">
                 Tab on message button to get details
-              </p>
+              </p> */}
             </div>
           ))}
         </div>

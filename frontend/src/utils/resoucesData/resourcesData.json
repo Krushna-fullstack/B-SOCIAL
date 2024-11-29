@@ -1,336 +1,293 @@
 {
-  "Science": {
-    "Physics": {
-      "First Year": [
-        { "title": "READ DOCS", "url": "https://subhransumishra.me" }
-      ],
-      "Second Year": [
-        { "title": "READ DOCS", "url": "/path/to/quantum-mechanics-notes.pdf" }
-      ],
-      "Third Year": [
-        { "title": "READ DOCS", "url": "/path/to/nuclear-physics-syllabus.pdf" }
+  "Arts": {
+    "Syllabus": {
+      "Syllabus": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/file/d/1o08J_GmbvQnRkIxW6HcraebG_G1-L8rR/view?usp=sharing"
+        }
       ]
     },
-    "Chemistry": {
+    "Dept of Anthropology": {
       "First Year": [
         {
-          "title": "READ DOCS",
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1576rd_3JEpkKrr4CdZeAPVv4ue7vX5m4"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1ahd72o6BsKovyggmKPyWAkKF6rtt7h_O?usp=sharing"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1td5BhuqYNpeCCy1YO01ZtSjBkv0SL-V-?usp=sharing "
+        }
+      ]
+    },
+    "Dept of Economics": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1EGUcdeSKCeznJUO_468kAH3Hki5pvoSD?usp=sharing "
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1x8Bb68bDGA663a_yhSZh1Roso7w03QFs?usp=sharing "
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1FgYNg_tjtclYNbd0zUKd4fCpFgTDgmht?usp=sharing "
+        }
+      ]
+    },
+    "Dept of Education": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1-zoSLtAxa00r-oXBPovgl1tBwMGBSo4P?usp=sharing"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1EvmCt-QIqTM_5TGnW33CB40c0lTpXxHx?usp=sharing"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ]
+    },
+    "Dept of English": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/19JhmBtXCiIpVe8xEiSKCm4LhK7HcECGQ?usp=sharing "
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/10EC6FHZPVNtU_ku2nAlaEQoSydW2Ksht?usp=sharing "
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1Gy36xhxOTXeotJhnm6ADsvGeuz8JDxkD?usp=sharing"
+        }
+      ]
+    },
+    "Dept of Geography": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
           "url": "/path/to/inorganic-chemistry-syllabus.pdf"
         }
       ],
       "Second Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/physical-chemistry-textbook.pdf"
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
         }
       ],
       "Third Year": [
-        { "title": "READ DOCS", "url": "/path/to/biochemistry-lab-manual.pdf" }
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
       ]
     },
-    "Mathematics": {
+    "Dept of History": {
       "First Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/calculus-notes.pdf"
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1t4T4ZBto5CXGgW80vkC8tBh9_gBCGPNk?usp=sharing "
         }
       ],
       "Second Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/algebra-syllabus.pdf"
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1Si2MM2omUJlbaeE12GjpQrdnGHCNCPJ2?usp=sharing "
         }
       ],
       "Third Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/geometry-textbook.pdf"
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1Si2MM2omUJlbaeE12GjpQrdnGHCNCPJ2?usp=sharing"
         }
       ]
     },
-    "Zoology": {
+    "Dept of Music": {
       "First Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/cell-biology-notes.pdf"
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
         }
       ],
       "Second Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/genetics-syllabus.pdf"
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
         }
       ],
       "Third Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/ecology-textbook.pdf"
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
         }
       ]
     },
-    "Computer Science": {
+    "Dept of Odia": {
       "First Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/computer-fundamentals-notes.pdf"
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1D7GLd-DfUdBxT3kQMcBM-ryvDH0cDRau?usp=sharing "
         }
       ],
       "Second Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/data-structures-syllabus.pdf"
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1GGB8LcNgSMPlIQNgSGWpVY_BiRpTVgZe?usp=sharing "
         }
       ],
       "Third Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/algorithms-textbook.pdf"
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1WrjzsSFjN36LUkFAor6L7aAFOVynL2Mf?usp=sharing"
         }
       ]
     },
-    "Botany": {
+    "Dept of Philosophy": {
       "First Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/plant-physiology-notes.pdf"
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
         }
       ],
       "Second Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/plant-taxonomy-syllabus.pdf"
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
         }
       ],
       "Third Year": [
         {
-          "title": "READ DOCS",
-          "url": "/path/to/plant-ecology-textbook.pdf"
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ]
+    },
+    "Dept of Political Science": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1Of3ZU3GCcejbwv3GvhGzKHe_BUwu-k69?usp=sharing "
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1eREDk4FZXGuv3oGJD2TQeTlFHHEOtn5C?usp=sharing"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1vKTew5MfgIoe-75trc7lIzK8kqY0UKiw?usp=sharing"
+        }
+      ]
+    },
+    "Dept of Psychology": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ]
+    },
+    "Dept of Sanskrit": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1JAiEjAaxPuLRQNUc7XMEsw-tcJgYe1Xn?usp=sharing "
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1L8De4EQ0oJ2tiYo4X8VaM8jdu9s7wlXN?usp=sharing "
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1vD42JL1oUhveeN1G5NZonuN9LWjsHI-t?usp=sharing"
+        }
+      ]
+    },
+    "Dept of Sociology": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1m8ujO-A9NVvdyVlQgiooVyPUuYU0kmjE?usp=sharing"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1X_QUzCSYEKjc3L9Fnkea6QhjVXF5KZrG?usp=sharing"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1DzLJCxphX8htW8kjPHmZP7JNfH7bs89b?usp=sharing"
+        }
+      ]
+    },
+    "Dept of Hindi": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1Nd-ZULPsoZF-xEzaDCMdS2nso16Ke841?usp=sharing"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1PfWhHrF6mui4uXk7u1nsDoH2mbsnTtfW?usp=sharing"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
         }
       ]
     }
-  },
-  "Arts": {
-    "English": {
-      "First Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ]
-    },
-    "History": {
-      "First Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ]
-    },
-    "Psychology": {
-      "First Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ]
-    },
-    "Sociology": {
-      "First Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ]
-    },
-    "Political Science": {
-      "First Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ]
-    },
-    "Economics": {
-      "First Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ]
-    },
-    "Geography": {
-      "First Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ]
-    },
-    "Philosophy": {
-      "First Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ]
-    },
-    "Odia": {
-      "First Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ]
-    },
-    "Hindi": {
-      "First Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ]
-    },
-    "Sanskrit": {
-      "First Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "READ DOCS",
-          "url": "/path/to/ancient-civilizations.pdf"
-        }
-      ]
-    }
-
   },
   "Commerce": {
     "Accounting": {
@@ -378,45 +335,134 @@
       ]
     }
   },
-  "Bsc ITM": {
-    "First Year": [
-      {
-        "title": "Introduction to ITM",
-        "url": "/path/to/introduction-to-itm.pdf"
-      }
-    ],
-    "Second Year": [
-      {
-        "title": "ITM Principles",
-        "url": "/path/to/itm-principles.pdf"
-      }
-    ],
-    "Third Year": [
-      {
-        "title": "ITM Applications",
-        "url": "/path/to/itm-applications.pdf"
-      }
-    ]
-  },
-  "IMBA": {
-    "First Year": [
-      {
-        "title": "Introduction to MBA",
-        "url": "/path/to/introduction-to-mba.pdf"
-      }
-    ],
-    "Second Year": [
-      {
-        "title": "MBA Principles",
-        "url": "/path/to/mba-principles.pdf"
-      }
-    ],
-    "Third Year": [
-      {
-        "title": "MBA Applications",
-        "url": "/path/to/mba-applications.pdf"
-      }
-    ]
+  "Science": {
+    "Syllabus": {
+      "Syllabus": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1vD42JL1oUhveeN1G5NZonuN9LWjsHI-t?usp=sharing"
+        }
+      ]
+    },
+    "Dept of Physics": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ]
+    },
+    "Dept of Chemistry": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ]
+    },
+    "Dept of Mathematics": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ]
+    },
+    "Dept of Botany": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ]
+    },
+    "Dept of Zoology": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ]
+    },
+    "Dept of Statistics": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ]
+    }
   }
-  
 }

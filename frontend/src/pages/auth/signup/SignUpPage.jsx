@@ -57,11 +57,7 @@ const SignUpPage = () => {
       <div className="card w-82 max-w-md shadow-2xl bg-base-100 rounded-xl mt-10">
         <div className="card-body">
           <div className="w-32 mx-auto my-4">
-            <img
-              src="/logo.png"
-              alt="Profile"
-              className="rounded-full"
-            />
+            <img src="/logo.png" alt="Profile" className="rounded-full" />
           </div>
           <h2 className="text-center text-3xl font-bold mt-7 mb-4">Signup</h2>
           <form onSubmit={handleSubmit}>
@@ -158,9 +154,12 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
-      <a className="opacity-50 cursor-pointer mt-auto">
-        Terms and Conditions (BJB Social)
-      </a>
+      <Link
+        className="opacity-50 cursor-pointer mt-auto text-primary"
+        to="https://drive.google.com/file/d/1Ps5mk3-_sWRXlHdibHDOyM9rjvdfP03w/view?usp=sharing"
+      >
+        Terms and Conditions
+      </Link>
     </div>
   );
 };
