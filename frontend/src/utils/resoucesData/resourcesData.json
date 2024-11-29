@@ -1,5 +1,13 @@
 {
   "Arts": {
+    "Syllabus": {
+      "Syllabus": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/file/d/1o08J_GmbvQnRkIxW6HcraebG_G1-L8rR/view?usp=sharing"
+        }
+      ]
+    },
     "Dept of Anthropology": {
       "First Year": [
         {
@@ -91,26 +99,6 @@
         {
           "title": "Click here to read docs",
           "url": "/path/to/inorganic-chemistry-syllabus.pdf"
-        }
-      ],
-      "Third Year": [
-        {
-          "title": "Click here to read docs",
-          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
-        }
-      ]
-    },
-    "Dept of Hindi": {
-      "First Year": [
-        {
-          "title": "Click here to read docs",
-          "url": "https://drive.google.com/drive/folders/1Nd-ZULPsoZF-xEzaDCMdS2nso16Ke841?usp=sharing"
-        }
-      ],
-      "Second Year": [
-        {
-          "title": "Click here to read docs",
-          "url": "https://drive.google.com/drive/folders/1PfWhHrF6mui4uXk7u1nsDoH2mbsnTtfW?usp=sharing"
         }
       ],
       "Third Year": [
@@ -279,6 +267,26 @@
           "url": "https://drive.google.com/drive/folders/1DzLJCxphX8htW8kjPHmZP7JNfH7bs89b?usp=sharing"
         }
       ]
+    },
+    "Dept of Hindi": {
+      "First Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1Nd-ZULPsoZF-xEzaDCMdS2nso16Ke841?usp=sharing"
+        }
+      ],
+      "Second Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1PfWhHrF6mui4uXk7u1nsDoH2mbsnTtfW?usp=sharing"
+        }
+      ],
+      "Third Year": [
+        {
+          "title": "Click here to read docs",
+          "url": "/path/to/inorganic-chemistry-syllabus.pdf"
+        }
+      ]
     }
   },
   "Commerce": {
@@ -328,6 +336,14 @@
     }
   },
   "Science": {
+    "Syllabus": {
+      "Syllabus": [
+        {
+          "title": "Click here to read docs",
+          "url": "https://drive.google.com/drive/folders/1vD42JL1oUhveeN1G5NZonuN9LWjsHI-t?usp=sharing"
+        }
+      ]
+    },
     "Dept of Physics": {
       "First Year": [
         {

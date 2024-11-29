@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import resourcesData from "./../../utils/resoucesData/resourcesData.json";
 import { FaLongArrowAltRight } from "react-icons/fa";
-
+import "./../../Styles/Resources.css";
 const ResourcesList = () => {
   // State for selected filter
   const [selectedStream, setSelectedStream] = useState("All");
@@ -20,13 +20,13 @@ const ResourcesList = () => {
       </h1>
 
       {/* Filter Buttons */}
-      <div className="flex justify-center space-x-4 mb-6">
-        {["All", "Science", "Commerce", "Arts"].map((stream) => (
+      <div className="flex overflow-x-auto space-x-4 mb-6 scrollbar-hide">
+        {["All", "Arts", "Science", "Commerce"].map((stream) => (
           <button
             key={stream}
-            className={`px-4 py-2 rounded-lg text-white ${
+            className={`px-4 py-2 whitespace-nowrap rounded-lg text-white ${
               selectedStream === stream ? "bg-blue-600" : "bg-gray-500"
-            } hover:bg-blue-700`}
+            } hover:bg-blue-700 transition-colors`}
             onClick={() => setSelectedStream(stream)}
           >
             {stream}

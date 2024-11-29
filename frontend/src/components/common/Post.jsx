@@ -201,7 +201,7 @@ const Post = ({ post }) => {
             >
               <li>
                 <button
-                  className="text-red-500 hover:text-red-600 transition-colors ml-auto mb-7"
+                  className="text-red-500 hover:text-red-600 transition-colors ml-auto mb-7 bg-primary"
                   onClick={openDeleteModal}
                 >
                   Delete Post
@@ -261,41 +261,56 @@ const Post = ({ post }) => {
       {/* Comments Modal */}
       {isModalOpen && (
         <dialog
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto"
+          className="fixed inset-0 flex items-center justify-center  bg-black overflow-y-auto z-50 "
           open={isModalOpen}
+          aria-labelledby="comments-title"
+          role="dialog"
         >
-          <div className="bg-neutral-800 p-6 sm:p-8 rounded-lg w-full max-w-lg sm:max-w-2xl mx-4 sm:mx-0">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl sm:text-2xl font-bold text-white">
+          <div className="relative p-6 sm:p-8 rounded-xl w-full max-w-md sm:max-w-lg lg:max-w-2xl mx-2 sm:mx-4 shadow-lg">
+            {/* Close Icon */}
+            <FaTimes
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-red-700 hover:text-gray-200 cursor-pointer transition duration-200"
+            />
+
+            {/* Title */}
+            <div className="text-center mb-6">
+              <h3
+                id="comments-title"
+                className="text-2xl sm:text-3xl font-bold text-white drop-shadow-md"
+              >
                 Comments
               </h3>
-              <FaTimes
-                onClick={closeModal}
-                className="text-gray-500 cursor-pointer hover:text-gray-300"
-              />
+              <p className="text-gray-400 text-sm mt-1">
+                Share your thoughts below!
+              </p>
             </div>
 
-            <ul className="space-y-5 mb-6">
+            {/* Comments List */}
+            <ul className="space-y-5 max-h-60 sm:max-h-80 overflow-y-auto custom-scrollbar">
               {post.comments.length > 0 ? (
                 post.comments.map((comment) => (
-                  <li key={comment._id} className="flex items-start space-x-3">
+                  <li
+                    key={comment._id}
+                    className="flex items-start space-x-4 bg-secondary p-4 rounded-lg shadow-md transition hover:scale-105"
+                  >
                     <img
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover"
+                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-primary"
                       src={comment.user.profileImg || "/avatar-placeholder.png"}
                       alt={comment.user.username}
                     />
-                    <div className="bg-neutral-700 p-4 sm:p-5 rounded-lg flex-grow">
+                    <div className="flex-grow">
                       <div className="flex justify-between items-center">
                         <Link
                           to={`/profile/${comment.user.username}`}
-                          className="text-white font-semibold hover:underline"
+                          className="text-base font-semibold text-white hover:underline"
                         >
                           {comment.user.username}
                         </Link>
                         {authUser._id === comment.user._id && (
                           <button
                             onClick={() => handleDeleteComment(comment._id)}
-                            className="text-red-500 hover:text-red-600 transition-colors"
+                            className="text-red-500 hover:text-red-600 transition-colors mx-2"
                           >
                             <FaTrash />
                           </button>
@@ -308,24 +323,25 @@ const Post = ({ post }) => {
                   </li>
                 ))
               ) : (
-                <li className="text-gray-400">No comments yet.</li>
+                <li className="text-gray-400 text-center">No comments yet.</li>
               )}
             </ul>
 
+            {/* Comment Form */}
             <form
               onSubmit={handlePostComment}
-              className="flex items-center space-y-3 sm:space-y-0 sm:space-x-3"
+              className="mt-6 flex flex-col sm:flex-row items-center gap-3"
             >
               <input
                 type="text"
-                className="flex-grow rounded-lg p-3 bg-neutral-700 text-white focus:outline-none"
+                className="flex-grow rounded-lg p-3 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary shadow-inner"
                 placeholder="Add a comment..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <button
                 type="submit"
-                className="bg-primary text-white px-5 py-3 rounded-full hover:bg-opacity-80 transition-colors flex-shrink-0 ml-2"
+                className="bg-primary text-white px-6 py-3 rounded-full hover:opacity-90 transition duration-200 shadow-lg flex items-center justify-center disabled:opacity-50"
                 disabled={isCommenting}
               >
                 {isCommenting ? (

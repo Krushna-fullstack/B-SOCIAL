@@ -18,7 +18,7 @@ const DocsPage = () => {
   return (
     <div className="text-center">
       <h1 className="text-3xl font-bold my-8">
-        {honor} - {department}
+        {honor} 
       </h1>
       <div className="flex flex-wrap justify-center">
         {Object.entries(yearsData).map(([year, resources]) => (
@@ -32,7 +32,7 @@ const DocsPage = () => {
             <div className="px-6 py-4">
               <ul className="list-disc list-inside">
                 {resources.map((resource, index) => (
-                  <li key={index}>
+                  <li key={index} className="list-none">
                     <a
                       href={resource.url}
                       target="_blank"
