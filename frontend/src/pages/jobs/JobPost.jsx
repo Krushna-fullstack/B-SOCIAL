@@ -54,7 +54,7 @@ const JobPost = ({ job, title, location, eligibility, applyLink }) => {
 
           {authUser?.isAdmin === true ? (
             <button
-              className="btn btn-wide mx-auto block bg-red-600 text-white font-semibold px-4 py-2 rounded transition-all mt-4"
+              className="btn btn-wide mx-auto block border-none bg-red-600 text-white font-semibold px-4 py-2 rounded transition-all mt-4"
               onClick={handleDeleteJob}
             >
               Delete Job
