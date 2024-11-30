@@ -78,7 +78,7 @@ const App = () => {
         />
         <Route
           path="/docs/:department/:honor"
-          element={authUser ? <DocsPage/> : <Navigate to="/" />}
+          element={authUser ? <DocsPage /> : <Navigate to="/" />}
         />
         <Route path="/pg" element={authUser ? <Pg /> : <Navigate to="/" />} />
       </Routes>

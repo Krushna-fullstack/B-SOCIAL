@@ -1,10 +1,38 @@
 import React, { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
-const JobPost = ({ jobID, title, location, eligibility, applyLink }) => {
+const JobPost = ({ job, title, location, eligibility, applyLink }) => {
   const [isOpen, setIsOpen] = useState(false);
+  console.log("Job prop:", job);
 
   const handleOpenModal = () => setIsOpen(true);
   const handleCloseModal = () => setIsOpen(false);
+
+  const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteJob, isPending: isDeleting } = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(`/api/v1/jobs/${job._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error("Something went wrong");
+      return data;
+    },
+    onSuccess: () => {
+      toast.success("Job deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["jobs"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleDeleteJob = () => {
+    deleteJob();
+  };
 
   return (
     <div className="bg-black">
@@ -23,6 +51,15 @@ const JobPost = ({ jobID, title, location, eligibility, applyLink }) => {
           >
             Apply
           </button>
+
+          {authUser?.isAdmin === true ? (
+            <button
+              className="btn btn-wide mx-auto block bg-red-600 text-white font-semibold px-4 py-2 rounded transition-all mt-4"
+              onClick={handleDeleteJob}
+            >
+              Delete Job
+            </button>
+          ) : null}
 
           {/* Modal */}
           {isOpen && (

@@ -24,3 +24,19 @@ export const getAllJobs = asyncHandler(async (req, res) => {
 
   return res.status(200).json(jobs);
 });
+
+export const deleteJob = asyncHandler(async (req, res) => {
+  try {
+    const job = await Job.findById(req.params.id);
+
+    if (!job) {
+      return res.status(404).json({ error: "Job not found" });
+    }
+
+    await job.deleteOne();
+
+    return res.status(200).json({ message: "Job deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+});
