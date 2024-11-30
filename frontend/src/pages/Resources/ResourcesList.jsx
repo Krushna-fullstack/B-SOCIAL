@@ -20,7 +20,7 @@ const ResourcesList = () => {
       </h1>
 
       {/* Filter Buttons */}
-      <div className="flex overflow-x-auto space-x-4 mb-6 scrollbar-hide">
+      <div className="flex overflow-x-auto space-x-4 mb-6 scrollbar-hide mx-4">
         {["All", "Arts", "Science", "Commerce"].map((stream) => (
           <button
             key={stream}

@@ -191,21 +191,31 @@ const Post = ({ post }) => {
             <div
               tabIndex={0}
               role="button"
-              className="btn m-1 bg-secondary border-none"
+              className="btn m-1 bg-secondary border-none hover:bg-secondary-focus"
             >
-              <BsThreeDotsVertical className="text-xl" />
+              <BsThreeDotsVertical className="text-xl text-white" />
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content menu rounded-box z-[1] w-40 p-2 shadow text-white font-normal bg-none"
+              className="dropdown-content menu rounded-md z-[1] w-48 p-2 shadow text-white font-normal bg-black"
             >
-              <li>
+              <li className="flex items-center space-x-2">
                 <button
-                  className="text-red-500 hover:text-red-600 transition-colors ml-auto mb-7 bg-primary"
+                  className="flex items-center text-red-500 hover:text-red-600 transition-colors p-2 rounded-lg w-full"
                   onClick={openDeleteModal}
                 >
-                  Delete Post
+                  <FaTrash className="text-lg" />
+                  <span className="ml-2">Delete Post</span>
                 </button>
+              </li>
+              <li className="flex items-center space-x-2">
+                <Link
+                  to="#"
+                  className="flex items-center text-white hover:text-blue-600 transition-colors p-2 rounded-lg w-full"
+                >
+                  <FaTimes className="text-lg" />
+                  <span className="ml-2">Report Post</span>
+                </Link>
               </li>
             </ul>
           </div>
@@ -261,7 +271,7 @@ const Post = ({ post }) => {
       {/* Comments Modal */}
       {isModalOpen && (
         <dialog
-          className="fixed inset-0 flex items-center justify-center  bg-black overflow-y-auto z-50 "
+          className="fixed inset-0 flex items-center justify-center  bg-black overflow-y-auto z-50 " // Ensure z-index is higher
           open={isModalOpen}
           aria-labelledby="comments-title"
           role="dialog"
@@ -270,7 +280,7 @@ const Post = ({ post }) => {
             {/* Close Icon */}
             <FaTimes
               onClick={closeModal}
-              className="absolute top-4 right-4 text-red-700 hover:text-gray-200 cursor-pointer transition duration-200"
+              className="absolute top-4 right-4 text-red-700 hover:text-gray-200 cursor-pointer transition duration-200 text-2xl mx-2"
             />
 
             {/* Title */}
@@ -287,7 +297,7 @@ const Post = ({ post }) => {
             </div>
 
             {/* Comments List */}
-            <ul className="space-y-5 max-h-60 sm:max-h-80 overflow-y-auto custom-scrollbar">
+            <ul className="space-y-5 max-h-60 sm:max-h-80 overflow-y-auto ">
               {post.comments.length > 0 ? (
                 post.comments.map((comment) => (
                   <li
@@ -330,11 +340,11 @@ const Post = ({ post }) => {
             {/* Comment Form */}
             <form
               onSubmit={handlePostComment}
-              className="mt-6 flex flex-col sm:flex-row items-center gap-3"
+              className="mt-6 flex flex-row sm:flex-row items-center gap-3"
             >
               <input
                 type="text"
-                className="flex-grow rounded-lg p-3 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary shadow-inner"
+                className="flex-grow rounded-lg p-3 bg-secondary text-white focus:outline-none focus:ring-2 focus:ring-primary shadow-inner"
                 placeholder="Add a comment..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}

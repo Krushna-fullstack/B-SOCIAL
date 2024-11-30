@@ -30,7 +30,7 @@ const Notices = () => {
       <h1 className="text-white my-3 mt-3 font-medium text-4xl flex justify-center">
         Notices
       </h1>
-      <h1 className="flex justify-center text-gray-500">(Admins Only)</h1>
+      <h1 className="flex justify-center text-gray-500 my-2">(Admins Only)</h1>
       {authUser && authUser.isAdmin === true && <CreateNotice />}
       <div className="mt-5">
         {notices ? (
