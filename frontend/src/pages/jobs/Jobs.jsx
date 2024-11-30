@@ -8,7 +8,7 @@ const Jobs = () => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
   const {
-    data: jobs,
+    data: jobs = [],
     isLoading,
     refetch,
     isRefetching,
@@ -28,10 +28,12 @@ const Jobs = () => {
     <div className="flex flex-col items-center py-8 px-4">
       <h1 className="text-white mt-0 my-3 font-medium text-4xl">Jobs</h1>
       <h2 className="text-gray-500 my-2">
-        Our team is working to provide best job suggestions on this platform .
-        Kindly read the terms & conditions.
+        Our team is working to provide the best job suggestions on this
+        platform. Kindly read the terms & conditions.
       </h2>
-      {authUser && authUser.isAdmin === true && <CreateJob />}
+      {authUser && authUser.isAdmin === true && (
+        <CreateJob refetchJobs={refetch} />
+      )}
 
       {(isLoading || isRefetching) && (
         <div>
@@ -48,9 +50,10 @@ const Jobs = () => {
           {jobs.map((job) => (
             <JobPost
               key={job._id}
+              job={job}
               title={job.title}
-              location={job.location}
               eligibility={job.eligibility}
+              location={job.location}
               applyLink={job.applyLink}
             />
           ))}
