@@ -13,6 +13,8 @@ const SignUpPage = () => {
 
   const queryClient = useQueryClient();
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const { mutate } = useMutation({
     mutationFn: async ({ email, username, fullName, password }) => {
       const res = await fetch("/api/v1/auth/signup", {
@@ -23,7 +25,7 @@ const SignUpPage = () => {
 
       if (!res.ok) {
         const error = await res.json();
-        throw new Error(error.message || "Failed to create account");
+        throw new Error(error.error || "Failed to create account");
       }
 
       return res.json();
@@ -46,24 +48,31 @@ const SignUpPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleCheckboxChange = (e) => {
-    setIsChecked(e.target.checked);
-  };
-
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-base-200">
-      <div className="card w-82 max-w-md shadow-2xl bg-base-100 rounded-xl mt-10">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-base-200 ">
+      <div className="card w-full max-w-md shadow-2xl bg-base-100  rounded-lg mx-4 sm:mx-0">
         <div className="card-body">
-          <div className="w-32 mx-auto my-4">
-            <img src="/logo.png" alt="Profile" className="rounded-full" />
+          <div className="flex justify-center my-4">
+            <img
+              src="/logo.png"
+              alt="Profile"
+              className="w-24 h-24 rounded-full shadow-lg"
+            />
           </div>
-          <h2 className="text-center text-3xl font-bold mt-7 mb-4">Signup</h2>
+          <h2 className="text-center text-4xl font-bold text-gray-200 mb-6">
+            Sign Up
+          </h2>
+          {errorMessage && (
+            <div className="mb-4 p-3 text-sm text-red-600 bg-red-100 rounded">
+              {errorMessage}
+            </div>
+          )}
           <form onSubmit={handleSubmit}>
-            <div className="form-control">
+            <div className="form-control mb-4">
               <label className="label" htmlFor="email">
-                <span className="label-text">Email</span>
+                <span className="label-text text-gray-400 font-medium">
+                  Email
+                </span>
               </label>
               <input
                 type="email"
@@ -71,14 +80,16 @@ const SignUpPage = () => {
                 id="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="input input-bordered"
-                placeholder="Email"
+                className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500"
+                placeholder="Enter your email"
                 required
               />
             </div>
-            <div className="form-control">
+            <div className="form-control mb-4">
               <label className="label" htmlFor="username">
-                <span className="label-text">Username</span>
+                <span className="label-text text-gray-400 font-medium">
+                  Username
+                </span>
               </label>
               <input
                 type="text"
@@ -86,14 +97,16 @@ const SignUpPage = () => {
                 id="username"
                 value={formData.username}
                 onChange={handleInputChange}
-                className="input input-bordered"
-                placeholder="Username"
+                className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500"
+                placeholder="Choose a username"
                 required
               />
             </div>
-            <div className="form-control">
+            <div className="form-control mb-4">
               <label className="label" htmlFor="fullName">
-                <span className="label-text">Full Name</span>
+                <span className="label-text text-gray-400 font-medium">
+                  Full Name
+                </span>
               </label>
               <input
                 type="text"
@@ -101,14 +114,16 @@ const SignUpPage = () => {
                 id="fullName"
                 value={formData.fullName}
                 onChange={handleInputChange}
-                className="input input-bordered"
-                placeholder="Full Name"
+                className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500"
+                placeholder="Enter your full name"
                 required
               />
             </div>
-            <div className="form-control">
+            <div className="form-control mb-6">
               <label className="label" htmlFor="password">
-                <span className="label-text">Password</span>
+                <span className="label-text text-gray-400 font-medium">
+                  Password
+                </span>
               </label>
               <input
                 type="password"
@@ -116,50 +131,33 @@ const SignUpPage = () => {
                 id="password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className="input input-bordered"
-                placeholder="Password"
+                className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500"
+                placeholder="Create a password"
                 required
               />
             </div>
-            <div className="form-control mt-2">
-              <label className="label cursor-pointer">
-                <input
-                  onChange={handleCheckboxChange}
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox checkbox-primary mr-3"
-                />
-                <span className="label-text opacity-70">
-                  I have read all the terms & cookies
-                </span>
-              </label>
-            </div>
-            <div className="form-control mt-6">
+            <div className="form-control">
               <button
                 type="submit"
-                className="btn btn-primary rounded-xl"
-                disabled={!isChecked}
+                className="btn btn-primary w-full py-3 text-lg rounded-lg bg-blue-600 hover:bg-blue-500"
               >
-                Signup
+                Create Account
               </button>
             </div>
           </form>
           <div className="text-center mt-4">
             <p>
-              Already have an account ?{" "}
-              <Link to="/login" className="text-primary">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-blue-400 hover:text-blue-300 hover:underline"
+              >
                 Login
               </Link>
             </p>
           </div>
         </div>
       </div>
-      <Link
-        className="opacity-50 cursor-pointer mt-auto text-primary"
-        to="https://drive.google.com/file/d/1Ps5mk3-_sWRXlHdibHDOyM9rjvdfP03w/view?usp=sharing"
-      >
-        Terms and Conditions
-      </Link>
     </div>
   );
 };

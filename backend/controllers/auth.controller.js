@@ -17,16 +17,10 @@ export const signup = asyncHandler(async (req, res) => {
       return res.status(400).json({ error: "Invalid email format" });
     }
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email, username });
 
     if (existingUser) {
-      return res.status(400).json({ error: "User already exists" });
-    }
-
-    if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ error: "Password must be atleast 6 characters" });
+      return res.status(400).json({ error: "User already exists " });
     }
 
     const salt = await bcrypt.genSalt(8);
@@ -56,6 +50,15 @@ export const signup = asyncHandler(async (req, res) => {
       res.status(400).json({ error: "Invalid user data" });
     }
   } catch (error) {
+    if (error.code === 11000) {
+      // Handle duplicate key error
+      const duplicateField = Object.keys(error.keyValue)[0];
+      return res
+        .status(400)
+        .json({
+          error: `The ${duplicateField} '${error.keyValue[duplicateField]}' is already in use.`,
+        });
+    }
     console.log("Error in signup controller", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }

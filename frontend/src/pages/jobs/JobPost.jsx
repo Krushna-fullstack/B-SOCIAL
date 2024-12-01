@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 
 const JobPost = ({ job, title, location, eligibility, applyLink }) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log("Job prop:", job);
 
   const handleOpenModal = () => setIsOpen(true);
   const handleCloseModal = () => setIsOpen(false);

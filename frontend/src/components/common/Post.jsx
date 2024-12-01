@@ -149,14 +149,11 @@ const Post = ({ post }) => {
   const handleSharePost = () => {
     const postUrl = `${window.location.origin}/post/${post._id}`;
     if (navigator.share) {
-      navigator
-        .share({
-          title: "Check out this post",
-          text: post.text,
-          url: postUrl,
-        })
-        .then(() => console.log("Successful share"))
-        .catch((error) => console.log("Error sharing", error));
+      navigator.share({
+        title: "Check out this post",
+        text: post.text,
+        url: postUrl,
+      });
     } else {
       toast.error("Sharing is not supported on this browser");
     }
@@ -207,15 +204,6 @@ const Post = ({ post }) => {
                   <FaTrash className="text-lg" />
                   <span className="ml-2">Delete Post</span>
                 </button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <Link
-                  to="#"
-                  className="flex items-center text-white hover:text-blue-600 transition-colors p-2 rounded-lg w-full"
-                >
-                  <FaTimes className="text-lg" />
-                  <span className="ml-2">Report Post</span>
-                </Link>
               </li>
             </ul>
           </div>

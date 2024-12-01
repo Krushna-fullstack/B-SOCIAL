@@ -46,21 +46,24 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-base-200">
-      <div className="card max-w-md w-80 shadow-2xl bg-base-100 rounded-xl">
+      <div className="card w-full max-w-md shadow-2xl bg-base-100 rounded-lg mx-4 sm:mx-0">
         <div className="card-body">
-          <div className="w-32 mx-auto my-4">
+          <div className="flex justify-center my-4">
             <img
               src="/logo.png"
               alt="Profile"
-              className="w-full rounded-full"
+              className="w-24 h-24 rounded-full shadow-lg"
             />
           </div>
-          <h2 className="text-center text-3xl font-bold mt-6 mb-4">Login</h2>
-
+          <h2 className="text-center text-4xl font-bold text-gray-200 mb-6">
+            Login
+          </h2>
           <form onSubmit={handleSubmit}>
-            <div className="form-control">
+            <div className="form-control mb-4">
               <label className="label" htmlFor="email">
-                <span className="label-text">Email</span>
+                <span className="label-text text-gray-400 font-medium">
+                  Email
+                </span>
               </label>
               <input
                 type="email"
@@ -68,14 +71,16 @@ const LoginPage = () => {
                 id="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="input input-bordered"
-                placeholder="Email"
+                className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500"
+                placeholder="Enter your email"
                 required
               />
             </div>
-            <div className="form-control">
+            <div className="form-control mb-6">
               <label className="label" htmlFor="password">
-                <span className="label-text">Password</span>
+                <span className="label-text text-gray-400 font-medium">
+                  Password
+                </span>
               </label>
               <input
                 type="password"
@@ -83,21 +88,27 @@ const LoginPage = () => {
                 id="password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className="input input-bordered"
-                placeholder="Password"
+                className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500"
+                placeholder="Enter your password"
                 required
               />
             </div>
-            <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary rounded-xl">
+            <div className="form-control">
+              <button
+                type="submit"
+                className="btn btn-primary w-full py-3 text-lg rounded-lg bg-blue-600 hover:bg-blue-500"
+              >
                 Login
               </button>
             </div>
           </form>
           <div className="text-center mt-4">
             <p>
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-primary">
+              Don’t have an account?{" "}
+              <Link
+                to="/signup"
+                className="text-blue-400 hover:text-blue-300 hover:underline"
+              >
                 Signup
               </Link>
             </p>
