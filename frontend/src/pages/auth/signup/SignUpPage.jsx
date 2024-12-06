@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { MdVerified } from "react-icons/md";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -12,7 +14,6 @@ const SignUpPage = () => {
   });
 
   const queryClient = useQueryClient();
-
   const [errorMessage, setErrorMessage] = useState("");
 
   const { mutate } = useMutation({
@@ -48,18 +49,32 @@ const SignUpPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const [isTermsAccepted, setisTermsAccepted] = useState(false);
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-base-200 ">
-      <div className="card w-full max-w-md shadow-2xl bg-base-100  rounded-lg mx-4 sm:mx-0">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-base-100 p-4 sm:p-8">
+      <h1 className="text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-600 text-center mb-6">
+        One platform, endless possibilities
+      </h1>
+      <h1 className="text-2xl sm:text-3xl font-semibold text-primary  text-center mb-8">
+        Join BJB Social today !
+      </h1>
+
+      <div className="card w-full max-w-md bg-base-100 rounded-xl shadow-lg mx-4 border border-gray-700">
         <div className="card-body">
           <div className="flex justify-center my-4">
             <img
               src="/logo.png"
               alt="Profile"
-              className="w-24 h-24 rounded-full shadow-lg"
+              className="w-24 h-24 sm:w-32 sm:h-32 rounded-full shadow-lg border-4 border-primary"
             />
           </div>
-          <h2 className="text-center text-4xl font-bold text-gray-200 mb-6">
+          <h2 className="text-center text-3xl font-bold text-gray-200 mb-6">
             Sign Up
           </h2>
           {errorMessage && (
@@ -119,29 +134,62 @@ const SignUpPage = () => {
                 required
               />
             </div>
-            <div className="form-control mb-6">
+            <div className="form-control mb-6 relative">
               <label className="label" htmlFor="password">
                 <span className="label-text text-gray-400 font-medium">
                   Password
                 </span>
               </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500"
-                placeholder="Create a password"
-                required
-              />
+              <div className="relative flex items-center">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500 pr-12"
+                  placeholder="Create a password"
+                  required
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-blue-400"
+                  onClick={handleShowPassword}
+                >
+                  {showPassword ? (
+                    <IoMdEye size={24} />
+                  ) : (
+                    <IoMdEyeOff size={24} />
+                  )}
+                </button>
+              </div>
             </div>
+
+            <div className="form-control mb-6">
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  name="accept-terms"
+                  className="checkbox checkbox-primary"
+                  onChange={() => setisTermsAccepted(!isTermsAccepted)}
+                />
+                <span className="text-gray-400 text-sm">
+                  By clicking here, you agree to our cookies policy.
+                </span>
+              </label>
+            </div>
+
             <div className="form-control">
               <button
                 type="submit"
-                className="btn btn-primary w-full py-3 text-lg rounded-lg bg-blue-600 hover:bg-blue-500"
+                className={`btn btn-primary w-full py-3 text-lg rounded-lg ${
+                  !isTermsAccepted
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-500"
+                }`}
+                disabled={!isTermsAccepted}
               >
-                Create Account
+                Create Account <MdVerified className="text-xl" />
               </button>
             </div>
           </form>
@@ -158,6 +206,12 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
+      <Link
+        className="text-gray-500 mt-6 text-sm"
+        to="https://drive.google.com/file/d/1Ps5mk3-_sWRXlHdibHDOyM9rjvdfP03w/view?usp=sharing"
+      >
+        Terms & Conditions
+      </Link>
     </div>
   );
 };

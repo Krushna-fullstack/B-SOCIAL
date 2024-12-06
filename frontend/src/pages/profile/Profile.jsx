@@ -14,20 +14,16 @@ import ProfileHeaderSkeleton from "./../../components/skeletons/ProfileHeaderSke
 
 const Profile = () => {
   const location = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
   const { username } = useParams();
   const [feedType, setFeedType] = useState("posts");
-
   const [coverImg, setCoverImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
+
   const coverImgRef = useRef(null);
   const profileImgRef = useRef(null);
 
   const { follow, isPending } = useFollow();
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
-
   const {
     data: user,
     isLoading,
@@ -46,11 +42,13 @@ const Profile = () => {
   });
 
   const { updateProfile, isUpdatingProfile } = useUpdateUserProfile();
-
   const isMyProfile = authUser?._id === user?._id;
   const amIFollowing = authUser?.following.includes(user?._id);
-
   const memberSinceDate = formatMemberSinceDate(user?.createdAt);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   useEffect(() => {
     refetch();
@@ -71,7 +69,6 @@ const Profile = () => {
   return (
     <div className="flex justify-center min-h-screen bg-black">
       <div className="w-full max-w-3xl mx-auto border-r border-gray-700 min-h-screen flex flex-col">
-        {/* HEADER */}
         {(isLoading || isRefetching) && <ProfileHeaderSkeleton />}
         {!isLoading && !isRefetching && !user && (
           <p className="text-center text-lg mt-4">User not found</p>
@@ -87,15 +84,12 @@ const Profile = () => {
                   <p className="font-bold text-lg">{user?.fullName}</p>
                 </div>
               </div>
-
-              {/* COVER IMAGE */}
               <div className="relative group/cover">
                 <img
                   src={coverImg || user?.coverImg || "/coverImage.jpg"}
                   className="h-52 w-full object-cover"
                   alt="cover"
                 />
-
                 {isMyProfile && (
                   <div
                     className="absolute top-2 right-2 rounded-full p-2 bg-gray-800 bg-opacity-75 cursor-pointer opacity-0 group-hover/cover:opacity-100 transition duration-200"
@@ -104,7 +98,6 @@ const Profile = () => {
                     <MdEdit className="w-5 h-5 text-white" />
                   </div>
                 )}
-
                 <input
                   type="file"
                   hidden
@@ -112,7 +105,6 @@ const Profile = () => {
                   ref={coverImgRef}
                   onChange={(e) => handleImgChange(e, "coverImg")}
                 />
-
                 <input
                   type="file"
                   hidden
@@ -120,8 +112,6 @@ const Profile = () => {
                   ref={profileImgRef}
                   onChange={(e) => handleImgChange(e, "profileImg")}
                 />
-
-                {/* USER AVATAR */}
                 <div className="avatar absolute -bottom-16 left-4">
                   <div className="w-32 rounded-full relative group/avatar">
                     <img
@@ -144,8 +134,6 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-
-              {/* ACTION BUTTONS */}
               <div className="flex justify-end px-4 mt-5">
                 {isMyProfile && <EditProfileModal authUser={authUser} />}
                 {!isMyProfile && (
@@ -171,13 +159,7 @@ const Profile = () => {
                     {isUpdatingProfile ? "Updating..." : "Update"}
                   </button>
                 )}
-                {/* <BsThreeDotsVertical className="mt-10 text-xl" /> */}
               </div>
-              {/* <div className="flex justify-end mr-6 py-5 text-xl">
-              <BsThreeDotsVertical />
-              </div> */}
-
-              {/* USER DETAILS */}
               <div className="flex flex-col gap-4 mt-14 px-4">
                 <div className="flex flex-col">
                   <span className="font-bold text-lg">{user?.fullName}</span>
@@ -186,7 +168,6 @@ const Profile = () => {
                   </span>
                   <span className="text-sm my-1">{user?.bio}</span>
                 </div>
-
                 <div className="flex gap-2 flex-wrap">
                   {user?.link && (
                     <div className="flex gap-1 items-center">
@@ -212,8 +193,6 @@ const Profile = () => {
                     </span>
                   </div>
                 </div>
-
-                {/* FOLLOW STATS */}
                 <div className="flex gap-2">
                   <div className="flex gap-1 items-center">
                     <span className="font-bold text-xs">
