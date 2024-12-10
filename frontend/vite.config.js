@@ -9,7 +9,7 @@ export default defineConfig({
     proxy: {
       "/api": {
         // target: "http://localhost:5000",
-        target: "http://143.110.254.203:5000",
+        target: "http://64.227.132.195:5000",
         changeOrigin: true,
       },
     },
