@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { TbClick } from "react-icons/tb";
+
 
 const JobPost = ({ job, title, location, eligibility, applyLink }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +65,7 @@ const JobPost = ({ job, title, location, eligibility, applyLink }) => {
           {/* Modal */}
           {isOpen && (
             <dialog className="modal" open>
-              <div className="modal-box bg-secondary">
+              <div className="modal-box bg-neutral-800">
                 <form method="dialog">
                   {/* Button to close the modal */}
                   <button
@@ -78,12 +80,12 @@ const JobPost = ({ job, title, location, eligibility, applyLink }) => {
                   Click on the button below to redirect to the application page.
                 </p>
                 <a
-                  className="bg-primary text-white font-semibold px-4 py-2 rounded transition-all mx-auto block text-center w-32"
+                  className="bg-primary btn btn-wide text-white font-semibold px-4 py-2 rounded transition-all mx-auto text-center flex justify-center items-center"
                   href={applyLink}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Apply Now
+                  Apply Now <TbClick className="text-lg" />
                 </a>
               </div>
             </dialog>

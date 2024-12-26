@@ -8,6 +8,9 @@ import { toast } from "react-hot-toast";
 import { formatPostDate } from "../../utils/date";
 import { BsFillSendFill } from "react-icons/bs";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { MdDeleteSweep } from "react-icons/md";
+import { RxCross1 } from "react-icons/rx";
+
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
@@ -266,10 +269,13 @@ const Post = ({ post }) => {
         >
           <div className="relative p-6 sm:p-8 rounded-xl w-full max-w-md sm:max-w-lg lg:max-w-2xl mx-2 sm:mx-4 shadow-lg">
             {/* Close Icon */}
+            <div>
             <FaTimes
               onClick={closeModal}
-              className="absolute top-4 right-4 text-red-700 hover:text-gray-200 cursor-pointer transition duration-200 text-2xl mx-2"
+              className="absolute top-2 right-4 text-red-700 hover:text-gray-200 cursor-pointer transition duration-200 text-2xl mx-2"
             />
+            </div>
+           
 
             {/* Title */}
             <div className="text-center mb-6">
@@ -356,36 +362,37 @@ const Post = ({ post }) => {
       {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
         <dialog
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" // Ensure z-index is higher
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 mx-2" // Ensure z-index is higher
           open={isDeleteModalOpen}
         >
           <div className="bg-neutral-800 p-6 rounded-lg w-full max-w-xl relative z-60">
             {" "}
             {/* Adjust z-index for content */}
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-white">Delete Post</h3>
+              <h3 className="text-xl font-semibold text-red-600">Delete Post</h3>
               <FaTimes
                 onClick={closeDeleteModal}
-                className="text-gray-500 cursor-pointer hover:text-gray-300"
+                className="text-red-600 cursor-pointer hover:text-gray-300 text-xl mb-6"
               />
             </div>
             <p className="text-white mb-6">
-              Are you sure you want to delete this post? This action cannot be
+              Are you sure you want to delete this post ? This action cannot be
               undone.
             </p>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={closeDeleteModal}
-                className="bg-gray-600 text-white px-4 py-2 rounded-full hover:bg-gray-500 transition-colors"
+                className="bg-gray-600 text-white px-4 py-2 rounded-full hover:bg-gray-500 transition-colors flex items-center justify-center gap-2"
               >
+                <RxCross1 />
                 Cancel
               </button>
               <button
                 onClick={handleDeletePost}
-                className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 transition-colors"
+                className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 transition-colors flex items-center justify-center gap-2" 
                 disabled={isDeleting}
               >
-                {isDeleting ? "Deleting..." : "Delete"}
+                <MdDeleteSweep className="text-2xl"/>{isDeleting ? "Deleting..." : "Delete"}
               </button>
             </div>
           </div>
