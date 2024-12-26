@@ -3,8 +3,10 @@ import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { CiImageOn } from "react-icons/ci";
 import { IoCloseSharp } from "react-icons/io5";
-import { FaRegCircleUser } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { VscAccount } from "react-icons/vsc";
+
+
 
 const CreatePost = () => {
   const [text, setText] = useState("");
@@ -73,7 +75,7 @@ const CreatePost = () => {
                 />
               </div>
             ) : (
-              <FaRegCircleUser className="w-12 h-12 rounded-full border text-gray-400" />
+              <VscAccount  className="w-12 h-12 rounded-full  text-gray-400" />
             )}
           </Link>
           <input

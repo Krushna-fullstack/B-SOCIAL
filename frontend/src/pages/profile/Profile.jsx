@@ -83,6 +83,7 @@ const Profile = () => {
                 <div className="flex flex-col">
                   <p className="font-bold text-lg">{user?.fullName}</p>
                 </div>
+                
               </div>
               <div className="relative group/cover">
                 <img

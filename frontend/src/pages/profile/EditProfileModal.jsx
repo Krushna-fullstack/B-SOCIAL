@@ -4,6 +4,8 @@ import useUpdateUserProfile from "../../hooks/useUpdateUserProfile";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { FaUserEdit } from "react-icons/fa";
+
 
 const EditProfileModal = ({ authUser }) => {
   const [formData, setFormData] = useState({
@@ -66,16 +68,22 @@ const EditProfileModal = ({ authUser }) => {
     logout();
   };
 
+ 
+
+
   return (
     <>
+    <div>
       <button
-        className="btn  rounded-full btn-sm bg-primary text-white font-medium"
+        className="btn rounded-full btn-sm bg-primary text-white font-medium flex items-center gap-2"
         onClick={() =>
           document.getElementById("edit_profile_modal").showModal()
         }
       >
-        Edit profile
+        <FaUserEdit className="text-lg" /> Edit profile
       </button>
+      
+      </div>
       <dialog id="edit_profile_modal" className="modal">
         <div className="modal-box border rounded-md border-gray-700 shadow-md">
           <div className="flex justify-between items-center">
@@ -108,6 +116,7 @@ const EditProfileModal = ({ authUser }) => {
                 <li>
                   <a href="mailto:bjbsocial1957@gmail.com">Help & Support</a>
                 </li>
+
                 <li>
                   {/* <button className="text-red-600">Logout</button> */}
                   <button className="text-red-600" onClick={handleLogout}>
