@@ -11,7 +11,6 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDeleteSweep } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
 
-
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
@@ -270,12 +269,11 @@ const Post = ({ post }) => {
           <div className="relative p-6 sm:p-8 rounded-xl w-full max-w-md sm:max-w-lg lg:max-w-2xl mx-2 sm:mx-4 shadow-lg">
             {/* Close Icon */}
             <div>
-            <FaTimes
-              onClick={closeModal}
-              className="absolute top-2 right-4 text-red-700 hover:text-gray-200 cursor-pointer transition duration-200 text-2xl mx-2"
-            />
+              <FaTimes
+                onClick={closeModal}
+                className="absolute top-2 right-4 text-red-700 hover:text-gray-200 cursor-pointer transition duration-200 text-2xl mx-2"
+              />
             </div>
-           
 
             {/* Title */}
             <div className="text-center mb-6">
@@ -291,7 +289,7 @@ const Post = ({ post }) => {
             </div>
 
             {/* Comments List */}
-            <ul className="space-y-5 max-h-60 sm:max-h-80 overflow-y-auto ">
+            <ul className="space-y-5 max-h-60 sm:max-h-80 overflow-y-auto overflow-x-hidden">
               {post.comments.length > 0 ? (
                 post.comments.map((comment) => (
                   <li
@@ -369,7 +367,9 @@ const Post = ({ post }) => {
             {" "}
             {/* Adjust z-index for content */}
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold text-red-600">Delete Post</h3>
+              <h3 className="text-xl font-semibold text-red-600">
+                Delete Post
+              </h3>
               <FaTimes
                 onClick={closeDeleteModal}
                 className="text-red-600 cursor-pointer hover:text-gray-300 text-xl mb-6"
@@ -389,10 +389,11 @@ const Post = ({ post }) => {
               </button>
               <button
                 onClick={handleDeletePost}
-                className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 transition-colors flex items-center justify-center gap-2" 
+                className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 transition-colors flex items-center justify-center gap-2"
                 disabled={isDeleting}
               >
-                <MdDeleteSweep className="text-2xl"/>{isDeleting ? "Deleting..." : "Delete"}
+                <MdDeleteSweep className="text-2xl" />
+                {isDeleting ? "Deleting..." : "Delete"}
               </button>
             </div>
           </div>
