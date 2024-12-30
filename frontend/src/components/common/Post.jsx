@@ -394,8 +394,11 @@ const Post = ({ post }) => {
               <button
                 onClick={handleDeletePost}
                 className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 transition-colors flex items-center justify-center gap-2"
+                className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 transition-colors flex items-center justify-center gap-2"
                 disabled={isDeleting}
               >
+                <MdDeleteSweep className="text-2xl" />
+                {isDeleting ? "Deleting..." : "Delete"}
                 <MdDeleteSweep className="text-2xl" />
                 {isDeleting ? "Deleting..." : "Delete"}
               </button>
