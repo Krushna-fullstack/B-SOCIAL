@@ -1,35 +1,40 @@
-import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import CreatePost from "./CreatePost";
 import Posts from "../../components/common/Posts";
+import { Link } from "react-router-dom";
+import { VscAccount } from "react-icons/vsc";
 
 const HomePage = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
+  const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex items-center justify-between w-full max-w-sm p-4 lg:ml-4">
+      <div className="flex items-center justify-between w-full max-w-sm px-4 lg:ml-4">
+        {/* Profile Image */}
+        <Link to={`/profile/${authUser?.username}`} className="flex-shrink-0">
+          {authUser?.profileImg ? (
+            <div className="w-12 h-12 overflow-hidden rounded-full border border-gray-300">
+              <img
+                className="w-full h-full object-cover"
+                src={authUser?.profileImg}
+                alt="Profile"
+              />
+            </div>
+          ) : (
+            <VscAccount className="w-12 h-12 rounded-full text-gray-400" />
+          )}
+        </Link>
+
         {/* Logo */}
         <img
           src="/logo.png"
           alt="BJB Social Logo"
-          className="w-20 h-auto my-2"
+          className="w-20 h-auto my-1 mx-auto"
         />
-
-        {/* Search Input Box */}
-        <div className="relative lg:flex justify-center items-center mx-auto">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            placeholder="Search...."
-            className="p-2 w-64 border border-gray-600 rounded-md shadow-md focus:outline-none bg-secondary text-white"
-          />
-        </div>
       </div>
+
+      {/* Horizontal Line */}
+      <hr className="w-full max-w-sm border-t border-gray-300 my-4" />
 
       {/* Create Post and Posts Section */}
       <CreatePost />

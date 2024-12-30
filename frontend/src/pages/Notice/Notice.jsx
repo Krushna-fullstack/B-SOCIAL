@@ -160,7 +160,7 @@ const Notice = ({ notice }) => {
             />
             {/* Close button with improved visibility */}
             <button
-              className="absolute top-4 right-4 text-white bg-primary p-2 rounded-full hover:bg-red-500 transition"
+              className="absolute top-4 right-4 text-white bg-red-600 p-2 rounded-full hover:bg-red-500 transition"
               onClick={closeModal}
             >
               <RxCross2 size={24} />

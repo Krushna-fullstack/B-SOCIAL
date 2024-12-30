@@ -11,6 +11,9 @@ import { FaLink } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import EditProfileModal from "./EditProfileModal";
 import ProfileHeaderSkeleton from "./../../components/skeletons/ProfileHeaderSkeleton";
+import ShinyText from "../../ui-components/ShinyText";
+import { MdOutlinePersonAddAlt } from "react-icons/md";
+import { MdOutlinePersonRemoveAlt1 } from "react-icons/md";
 
 const Profile = () => {
   const location = useLocation();
@@ -80,10 +83,12 @@ const Profile = () => {
                 <Link to="/">
                   <FaArrowLeft className="w-4 h-4" />
                 </Link>
-                <div className="flex flex-col">
-                  <p className="font-bold text-lg">{user?.fullName}</p>
-                </div>
-                
+                <ShinyText
+                  text={user?.fullName}
+                  disabled={false}
+                  speed={3}
+                  className="custom-class font-bold text-lg"
+                />
               </div>
               <div className="relative group/cover">
                 <img
@@ -142,9 +147,36 @@ const Profile = () => {
                     className="btn btn-outline rounded-full btn-sm"
                     onClick={() => follow(user?._id)}
                   >
-                    {isPending && "Loading..."}
-                    {!isPending && amIFollowing && "Unfollow"}
-                    {!isPending && !amIFollowing && "Follow"}
+                    {isPending && (
+                      <ShinyText
+                        text="Loading..."
+                        disabled={false}
+                        speed={3}
+                        className="custom-class text-base"
+                      />
+                    )}
+                    {!isPending && amIFollowing && (
+                      <div className="flex justify-center items-center gap-2">
+                        <MdOutlinePersonRemoveAlt1 className="text-base" />
+                        <ShinyText
+                          text="Unfollow"
+                          disabled={false}
+                          speed={3}
+                          className="custom-class text-base"
+                        />
+                      </div>
+                    )}
+                    {!isPending && !amIFollowing && (
+                      <div className="flex justify-center items-center gap-2">
+                        <MdOutlinePersonAddAlt className="text-base" />
+                        <ShinyText
+                          text="Follow"
+                          disabled={false}
+                          speed={3}
+                          className="custom-class text-base"
+                        />
+                      </div>
+                    )}
                   </button>
                 )}
                 {(coverImg || profileImg) && (
@@ -196,24 +228,28 @@ const Profile = () => {
                 </div>
                 <div className="flex gap-2">
                   <div className="flex gap-1 items-center">
-                    <span className="font-bold text-xs">
+                    <span className="font-bold text-md">
                       {user?.following.length}
                     </span>
-                    <span className="text-slate-500 text-xs">Following</span>
+                    <span className="text-slate-500 text-md">Following</span>
                   </div>
                   <div className="flex gap-1 items-center">
-                    <span className="font-bold text-xs">
+                    <span className="font-bold text-md">
                       {user?.followers.length}
                     </span>
-                    <span className="text-slate-500 text-xs">Followers</span>
+                    <span className="text-slate-500 text-md">Followers</span>
                   </div>
                 </div>
               </div>
             </>
           )}
-          <h1 className="text-xl font-semibold flex justify-center mt-5">
-            Posts
-          </h1>
+
+          <ShinyText
+            text="Posts"
+            disabled={false}
+            speed={3}
+            className="custom-class text-xl font-semibold flex justify-center mt-5"
+          />
           <Posts feedType={feedType} username={username} userId={user?._id} />
         </div>
       </div>
