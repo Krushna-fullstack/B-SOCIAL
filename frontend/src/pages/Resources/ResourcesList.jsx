@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import resourcesData from "./../../utils/resoucesData/resourcesData.json";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import "./../../Styles/Resources.css";
+import ShinyText from "../../ui-components/ShinyText";
+
 const ResourcesList = () => {
   // State for selected filter
   const [selectedStream, setSelectedStream] = useState("All");
@@ -14,10 +16,15 @@ const ResourcesList = () => {
       : { [selectedStream]: resourcesData[selectedStream] };
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-center mb-8 pt-5 pb-3">
-        Resources
-      </h1>
+    <div className="flex flex-col justify-center">
+      <ShinyText
+        text="Resources"
+        disabled={false}
+        speed={3}
+        className="custom-class text-5xl font-bold text-center my-4 mt-3"
+      />
+
+      <hr className="w-full max-w-sm border-t border-gray-300 my-4" />
 
       {/* Filter Buttons */}
       <div className="flex overflow-x-auto space-x-4 mb-6 scrollbar-hide mx-4">

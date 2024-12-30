@@ -1,12 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { CiImageOn } from "react-icons/ci";
 import { IoCloseSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import { VscAccount } from "react-icons/vsc";
-
-
+import { BsFillImageFill } from "react-icons/bs";
+import ShinyText from "../../ui-components/ShinyText";
 
 const CreatePost = () => {
   const [text, setText] = useState("");
@@ -21,7 +18,6 @@ const CreatePost = () => {
     isLoading,
     isError,
     error,
-    isPending,
   } = useMutation({
     mutationFn: async ({ text, img }) => {
       const res = await fetch("/api/v1/posts/create", {
@@ -48,7 +44,11 @@ const CreatePost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createPost({ text, img });
+    if (text.trim() || img) {
+      createPost({ text, img });
+    } else {
+      toast.error("Post content cannot be empty.");
+    }
   };
 
   const handleImgChange = (e) => {
@@ -61,35 +61,21 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="flex justify-center items-center">
-      {/* Add responsive width adjustments for laptop (lg) and smaller screens */}
-      <div className="w-full p-6 bg-secondary rounded-xl max-w-lg lg:max-w-xl xl:max-w-3xl ">
+    <div className="flex justify-center items-center w-full px-4">
+      <div className="w-full max-w-screen-md bg-secondary rounded-xl p-6">
         <div className="flex items-start gap-4 mb-4">
-          <Link to={`/profile/${authUser?.username}`}>
-            {authUser?.profileImg ? (
-              <div className="w-12 h-12 overflow-hidden rounded-full border border-gray-300">
-                <img
-                  className="w-full h-full object-cover"
-                  src={authUser?.profileImg}
-                  alt="Profile"
-                />
-              </div>
-            ) : (
-              <VscAccount  className="w-12 h-12 rounded-full  text-gray-400" />
-            )}
-          </Link>
           <input
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="What's happening?"
-            className="w-full h-12 p-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+            className="w-full h-12 p-1 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary resize-none focus:border-primary"
           />
         </div>
 
         {img && (
           <div className="relative mb-4">
             <IoCloseSharp
-              className="absolute top-2 right-2 text-3xl text-red-700 cursor-pointer hover:text-primary-focus"
+              className="absolute top-2 right-2 text-3xl text-white bg-red-600 rounded-full cursor-pointer"
               onClick={() => {
                 setImg(null);
                 imgRef.current.value = null;
@@ -104,11 +90,11 @@ const CreatePost = () => {
         )}
 
         <div className="flex justify-between items-center mt-4">
-          <div className="flex items-center gap-4">
-            <CiImageOn
-              className="text-3xl text-primary cursor-pointer hover:text-primary-focus"
-              onClick={() => imgRef.current.click()}
-            />
+          <div
+            className="flex items-center gap-4"
+            onClick={() => imgRef.current.click()}
+          >
+            <BsFillImageFill className="text-2xl text-primary cursor-pointer hover:text-primary-focus" />
             <input
               type="file"
               ref={imgRef}
@@ -116,14 +102,19 @@ const CreatePost = () => {
               hidden
               accept="image/*"
             />
-            <span className="font-medium">Media</span>
+            <ShinyText
+              text="Add Media"
+              disabled={false}
+              speed={3}
+              className="custom-class flex justify-center my-2"
+            />{" "}
           </div>
           <button
             type="submit"
             className={`btn bg-primary rounded-full px-8 text-white transition-all text-lg ${
               isLoading ? "opacity-70 cursor-not-allowed" : ""
             }`}
-            disabled={isPending}
+            disabled={isLoading}
             onClick={handleSubmit}
           >
             {isLoading ? "Posting..." : "Post"}
@@ -131,7 +122,9 @@ const CreatePost = () => {
         </div>
 
         {isError && (
-          <div className="text-red-500 text-sm mt-2">{error.message}</div>
+          <div className="text-red-500 text-sm mt-2">
+            {error.message || "Something went wrong."}
+          </div>
         )}
       </div>
     </div>

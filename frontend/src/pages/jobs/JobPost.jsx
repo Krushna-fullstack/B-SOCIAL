@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { TbClick } from "react-icons/tb";
-
+import { FaAnglesRight } from "react-icons/fa6";
 
 const JobPost = ({ job, title, location, eligibility, applyLink }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,10 +47,10 @@ const JobPost = ({ job, title, location, eligibility, applyLink }) => {
             <span className="font-medium">Eligibility: {eligibility}</span>
           </p>
           <button
-            className="btn btn-wide mx-auto block bg-secondary text-white font-semibold px-4 py-2 rounded transition-all"
+            className="btn btn-wide mx-auto bg-secondary text-white font-semibold px-4 py-2 rounded transition-all text-base flex justify-center items-center"
             onClick={handleOpenModal}
           >
-            Apply
+            Apply <FaAnglesRight className="text-base" />
           </button>
 
           {authUser?.isAdmin === true ? (
@@ -80,7 +80,7 @@ const JobPost = ({ job, title, location, eligibility, applyLink }) => {
                   Click on the button below to redirect to the application page.
                 </p>
                 <a
-                  className="bg-primary btn btn-wide text-white font-semibold px-4 py-2 rounded transition-all mx-auto text-center flex justify-center items-center"
+                  className="bg-primary btn btn-wide text-white font-semibold px-4 py-2 rounded transition-all mx-auto text-center flex justify-center items-center text-base"
                   href={applyLink}
                   target="_blank"
                   rel="noopener noreferrer"

@@ -3,7 +3,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { BiLogIn } from "react-icons/bi";
+import { IoLogIn } from "react-icons/io5";
+import { BlurText } from "../../../ui-components/BlurText";
+import ShinyText from "../../../ui-components/ShinyText";
+import GradientText from "../../../ui-components/GradiantText";
+
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -53,12 +57,22 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-base-100">
-      <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-600 text-center mb-6">
-        Welcome Back!
-      </h1>
-      <h2 className="text-3xl sm:text-4xl font-semibold text-primary opacity-60 text-center mb-8">
+      
+      <BlurText
+        text="Welcome Back ! 🎉"
+        className="custom-class text-4xl sm:text-6xl font-extrabold text-white  text-center mb-6"
+        delay={50}
+      />
+
+      
+      <GradientText
+        colors={["#a78bfa", "#ec4899", "#dc2626"]} // Custom gradient colors
+        animationSpeed={3} // Custom animation speed in seconds
+        showBorder={false} // Show or hide border
+        className="custom-class text-3xl sm:text-4xl mb-2" // Add one or more custom classes
+      >
         Login to Your Account
-      </h2>
+      </GradientText>
       <div className="card w-full max-w-md bg-base-100 rounded-lg mx-4 sm:mx-0 border-t-2 border-primary border-b-2 shadow-primary">
         <div className="card-body">
           <div className="flex justify-center my-4">
@@ -68,9 +82,13 @@ const LoginPage = () => {
               className="w-32 h-32 rounded-full shadow-lg border-4 border-primary"
             />
           </div>
-          <h2 className="text-center text-4xl font-bold text-gray-200 mb-6">
-            Login
-          </h2>
+          
+          <ShinyText
+            text="Login"
+            disabled={false}
+            speed={3}
+            className="custom-class text-center text-4xl font-bold  mb-6"
+          />
           <form onSubmit={handleSubmit}>
             <div className="form-control mb-4">
               <label className="label" htmlFor="email">
@@ -124,18 +142,23 @@ const LoginPage = () => {
                 type="submit"
                 className="btn btn-primary w-full py-3 text-lg rounded-lg bg-blue-600 hover:bg-blue-500"
               >
-                Login <BiLogIn className="ml-2" />
+                Login <IoLogIn className="ml-2 text-xl" />
               </button>
             </div>
           </form>
           <div className="text-center mt-4">
             <p>
-              Don’t have an account?{" "}
+              Don’t have an account ?{" "}
               <Link
                 to="/signup"
                 className="text-blue-400 hover:text-blue-300 hover:underline"
               >
-                Signup
+                <ShinyText
+                  text="Signup"
+                  disabled={false}
+                  speed={3}
+                  className="custom-class"
+                />
               </Link>
             </p>
           </div>

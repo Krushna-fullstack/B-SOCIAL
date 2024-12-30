@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaHeart, FaTrash, FaRegHeart, FaTimes } from "react-icons/fa";
-import { IoIosShareAlt } from "react-icons/io";
 import { MdInsertComment } from "react-icons/md";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
@@ -10,7 +9,9 @@ import { BsFillSendFill } from "react-icons/bs";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDeleteSweep } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
-
+import { RiShareForwardFill } from "react-icons/ri";
+import ShinyText from "../../ui-components/ShinyText";
+import GradientText from "../../ui-components/GradiantText";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
@@ -255,48 +256,54 @@ const Post = ({ post }) => {
           onClick={handleSharePost}
           className="flex items-center space-x-1 cursor-pointer"
         >
-          <IoIosShareAlt />
+          <RiShareForwardFill />
         </div>
       </div>
 
       {/* Comments Modal */}
       {isModalOpen && (
         <dialog
-          className="fixed inset-0 flex items-center justify-center  bg-black overflow-y-auto z-50 " // Ensure z-index is higher
+          className="fixed inset-0 flex items-center justify-center z-50 bg-black/70 backdrop-blur-sm"
           open={isModalOpen}
           aria-labelledby="comments-title"
           role="dialog"
         >
-          <div className="relative p-6 sm:p-8 rounded-xl w-full max-w-md sm:max-w-lg lg:max-w-2xl mx-2 sm:mx-4 shadow-lg">
+          <div className="relative p-6 sm:p-8 bg-black w-full max-w-lg sm:max-w-xl xl:max-w-3xl mx-4 shadow-2xl">
             {/* Close Icon */}
-            <div>
-            <FaTimes
+            <button
               onClick={closeModal}
-              className="absolute top-2 right-4 text-red-700 hover:text-gray-200 cursor-pointer transition duration-200 text-2xl mx-2"
-            />
-            </div>
-           
+              className="absolute top-4 right-4 text-red-600 hover:text-red-500 transition duration-200"
+              aria-label="Close modal"
+            >
+              <FaTimes className="text-2xl" />
+            </button>
 
             {/* Title */}
-            <div className="text-center mb-6">
-              <h3
-                id="comments-title"
-                className="text-2xl sm:text-3xl font-bold text-white drop-shadow-md"
+            <div className="text-center mb-8">
+              <ShinyText
+                text="Comments"
+                disabled={false}
+                speed={3}
+                className="custom-class text-3xl sm:text-4xl font-bold "
+              />
+              {/* <p className="text-gray-400 mt-1">Share your thoughts below</p> */}
+              <GradientText
+                colors={["#a78bfa", "#ec4899", "#dc2626"]} // Gradient colors
+                animationSpeed={3} // Custom animation speed in seconds
+                showBorder={false} // Show or hide border
+                className="custom-class mt-1" // Add one or more custom classes
               >
-                Comments
-              </h3>
-              <p className="text-gray-400 text-sm mt-1">
-                Share your thoughts below!
-              </p>
+                Share your thoughts below
+              </GradientText>
             </div>
 
             {/* Comments List */}
-            <ul className="space-y-5 max-h-60 sm:max-h-80 overflow-y-auto ">
+            <ul className="space-y-6 max-h-80 overflow-y-auto custom-scrollbar">
               {post.comments.length > 0 ? (
                 post.comments.map((comment) => (
                   <li
                     key={comment._id}
-                    className="flex items-start space-x-4 bg-secondary p-4 rounded-lg shadow-md transition hover:scale-105"
+                    className="flex items-start gap-4 p-4 bg-neutral-800 rounded-lg shadow hover:bg-gray-700 transition"
                   >
                     <img
                       className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-primary"
@@ -307,22 +314,21 @@ const Post = ({ post }) => {
                       <div className="flex justify-between items-center">
                         <Link
                           to={`/profile/${comment.user.username}`}
-                          className="text-base font-semibold text-white hover:underline"
+                          className="text-lg font-semibold text-white hover:underline"
                         >
                           {comment.user.username}
                         </Link>
                         {authUser._id === comment.user._id && (
                           <button
                             onClick={() => handleDeleteComment(comment._id)}
-                            className="text-red-500 hover:text-red-600 transition-colors mx-2"
+                            className="text-red-600 hover:text-red-500 transition"
+                            aria-label="Delete comment"
                           >
-                            <FaTrash />
+                            <FaTrash className="text-lg" />
                           </button>
                         )}
                       </div>
-                      <p className="text-gray-300 text-sm mt-2">
-                        {comment.text}
-                      </p>
+                      <p className="text-gray-300 mt-2">{comment.text}</p>
                     </div>
                   </li>
                 ))
@@ -334,18 +340,18 @@ const Post = ({ post }) => {
             {/* Comment Form */}
             <form
               onSubmit={handlePostComment}
-              className="mt-6 flex flex-row sm:flex-row items-center gap-3"
+              className="mt-6 flex items-center gap-4"
             >
               <input
                 type="text"
-                className="flex-grow rounded-lg p-3 bg-secondary text-white focus:outline-none focus:ring-2 focus:ring-primary shadow-inner"
+                className="flex-grow p-3 bg-secondary text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
                 placeholder="Add a comment..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <button
                 type="submit"
-                className="bg-primary text-white px-6 py-3 rounded-full hover:opacity-90 transition duration-200 shadow-lg flex items-center justify-center disabled:opacity-50"
+                className="bg-primary text-white px-6 py-3 rounded-lg flex items-center justify-center hover:bg-opacity-90 transition duration-200 disabled:opacity-50"
                 disabled={isCommenting}
               >
                 {isCommenting ? (
@@ -362,21 +368,19 @@ const Post = ({ post }) => {
       {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
         <dialog
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 mx-2" // Ensure z-index is higher
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 mx-3" // Ensure z-index is higher
           open={isDeleteModalOpen}
         >
           <div className="bg-neutral-800 p-6 rounded-lg w-full max-w-xl relative z-60">
             {" "}
             {/* Adjust z-index for content */}
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold text-red-600">Delete Post</h3>
-              <FaTimes
-                onClick={closeDeleteModal}
-                className="text-red-600 cursor-pointer hover:text-gray-300 text-xl mb-6"
-              />
+              <h3 className="text-xl font-semibold text-red-600">
+                Delete Post
+              </h3>
             </div>
             <p className="text-white mb-6">
-              Are you sure you want to delete this post ? This action cannot be
+              Are you sure you want to delete this post? This action cannot be
               undone.
             </p>
             <div className="flex justify-end space-x-4">
@@ -389,10 +393,11 @@ const Post = ({ post }) => {
               </button>
               <button
                 onClick={handleDeletePost}
-                className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 transition-colors flex items-center justify-center gap-2" 
+                className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-500 transition-colors flex items-center justify-center gap-2"
                 disabled={isDeleting}
               >
-                <MdDeleteSweep className="text-2xl"/>{isDeleting ? "Deleting..." : "Delete"}
+                <MdDeleteSweep className="text-2xl" />
+                {isDeleting ? "Deleting..." : "Delete"}
               </button>
             </div>
           </div>

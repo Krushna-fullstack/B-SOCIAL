@@ -4,6 +4,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { MdVerified } from "react-icons/md";
+import ShinyText from "../../../ui-components/ShinyText";
+import { BlurText } from "../../../ui-components/BlurText";
+import GradientText from "../../../ui-components/GradiantText";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -58,12 +61,19 @@ const SignUpPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-base-100 p-4 sm:p-8">
-      <h1 className="text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-600 text-center mb-6">
-        One platform, endless possibilities
-      </h1>
-      <h1 className="text-2xl sm:text-3xl font-semibold text-primary  text-center mb-8">
+      <BlurText
+        text="One platform, endless possibilities 🚀"
+        className="custom-class text-3xl sm:text-6xl font-extrabold text-white  text-center mb-6"
+        delay={50}
+      />
+      <GradientText
+        colors={["#a78bfa", "#ec4899", "#dc2626"]} // Custom gradient colors
+        animationSpeed={3} // Custom animation speed in seconds
+        showBorder={false} // Show or hide border
+        className="custom-class mb-2 text-3xl sm:text-5xl font-extrabold text-center" // Add one or more custom classes
+      >
         Join BJB Social today !
-      </h1>
+      </GradientText>
 
       <div className="card w-full max-w-md bg-base-100 rounded-xl shadow-lg mx-4 border border-gray-700">
         <div className="card-body">
@@ -74,9 +84,12 @@ const SignUpPage = () => {
               className="w-24 h-24 sm:w-32 sm:h-32 rounded-full shadow-lg border-4 border-primary"
             />
           </div>
-          <h2 className="text-center text-3xl font-bold text-gray-200 mb-6">
-            Sign Up
-          </h2>
+          <ShinyText
+            text="Signup"
+            disabled={false}
+            speed={3}
+            className="custom-class text-center text-4xl font-bold  mb-6"
+          />
           {errorMessage && (
             <div className="mb-4 p-3 text-sm text-red-600 bg-red-100 rounded">
               {errorMessage}
@@ -200,7 +213,12 @@ const SignUpPage = () => {
                 to="/login"
                 className="text-blue-400 hover:text-blue-300 hover:underline"
               >
-                Login
+                <ShinyText
+                  text="Login"
+                  disabled={false}
+                  speed={3}
+                  className="custom-class text-lg"
+                />
               </Link>
             </p>
           </div>

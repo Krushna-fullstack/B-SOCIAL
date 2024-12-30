@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { FaLocationDot } from "react-icons/fa6";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { AiFillMessage } from "react-icons/ai";
-
+import ShinyText from "../../ui-components/ShinyText";
 
 const Pg = () => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
@@ -32,10 +32,14 @@ const Pg = () => {
 
   return (
     <div className="min-h-screen p-6 flex flex-col items-center">
-      <h1 className="text-4xl font-bold text-center mb-5 text-white">
-        PG / Hostel
-      </h1>
-      
+      <ShinyText
+        text="PG / Hostels"
+        disabled={false}
+        speed={3}
+        className="custom-class text-5xl font-bold text-center "
+      />
+      <hr className="w-full max-w-sm border-t border-gray-300 my-4" />
+
       {authUser && authUser.isAdmin === true && <CreatePg />}
 
       {/* Display Loading Spinner */}
@@ -87,17 +91,12 @@ const Pg = () => {
                       {pg.contact}
                     </a>
                   </p>
-                  
                 </div>
                 <a className="btn bg-primary border-none rounded-xl ml-20 mt-5 text-sm">
                   <AiFillMessage />
                   Get Details
                 </a>
-                
               </div>
-              {/* <p className="text-white opacity-70 mx-2">
-                Tab on message button to get details
-              </p> */}
             </div>
           ))}
         </div>

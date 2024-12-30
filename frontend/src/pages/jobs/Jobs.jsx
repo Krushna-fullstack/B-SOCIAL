@@ -3,6 +3,7 @@ import JobPost from "./JobPost";
 import CreateJob from "./CreateJob";
 import { useQuery } from "@tanstack/react-query";
 import JobPostSkeleton from "../../components/skeletons/JobPostSkeleton";
+import ShinyText from "../../ui-components/ShinyText";
 
 const Jobs = () => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
@@ -38,8 +39,15 @@ const Jobs = () => {
   const locations = [...new Set(jobs.map((job) => job.location))];
 
   return (
-    <div className="flex flex-col items-center py-8 px-4">
-      <h1 className="text-white mt-0 my-3 font-medium text-4xl">Jobs</h1>
+    <div className="flex flex-col items-center px-4">
+      <ShinyText
+        text="Jobs"
+        disabled={false}
+        speed={3}
+        className="custom-class my-5 font-medium text-5xl"
+      />
+
+      <hr className="w-full max-w-sm border-t border-gray-300 my-4" />
 
       {authUser && authUser.isAdmin === true && (
         <CreateJob refetchJobs={refetch} />
@@ -66,8 +74,7 @@ const Jobs = () => {
                 {location}
               </option>
             ))}
-            {/* <option value="Bhubaneswar">Bhubaneswar</option>
-            <option value="Hyderbad">Hyderbad</option> */}
+            
           </select>
           <span className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 pointer-events-none">
             ▼
