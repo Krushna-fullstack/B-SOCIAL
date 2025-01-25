@@ -398,8 +398,7 @@ const Post = ({ post }) => {
               >
                 <MdDeleteSweep className="text-2xl" />
                 {isDeleting ? "Deleting..." : "Delete"}
-                <MdDeleteSweep className="text-2xl" />
-                {isDeleting ? "Deleting..." : "Delete"}
+                
               </button>
             </div>
           </div>

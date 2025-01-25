@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { MdVerified } from "react-icons/md";
 import ShinyText from "../../../ui-components/ShinyText";
-import { BlurText } from "../../../ui-components/BlurText";
 import GradientText from "../../../ui-components/GradiantText";
 
 const SignUpPage = () => {
@@ -60,47 +59,40 @@ const SignUpPage = () => {
   const [isTermsAccepted, setisTermsAccepted] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-base-100 p-4 sm:p-8">
-      <BlurText
-        text="One platform, endless possibilities 🚀"
-        className="custom-class text-3xl sm:text-6xl font-extrabold text-white  text-center mb-6"
-        delay={50}
-      />
-      <GradientText
-        colors={["#a78bfa", "#ec4899", "#dc2626"]} // Custom gradient colors
-        animationSpeed={3} // Custom animation speed in seconds
-        showBorder={false} // Show or hide border
-        className="custom-class mb-2 text-3xl sm:text-5xl font-extrabold text-center" // Add one or more custom classes
-      >
-        Join BJB Social today !
-      </GradientText>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary text-white px-4">
+      <div className="flex flex-col items-center justify-center mb-8 mt-6">
+        <img
+          src="/logo.png"
+          alt="Logo"
+          className="w-32 h-32 rounded-full shadow-lg border-2 border-primary mb-4"
+        />
+        <ShinyText
+          text="TOGETHER WE THRIVE"
+          disabled={false}
+          speed={3}
+          className="text-3xl font-bold text-center mb-8 mx-auto"
+        />
+      </div>
 
-      <div className="card w-full max-w-md bg-base-100 rounded-xl shadow-lg mx-4 border border-gray-700">
-        <div className="card-body">
-          <div className="flex justify-center my-4">
-            <img
-              src="/logo.png"
-              alt="Profile"
-              className="w-24 h-24 sm:w-32 sm:h-32 rounded-full shadow-lg border-4 border-primary"
-            />
-          </div>
-          <ShinyText
-            text="Signup"
-            disabled={false}
-            speed={3}
-            className="custom-class text-center text-4xl font-bold  mb-6"
-          />
-          {errorMessage && (
-            <div className="mb-4 p-3 text-sm text-red-600 bg-red-100 rounded">
-              {errorMessage}
-            </div>
-          )}
+      <div className="card w-full max-w-lg bg-base rounded-lg shadow-lg border border-gray-700">
+        <div className="card-body px-6 py-8">
           <form onSubmit={handleSubmit}>
+            <ShinyText
+              text="Signup"
+              disabled={false}
+              speed={3}
+              className="text-4xl font-bold text-center mb-8 mx-auto text-primary"
+            />
+
+            {errorMessage && (
+              <div className="mb-4 p-3 text-sm text-red-600 bg-red-100 rounded">
+                {errorMessage}
+              </div>
+            )}
+
             <div className="form-control mb-4">
-              <label className="label" htmlFor="email">
-                <span className="label-text text-gray-400 font-medium">
-                  Email
-                </span>
+              <label htmlFor="email" className="block text-sm font-medium mb-1">
+                Email Address
               </label>
               <input
                 type="email"
@@ -108,16 +100,18 @@ const SignUpPage = () => {
                 id="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500"
+                className="input w-full px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="Enter your email"
                 required
               />
             </div>
+
             <div className="form-control mb-4">
-              <label className="label" htmlFor="username">
-                <span className="label-text text-gray-400 font-medium">
-                  Username
-                </span>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium mb-1"
+              >
+                Username
               </label>
               <input
                 type="text"
@@ -125,16 +119,18 @@ const SignUpPage = () => {
                 id="username"
                 value={formData.username}
                 onChange={handleInputChange}
-                className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500"
+                className="input w-full px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="Choose a username"
                 required
               />
             </div>
+
             <div className="form-control mb-4">
-              <label className="label" htmlFor="fullName">
-                <span className="label-text text-gray-400 font-medium">
-                  Full Name
-                </span>
+              <label
+                htmlFor="fullName"
+                className="block text-sm font-medium mb-1"
+              >
+                Full Name
               </label>
               <input
                 type="text"
@@ -142,31 +138,33 @@ const SignUpPage = () => {
                 id="fullName"
                 value={formData.fullName}
                 onChange={handleInputChange}
-                className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500"
+                className="input w-full px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="Enter your full name"
                 required
               />
             </div>
+
             <div className="form-control mb-6 relative">
-              <label className="label" htmlFor="password">
-                <span className="label-text text-gray-400 font-medium">
-                  Password
-                </span>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium mb-1"
+              >
+                Password
               </label>
-              <div className="relative flex items-center">
+              <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500 pr-12"
+                  className="input w-full px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent pr-12"
                   placeholder="Create a password"
                   required
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-blue-400"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-primary hover:text-blue-400"
                   onClick={handleShowPassword}
                 >
                   {showPassword ? (
@@ -192,41 +190,40 @@ const SignUpPage = () => {
               </label>
             </div>
 
-            <div className="form-control">
-              <button
-                type="submit"
-                className={`btn btn-primary w-full py-3 text-lg rounded-lg ${
-                  !isTermsAccepted
-                    ? "bg-gray-500 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-500"
-                }`}
-                disabled={!isTermsAccepted}
-              >
-                Create Account <MdVerified className="text-xl" />
-              </button>
-            </div>
+            <button
+              type="submit"
+              className={`btn w-full py-3 text-lg font-semibold rounded-lg bg-primary hover:bg-primary-dark transition-colors ${
+                !isTermsAccepted ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={!isTermsAccepted}
+            >
+              Create Account
+              <MdVerified className="ml-2 text-xl" />
+            </button>
           </form>
-          <div className="text-center mt-4">
-            <p>
-              Already have an account?{" "}
-              <Link
-                to="/login"
-                className="text-blue-400 hover:text-blue-300 hover:underline"
-              >
-                <ShinyText
-                  text="Login"
-                  disabled={false}
-                  speed={3}
-                  className="custom-class text-lg"
-                />
-              </Link>
-            </p>
-          </div>
+
+          <p className="text-center mt-4 text-sm text-gray-400">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-primary hover:underline hover:text-primary-light"
+            >
+              <ShinyText
+                text="Login"
+                disabled={false}
+                speed={3}
+                className="custom-class text-lg underline"
+              />
+            </Link>
+          </p>
         </div>
       </div>
+
       <Link
-        className="text-gray-500 mt-6 text-sm"
+        className="text-gray-500 mt-6 text-sm hover:text-gray-400"
         to="https://drive.google.com/file/d/1Ps5mk3-_sWRXlHdibHDOyM9rjvdfP03w/view?usp=sharing"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         Terms & Conditions
       </Link>

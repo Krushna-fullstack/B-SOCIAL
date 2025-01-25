@@ -8,13 +8,13 @@ import { BlurText } from "../../../ui-components/BlurText";
 import ShinyText from "../../../ui-components/ShinyText";
 import GradientText from "../../../ui-components/GradiantText";
 
-
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
@@ -50,51 +50,39 @@ const LoginPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-base-100">
-      
-      <BlurText
-        text="Welcome Back ! 🎉"
-        className="custom-class text-4xl sm:text-6xl font-extrabold text-white  text-center mb-6"
-        delay={50}
-      />
-
-      
-      <GradientText
-        colors={["#a78bfa", "#ec4899", "#dc2626"]} // Custom gradient colors
-        animationSpeed={3} // Custom animation speed in seconds
-        showBorder={false} // Show or hide border
-        className="custom-class text-3xl sm:text-4xl mb-2" // Add one or more custom classes
-      >
-        Login to Your Account
-      </GradientText>
-      <div className="card w-full max-w-md bg-base-100 rounded-lg mx-4 sm:mx-0 border-t-2 border-primary border-b-2 shadow-primary">
-        <div className="card-body">
-          <div className="flex justify-center my-4">
-            <img
-              src="/logo.png"
-              alt="Logo"
-              className="w-32 h-32 rounded-full shadow-lg border-4 border-primary"
+    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary text-white px-4">
+      {/* Logo and Header Section */}
+      <div className="flex flex-col items-center justify-center mb-8">
+        <img
+          src="/logo.png"
+          alt="Logo"
+          className="w-32 h-32 rounded-full shadow-lg border-2 border-primary mb-4"
+        />
+        <ShinyText
+              text="TOGETHER WE THRIVE"
+              disabled={false}
+              speed={3}
+              className="text-3xl font-bold text-center mb-8 mx-auto"
             />
-          </div>
-          
-          <ShinyText
-            text="Login"
-            disabled={false}
-            speed={3}
-            className="custom-class text-center text-4xl font-bold  mb-6"
-          />
+      </div>
+
+      <div className="card w-full max-w-lg bg-base rounded-lg shadow-lg border border-gray-700">
+        <div className="card-body px-6 py-8">
           <form onSubmit={handleSubmit}>
+            <ShinyText
+              text="Login"
+              disabled={false}
+              speed={3}
+              className="text-4xl font-bold text-center mb-8 mx-auto text-primary"
+            />
             <div className="form-control mb-4">
-              <label className="label" htmlFor="email">
-                <span className="label-text text-gray-400 font-medium">
-                  Email
-                </span>
+              <label htmlFor="email" className="block text-sm font-medium mb-1">
+                Email Address
               </label>
               <input
                 type="email"
@@ -102,32 +90,33 @@ const LoginPage = () => {
                 id="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500"
+                className="input w-full px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="Enter your email"
                 required
               />
             </div>
             <div className="form-control mb-6 relative">
-              <label className="label" htmlFor="password">
-                <span className="label-text text-gray-400 font-medium">
-                  Password
-                </span>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium mb-1"
+              >
+                Password
               </label>
-              <div className="relative flex items-center">
+              <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="input input-bordered w-full bg-gray-900 text-white placeholder-gray-500 pr-12"
+                  className="input w-full px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent pr-12"
                   placeholder="Enter your password"
                   required
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-blue-400"
-                  onClick={() => handleShowPassword()}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-primary hover:text-blue-400"
+                  onClick={handleShowPassword}
                 >
                   {showPassword ? (
                     <IoMdEye size={24} />
@@ -137,31 +126,28 @@ const LoginPage = () => {
                 </button>
               </div>
             </div>
-            <div className="form-control">
-              <button
-                type="submit"
-                className="btn btn-primary w-full py-3 text-lg rounded-lg bg-blue-600 hover:bg-blue-500"
-              >
-                Login <IoLogIn className="ml-2 text-xl" />
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="btn w-full py-3 text-lg font-semibold rounded-lg bg-primary hover:bg-primary-dark transition-colors"
+            >
+              Login
+              <IoLogIn className="ml-2 text-xl" />
+            </button>
           </form>
-          <div className="text-center mt-4">
-            <p>
-              Don’t have an account ?{" "}
-              <Link
-                to="/signup"
-                className="text-blue-400 hover:text-blue-300 hover:underline"
-              >
-                <ShinyText
+          <p className="text-center mt-4 text-sm text-gray-400">
+            Don't have an account?{" "}
+            <Link
+              to="/signup"
+              className="text-primary hover:underline hover:text-primary-light"
+            >
+              <ShinyText
                   text="Signup"
                   disabled={false}
                   speed={3}
-                  className="custom-class"
+                  className="custom-class text-lg underline"
                 />
-              </Link>
-            </p>
-          </div>
+            </Link>
+          </p>
         </div>
       </div>
     </div>

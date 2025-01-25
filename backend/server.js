@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: ["http://localhost:3000", "http://localhost:5173"],
     credentials: true,
   })
 );
@@ -38,6 +38,7 @@ import postRoutes from "./routes/post.routes.js";
 import jobRoutes from "./routes/job.routes.js";
 import noticeRoutes from "./routes/notice.routes.js";
 import pgRoutes from "./routes/pg.routes.js";
+import chatRoutes from "./routes/chat.routes.js";
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
@@ -45,6 +46,7 @@ app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/jobs", jobRoutes);
 app.use("/api/v1/notices", noticeRoutes);
 app.use("/api/v1/pg", pgRoutes);
+app.use("/api/v1/chat", chatRoutes);
 
 const __dirname = path.resolve();
 
