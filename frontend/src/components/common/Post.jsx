@@ -269,45 +269,32 @@ const Post = ({ post }) => {
           aria-labelledby="comments-title"
           role="dialog"
         >
-          <div className="relative p-6 sm:p-8 bg-black w-full max-w-lg sm:max-w-xl xl:max-w-3xl mx-4 shadow-2xl">
-            {/* Close Icon */}
+          <div className="relative bg-gray-800 w-full max-w-lg sm:max-w-xl rounded-xl shadow-xl p-6">
+            {/* Close Button */}
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 text-red-600 hover:text-red-500 transition duration-200"
-              aria-label="Close modal"
+              className="absolute top-4 right-4 text-gray-300 hover:text-red-500 transition duration-200"
+              aria-label="Close"
             >
               <FaTimes className="text-2xl" />
             </button>
 
-            {/* Title */}
-            <div className="text-center mb-8">
-              <ShinyText
-                text="Comments"
-                disabled={false}
-                speed={3}
-                className="custom-class text-3xl sm:text-4xl font-bold "
-              />
-              {/* <p className="text-gray-400 mt-1">Share your thoughts below</p> */}
-              <GradientText
-                colors={["#a78bfa", "#ec4899", "#dc2626"]} // Gradient colors
-                animationSpeed={3} // Custom animation speed in seconds
-                showBorder={false} // Show or hide border
-                className="custom-class mt-1" // Add one or more custom classes
-              >
-                Share your thoughts below
-              </GradientText>
+            {/* Modal Header */}
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-semibold text-white">Comments</h2>
+              <p className="text-gray-400 mt-2">Share your thoughts below</p>
             </div>
 
             {/* Comments List */}
-            <ul className="space-y-6 max-h-80 overflow-y-auto custom-scrollbar">
+            <ul className="space-y-4 max-h-80 overflow-y-auto custom-scrollbar">
               {post.comments.length > 0 ? (
                 post.comments.map((comment) => (
                   <li
                     key={comment._id}
-                    className="flex items-start gap-4 p-4 bg-neutral-800 rounded-lg shadow hover:bg-gray-700 transition"
+                    className="flex items-start gap-4 p-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition"
                   >
                     <img
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-primary"
+                      className="w-12 h-12 rounded-full object-cover border-2 border-blue-500"
                       src={comment.user.profileImg || "/avatar-placeholder.png"}
                       alt={comment.user.username}
                     />
@@ -338,21 +325,21 @@ const Post = ({ post }) => {
               )}
             </ul>
 
-            {/* Comment Form */}
+            {/* Comment Input */}
             <form
               onSubmit={handlePostComment}
               className="mt-6 flex items-center gap-4"
             >
               <input
                 type="text"
-                className="flex-grow p-3 bg-secondary text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-                placeholder="Add a comment..."
+                className="flex-grow p-3 bg-gray-700 text-white rounded-lg placeholder-gray-400 focus:ring-2 focus:ring-blue-500 outline-none"
+                placeholder="Write a comment..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <button
                 type="submit"
-                className="bg-primary text-white px-6 py-3 rounded-lg flex items-center justify-center hover:bg-opacity-90 transition duration-200 disabled:opacity-50"
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition disabled:opacity-50"
                 disabled={isCommenting}
               >
                 {isCommenting ? (
