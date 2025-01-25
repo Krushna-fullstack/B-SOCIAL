@@ -59,6 +59,7 @@ const Post = ({ post }) => {
       if (!res.ok) throw new Error("Something went wrong");
       return data;
     },
+
     onSuccess: () => {
       toast.success("Post deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -398,7 +399,6 @@ const Post = ({ post }) => {
               >
                 <MdDeleteSweep className="text-2xl" />
                 {isDeleting ? "Deleting..." : "Delete"}
-                
               </button>
             </div>
           </div>
