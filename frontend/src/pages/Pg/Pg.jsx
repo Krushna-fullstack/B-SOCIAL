@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CreatePg from "./CreatePg";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FaLocationDot } from "react-icons/fa6";
@@ -8,6 +8,7 @@ import ShinyText from "../../ui-components/ShinyText";
 import toast from "react-hot-toast";
 
 const Pg = () => {
+  const [selectedPg, setSelectedPg] = useState(null);
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
   const queryClient = useQueryClient();
@@ -55,6 +56,14 @@ const Pg = () => {
 
   const handleDeletePg = (pgId) => {
     deletePg(pgId);
+  };
+
+  const handleGetDetails = (pg) => {
+    setSelectedPg(pg);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPg(null);
   };
 
   return (
@@ -113,22 +122,16 @@ const Pg = () => {
                 <p className="text-white line-clamp-3">{pg.description}</p>
                 <div className="mt-4">
                   <p className="text-white font-semibold text-md">
-                    Contact:{" "}
-                    <a className="text-white font-semibold text-md">
-                      {pg.contact}
-                    </a>
+                    Contact: {pg.contact}
                   </p>
                 </div>
                 <div className="flex justify-between items-center mt-5">
-                  <a
+                  <button
                     className="btn bg-primary border-none rounded-xl text-sm"
-                    href={`https://wa.me/917008207704?text=Hello,%20I%20am%20interested%20in%20learning%20more%20about%20the%20PG: ${pg.name}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    onClick={() => handleGetDetails(pg)}
                   >
-                    <AiFillMessage />
-                    Get Details
-                  </a>
+                    <AiFillMessage /> Get Details
+                  </button>
                   {authUser && authUser.isAdmin && (
                     <button
                       className="btn bg-red-600 border-none text-sm text-white ml-2"
@@ -149,6 +152,35 @@ const Pg = () => {
           </div>
         )
       )}
+
+      {/* Modal for PG Details */}
+      {selectedPg && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-secondary p-6 rounded-lg shadow-lg w-11/12 max-w-md relative">
+      <button
+        className="absolute mx-3 my-3 top-2 right-2 bg-red-600 text-white p-2 rounded-full btn btn-sm btn-circle btn-ghost "
+        onClick={handleCloseModal}
+      >
+        ✕
+      </button>
+      <h3 className="text-xl font-semi mb-4 mx-3 my-2">Details for {selectedPg.name}</h3>
+      <ul className="list-disc list-inside mb-4 text-white">
+        <li className="list-none">Step - 1 : Install telegram app</li>
+        <li className="list-none">Step - 2 : Create an account</li>
+        <li className="list-none">Step - 3 : Send Message to us </li>
+      </ul>
+      <button
+        className="btn bg-primary text-white px-4 py-2 rounded-lg w-full"
+        onClick={() => {
+          window.location.href = `https://t.me/bjb_social?text=Hello,%20I%20am%20interested%20in%20learning%20more%20about%20the%20PG: ${selectedPg.name}`;
+        }}
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

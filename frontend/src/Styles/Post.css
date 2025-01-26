@@ -1,0 +1,57 @@
+/* Post.css */
+
+/* Modal Background */
+.dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8); /* Darker semi-transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it appears above other elements */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #2d2d2d; /* Slightly lighter dark background */
+    border-radius: 12px; /* Rounded corners for a softer look */
+    padding: 20px;
+    width: 90%;
+    max-width: 600px; /* Responsive max width */
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Close Button */
+  .close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: transparent;
+    border: none;
+  }
+  
+  /* Title */
+  .modal-title {
+    text-align: center;
+  }
+  
+  /* Comments List */
+  .comments-list {
+    max-height: 300px; /* Limit height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
+  /* Input Field */
+  .comment-input {
+    width: calc(100% - 100px); /* Full width minus button width */
+    padding: 10px;
+  }
+  
+  /* Submit Button */
+  .submit-button {
+    padding: 10px;
+  }
+  
