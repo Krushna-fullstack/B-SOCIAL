@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import resourcesData from "./../../utils/resoucesData/resourcesData.json";
 import { FaLongArrowAltRight } from "react-icons/fa";
@@ -9,6 +9,17 @@ const ResourcesList = () => {
   // State for selected filter
   const [selectedStream, setSelectedStream] = useState("All");
 
+  // Initialize modal state based on localStorage
+  const [showModal, setShowModal] = useState(() => {
+    return !localStorage.getItem("resourceNoticeShown");
+  });
+
+  // Handle modal close
+  const handleModalClose = () => {
+    setShowModal(false);
+    localStorage.setItem("resourceNoticeShown", "true");
+  };
+
   // Filtered data based on selected stream
   const filteredData =
     selectedStream === "All"
@@ -16,9 +27,32 @@ const ResourcesList = () => {
       : { [selectedStream]: resourcesData[selectedStream] };
 
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center relative">
+      {/* Modal/Popup */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center px-4">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl">
+            <div className="text-center">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Notice
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Some resources are currently unavailable. The resources will be
+                featured soon.
+              </p>
+              <button
+                onClick={handleModalClose}
+                className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <ShinyText
-        text="Resources"
+        text="E-Library"
         disabled={false}
         speed={3}
         className="custom-class text-5xl font-bold text-center my-4 mt-3"

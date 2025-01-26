@@ -152,7 +152,7 @@ const Post = ({ post }) => {
   };
 
   const handleSharePost = () => {
-    const postUrl = `${window.location.origin}/post/${post._id}`;
+    const postUrl = `https://bjbsocial.in`;
     if (navigator.share) {
       navigator.share({
         title: "Check out this post",
@@ -264,99 +264,208 @@ const Post = ({ post }) => {
       {/* Comments Modal */}
       {isModalOpen && (
         <dialog
-          className="fixed inset-0 flex items-center justify-center z-50 bg-black/70 backdrop-blur-sm"
+          style={{
+            position: "fixed",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 50,
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            backdropFilter: "blur(4px)",
+          }}
           open={isModalOpen}
           aria-labelledby="comments-title"
           role="dialog"
         >
-          <div className="relative p-6 sm:p-8 bg-black w-full max-w-lg sm:max-w-xl xl:max-w-3xl mx-4 shadow-2xl">
+          <div
+            style={{
+              position: "relative",
+              padding: "24px",
+              backgroundColor: "black",
+              width: "100%",
+              maxWidth: "768px",
+              margin: "16px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              borderRadius: "8px",
+              color: "white",
+            }}
+          >
             {/* Close Icon */}
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 text-red-600 hover:text-red-500 transition duration-200"
+              style={{
+                position: "absolute",
+                top: "16px",
+                right: "16px",
+                color: "#ef4444",
+                cursor: "pointer",
+                background: "none",
+                border: "none",
+                fontSize: "20px",
+                transition: "color 0.2s",
+              }}
               aria-label="Close modal"
             >
-              <FaTimes className="text-2xl" />
+              <FaTimes />
             </button>
 
             {/* Title */}
-            <div className="text-center mb-8">
+            <div style={{ textAlign: "center", marginBottom: "32px" }}>
               <ShinyText
                 text="Comments"
                 disabled={false}
                 speed={3}
-                className="custom-class text-3xl sm:text-4xl font-bold "
+                className="custom-class"
               />
-              {/* <p className="text-gray-400 mt-1">Share your thoughts below</p> */}
               <GradientText
                 colors={["#a78bfa", "#ec4899", "#dc2626"]} // Gradient colors
                 animationSpeed={3} // Custom animation speed in seconds
                 showBorder={false} // Show or hide border
-                className="custom-class mt-1" // Add one or more custom classes
+                className="custom-class"
               >
                 Share your thoughts below
               </GradientText>
             </div>
 
             {/* Comments List */}
-            <ul className="space-y-6 max-h-80 overflow-y-auto custom-scrollbar">
+            <ul
+              style={{
+                margin: 0,
+                padding: 0,
+                listStyle: "none",
+                maxHeight: "320px",
+                overflowY: "auto",
+                scrollbarWidth: "thin",
+              }}
+            >
               {post.comments.length > 0 ? (
                 post.comments.map((comment) => (
                   <li
                     key={comment._id}
-                    className="flex items-start gap-4 p-4 bg-neutral-800 rounded-lg shadow hover:bg-gray-700 transition"
+                    style={{
+                      display: "flex",
+                      alignItems: "start",
+                      gap: "16px",
+                      padding: "16px",
+                      backgroundColor: "#2a2a2a",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      marginBottom: "12px",
+                      transition: "background-color 0.2s",
+                    }}
                   >
                     <img
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-primary"
+                      style={{
+                        width: "56px",
+                        height: "56px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                        border: "2px solid #3b82f6",
+                      }}
                       src={comment.user.profileImg || "/avatar-placeholder.png"}
                       alt={comment.user.username}
                     />
-                    <div className="flex-grow">
-                      <div className="flex justify-between items-center">
+                    <div style={{ flexGrow: 1 }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
                         <Link
                           to={`/profile/${comment.user.username}`}
-                          className="text-lg font-semibold text-white hover:underline"
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "600",
+                            color: "white",
+                            textDecoration: "none",
+                          }}
                         >
                           {comment.user.username}
                         </Link>
                         {authUser._id === comment.user._id && (
                           <button
                             onClick={() => handleDeleteComment(comment._id)}
-                            className="text-red-600 hover:text-red-500 transition"
+                            style={{
+                              color: "#ef4444",
+                              cursor: "pointer",
+                              background: "none",
+                              border: "none",
+                              fontSize: "18px",
+                              transition: "color 0.2s",
+                            }}
                             aria-label="Delete comment"
                           >
-                            <FaTrash className="text-lg" />
+                            <FaTrash />
                           </button>
                         )}
                       </div>
-                      <p className="text-gray-300 mt-2">{comment.text}</p>
+                      <p style={{ color: "#a3a3a3", marginTop: "8px" }}>
+                        {comment.text}
+                      </p>
                     </div>
                   </li>
                 ))
               ) : (
-                <li className="text-gray-400 text-center">No comments yet.</li>
+                <li style={{ color: "#a3a3a3", textAlign: "center" }}>
+                  No comments yet.
+                </li>
               )}
             </ul>
 
             {/* Comment Form */}
             <form
               onSubmit={handlePostComment}
-              className="mt-6 flex items-center gap-4"
+              style={{
+                marginTop: "24px",
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+              }}
             >
               <input
                 type="text"
-                className="flex-grow p-3 bg-secondary text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+                style={{
+                  flexGrow: 1,
+                  padding: "12px",
+                  backgroundColor: "#333",
+                  color: "white",
+                  border: "1px solid #555",
+                  borderRadius: "8px",
+                  outline: "none",
+                }}
                 placeholder="Add a comment..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <button
                 type="submit"
-                className="bg-primary text-white px-6 py-3 rounded-lg flex items-center justify-center hover:bg-opacity-90 transition duration-200 disabled:opacity-50"
+                style={{
+                  backgroundColor: "#3b82f6",
+                  color: "white",
+                  padding: "12px 24px",
+                  borderRadius: "8px",
+                  border: "none",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "background-color 0.2s",
+                }}
                 disabled={isCommenting}
               >
                 {isCommenting ? (
-                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                  <div
+                    style={{
+                      animation: "spin 1s linear infinite",
+                      borderRadius: "50%",
+                      height: "20px",
+                      width: "20px",
+                      border: "2px solid white",
+                      borderTopColor: "transparent",
+                    }}
+                  ></div>
                 ) : (
                   <BsFillSendFill />
                 )}
