@@ -3,7 +3,7 @@ import CreatePost from "./CreatePost";
 import Posts from "../../components/common/Posts";
 import { Link } from "react-router-dom";
 import { VscAccount } from "react-icons/vsc";
-
+//home page component
 const HomePage = () => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
