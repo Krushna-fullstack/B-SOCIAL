@@ -31,13 +31,21 @@ const Post = ({ post }) => {
   };
 
   const openModal = () => {
-    setIsModalOpen(true);
-    toggleBodyScroll(true);
+    const modal = document.getElementById(`comments_modal${post._id}`);
+    if (modal) {
+      modal.showModal();
+      setIsModalOpen(true);
+      toggleBodyScroll(true);
+    }
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
-    toggleBodyScroll(false); // Enable scroll
+    const modal = document.getElementById(`comments_modal${post._id}`);
+    if (modal) {
+      modal.close();
+      setIsModalOpen(false);
+      toggleBodyScroll(false); // Enable scroll
+    }
   };
 
   const openDeleteModal = () => {
@@ -263,217 +271,59 @@ const Post = ({ post }) => {
 
       {/* Comments Modal */}
       {isModalOpen && (
-        <dialog
-          style={{
-            position: "fixed",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 50,
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            backdropFilter: "blur(4px)",
-          }}
-          open={isModalOpen}
-          aria-labelledby="comments-title"
-          role="dialog"
-        >
-          <div
-            style={{
-              position: "relative",
-              padding: "24px",
-              backgroundColor: "black",
-              width: "100%",
-              maxWidth: "768px",
-              margin: "16px",
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              borderRadius: "8px",
-              color: "white",
-            }}
-          >
-            {/* Close Icon */}
-            <button
-              onClick={closeModal}
-              style={{
-                position: "absolute",
-                top: "16px",
-                right: "16px",
-                color: "#ef4444",
-                cursor: "pointer",
-                background: "none",
-                border: "none",
-                fontSize: "20px",
-                transition: "color 0.2s",
-              }}
-              aria-label="Close modal"
-            >
-              <FaTimes />
-            </button>
-
-            {/* Title */}
-            <div style={{ textAlign: "center", marginBottom: "32px" }}>
-              <ShinyText
-                text="Comments"
-                disabled={false}
-                speed={3}
-                className="custom-class"
-              />
-              <GradientText
-                colors={["#a78bfa", "#ec4899", "#dc2626"]} // Gradient colors
-                animationSpeed={3} // Custom animation speed in seconds
-                showBorder={false} // Show or hide border
-                className="custom-class"
-              >
-                Share your thoughts below
-              </GradientText>
+  <dialog
+    id={`comments_modal${post._id}`}
+    className="modal border-none outline-none"
+  >
+    <div className="modal-box rounded border border-gray-600">
+      <h3 className="font-bold text-lg mb-4">COMMENTS</h3>
+      <div className="flex flex-col gap-3 max-h-60 overflow-auto">
+        {post.comments.length === 0 && (
+          <p className="text-sm text-slate-500">
+            No comments yet 🤔 Be the first one 😉
+          </p>
+        )}
+        {post.comments.map((comment) => (
+          <div key={comment._id} className="flex gap-2 items-start">
+            <div className="avatar">
+              <div className="w-8 rounded-full">
+                <img
+                  src={comment.user.profileImg || "/avatar-placeholder.png"}
+                  alt={comment.user.username}
+                />
+              </div>
             </div>
-
-            {/* Comments List */}
-            <ul
-              style={{
-                margin: 0,
-                padding: 0,
-                listStyle: "none",
-                maxHeight: "320px",
-                overflowY: "auto",
-                scrollbarWidth: "thin",
-              }}
-            >
-              {post.comments.length > 0 ? (
-                post.comments.map((comment) => (
-                  <li
-                    key={comment._id}
-                    style={{
-                      display: "flex",
-                      alignItems: "start",
-                      gap: "16px",
-                      padding: "16px",
-                      backgroundColor: "#2a2a2a",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                      marginBottom: "12px",
-                      transition: "background-color 0.2s",
-                    }}
-                  >
-                    <img
-                      style={{
-                        width: "56px",
-                        height: "56px",
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                        border: "2px solid #3b82f6",
-                      }}
-                      src={comment.user.profileImg || "/avatar-placeholder.png"}
-                      alt={comment.user.username}
-                    />
-                    <div style={{ flexGrow: 1 }}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Link
-                          to={`/profile/${comment.user.username}`}
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: "600",
-                            color: "white",
-                            textDecoration: "none",
-                          }}
-                        >
-                          {comment.user.username}
-                        </Link>
-                        {authUser._id === comment.user._id && (
-                          <button
-                            onClick={() => handleDeleteComment(comment._id)}
-                            style={{
-                              color: "#ef4444",
-                              cursor: "pointer",
-                              background: "none",
-                              border: "none",
-                              fontSize: "18px",
-                              transition: "color 0.2s",
-                            }}
-                            aria-label="Delete comment"
-                          >
-                            <FaTrash />
-                          </button>
-                        )}
-                      </div>
-                      <p style={{ color: "#a3a3a3", marginTop: "8px" }}>
-                        {comment.text}
-                      </p>
-                    </div>
-                  </li>
-                ))
-              ) : (
-                <li style={{ color: "#a3a3a3", textAlign: "center" }}>
-                  No comments yet.
-                </li>
-              )}
-            </ul>
-
-            {/* Comment Form */}
-            <form
-              onSubmit={handlePostComment}
-              style={{
-                marginTop: "24px",
-                display: "flex",
-                alignItems: "center",
-                gap: "16px",
-              }}
-            >
-              <input
-                type="text"
-                style={{
-                  flexGrow: 1,
-                  padding: "12px",
-                  backgroundColor: "#333",
-                  color: "white",
-                  border: "1px solid #555",
-                  borderRadius: "8px",
-                  outline: "none",
-                }}
-                placeholder="Add a comment..."
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              />
-              <button
-                type="submit"
-                style={{
-                  backgroundColor: "#3b82f6",
-                  color: "white",
-                  padding: "12px 24px",
-                  borderRadius: "8px",
-                  border: "none",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "background-color 0.2s",
-                }}
-                disabled={isCommenting}
-              >
-                {isCommenting ? (
-                  <div
-                    style={{
-                      animation: "spin 1s linear infinite",
-                      borderRadius: "50%",
-                      height: "20px",
-                      width: "20px",
-                      border: "2px solid white",
-                      borderTopColor: "transparent",
-                    }}
-                  ></div>
-                ) : (
-                  <BsFillSendFill />
-                )}
-              </button>
-            </form>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1">
+                <span className="font-bold">{comment.user.fullName}</span>
+                <span className="text-gray-700 text-sm">@{comment.user.username}</span>
+              </div>
+              <div className="text-sm">{comment.text}</div>
+            </div>
           </div>
-        </dialog>
-      )}
+        ))}
+      </div>
+      <form
+        className="flex gap-2 items-center mt-4 border-t border-gray-600 pt-2"
+        onSubmit={handlePostComment}
+      >
+        <textarea
+          className="textarea w-full p-1 rounded text-md resize-none border focus:outline-none border-gray-800"
+          placeholder="Add a comment..."
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <button className="btn btn-primary rounded-full btn-sm text-white px-4" disabled={isCommenting}>
+          {isCommenting ? <LoadingSpinner size="sm" /> : "Post"}
+        </button>
+      </form>
+    </div>
+    <form method="dialog" className="modal-backdrop">
+      <button className="outline-none">close</button>
+    </form>
+  </dialog>
+)}
+
 
       {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
