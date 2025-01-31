@@ -12,7 +12,7 @@ import { RxCross1 } from "react-icons/rx";
 import { RiShareForwardFill } from "react-icons/ri";
 import ShinyText from "../../ui-components/ShinyText";
 import GradientText from "../../ui-components/GradiantText";
-
+//post page 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
