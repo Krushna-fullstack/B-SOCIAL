@@ -7,7 +7,6 @@ import { toast } from "react-hot-toast";
 import { formatPostDate } from "../../utils/date";
 import { RiShareForwardFill } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { MdDeleteSweep } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
 
 const Post = ({ post }) => {
@@ -93,8 +92,29 @@ const Post = ({ post }) => {
     },
   });
 
+  const { mutate: deleteComment, isPending: isDeletingComment } = useMutation({
+    mutationFn: async (commentId) => {
+      const res = await fetch(
+        `/api/v1/posts/${post._id}/comments/${commentId}`,
+        { method: "DELETE" }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
+      return data;
+    },
+    onSuccess: () => {
+      toast.success("Comment deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      setComment("");
+      toast.success("Comment added successfully");
+    },
+  });
+
   return (
-    <div className="bg-secondary rounded-xl shadow-md p-6 mb-2 w-full max-w-md mx-auto">
+    <div className="bg-secondary rounded-xl shadow-md p-6 mb-2 w-full max-w-md mx-auto overflow-x-hidden">
       {/* Header */}
       <div className="flex items-center mb-4">
         <Link to={`/profile/${postOwner?.username}`} className="flex-shrink-0">
@@ -173,20 +193,30 @@ const Post = ({ post }) => {
           <div className="mt-4">
             {post.comments.map((comment) => (
               <div key={comment._id} className="mb-4">
-                <div className="flex items-center">
-                  <img
-                    src={comment.user.profileImg || "/avatar-placeholder.png"}
-                    alt="Profile"
-                    className="w-8 h-8 rounded-full object-cover"
-                  />
-                  <div className="ml-2">
-                    <p className="text-sm font-semibold text-white">
-                      {comment.user.fullName}
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      @{comment.user.username}
-                    </p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <img
+                      src={comment.user.profileImg || "/avatar-placeholder.png"}
+                      alt="Profile"
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                    <div className="ml-2">
+                      <p className="text-sm font-semibold text-white">
+                        {comment.user.fullName}
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        @{comment.user.username}
+                      </p>
+                    </div>
                   </div>
+                  {authUser?._id === comment.user._id && (
+                    <button
+                      onClick={() => deleteComment(comment._id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      <FaTrash className="text-lg" />
+                    </button>
+                  )}
                 </div>
                 <p className="text-sm text-white mt-2">{comment.text}</p>
               </div>
