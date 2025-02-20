@@ -7,6 +7,8 @@ import { toast } from "react-hot-toast";
 import { formatPostDate } from "../../utils/date";
 import { RiShareForwardFill } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
+
+//post page 
 import {  IoSend } from "react-icons/io5";
 
 
