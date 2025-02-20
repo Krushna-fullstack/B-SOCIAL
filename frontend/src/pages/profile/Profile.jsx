@@ -92,7 +92,7 @@ const Profile = () => {
               </div>
               <div className="relative group/cover">
                 <img
-                  src={coverImg || user?.coverImg || "/coverImage.jpg"}
+                  src={coverImg || user?.coverImg || "/background-pic.png"}
                   className="h-52 w-full object-cover"
                   alt="cover"
                 />
