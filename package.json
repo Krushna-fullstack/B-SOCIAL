@@ -23,7 +23,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.6.0",
     "morgan": "^1.10.0",
-    "react-icons": "^5.4.0"
+    "react-icons": "^5.4.0",
+    "react-spinners": "^0.15.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

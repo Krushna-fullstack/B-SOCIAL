@@ -7,7 +7,8 @@ import { toast } from "react-hot-toast";
 import { formatPostDate } from "../../utils/date";
 import { RiShareForwardFill } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { RxCross1 } from "react-icons/rx";
+import {  IoSend } from "react-icons/io5";
+
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
@@ -113,61 +114,107 @@ const Post = ({ post }) => {
     },
   });
 
+  const { mutate: deletePost } = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(`/api/v1/posts/${post._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      closeDeleteModal();
+      toast.success("Post deleted successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleShare = ()=>{
+    navigator.share({
+      title: 'Check out this post on DevSocial',
+      text: post.text,
+      url: window.location.href
+    })
+    .then(() => console.log('Successful share'))
+    .catch((error) => console.log('Error sharing', error));
+  }
+
   return (
     <div className="bg-secondary rounded-xl shadow-md p-6 mb-2 w-full max-w-md mx-auto overflow-x-hidden">
       {/* Header */}
       <div className="flex items-center mb-4">
-        <Link to={`/profile/${postOwner?.username}`} className="flex-shrink-0">
-          <img
-            className="w-12 h-12 rounded-full object-cover"
-            src={postOwner?.profileImg || "/avatar-placeholder.png"}
-            alt="Profile"
-          />
-        </Link>
-        <div className="ml-4 flex-1">
-          <Link
-            to={`/profile/${postOwner?.username}`}
-            className="text-md font-semibold text-white"
-          >
-            {postOwner?.fullName}
+          <Link to={`/profile/${postOwner?.username}`} className="flex-shrink-0">
+            <img
+          className="w-12 h-12 rounded-full object-cover"
+          src={postOwner?.profileImg || "/avatar-placeholder.png"}
+          alt="Profile"
+            />
           </Link>
-          <p className="text-sm text-gray-400">@{postOwner?.username}</p>
-          <p className="text-xs text-gray-500">{formattedDate}</p>
-        </div>
-
-        {isMyPost && (
-          <div className="dropdown">
-            <button className="btn bg-secondary border-none">
-              <BsThreeDotsVertical className="text-xl text-white" />
-            </button>
-            <ul className="dropdown-content menu w-48 p-2 shadow bg-black">
-              <li>
-                <button
-                  className="text-red-500 flex items-center"
-                  onClick={openDeleteModal}
-                >
-                  <FaTrash className="text-lg" />
-                  <span className="ml-2">Delete Post</span>
-                </button>
-              </li>
-            </ul>
+          <div className="ml-4 flex-1">
+            <Link
+          to={`/profile/${postOwner?.username}`}
+          className="text-md font-semibold text-white"
+            >
+          {postOwner?.fullName}
+            </Link>
+            <p className="text-sm text-gray-400">@{postOwner?.username}</p>
+            <p className="text-xs text-gray-500">{formattedDate}</p>
           </div>
-        )}
-      </div>
-
-      {/* Post Content */}
+          <hr/>
+          {isMyPost && (
+            <div className="dropdown dropdown-end">
+          <button className="btn btn-ghost btn-sm p-0 hover:bg-transparent">
+            <BsThreeDotsVertical className="text-xl text-white" />
+          </button>
+          <ul className="dropdown-content menu p-2 shadow-lg bg-black rounded-box w-40 mt-2">
+            <li>
+              <button
+            className="text-red-500 flex items-center px-4 py-2 hover:bg-gray-800 rounded-xl"
+            onClick={openDeleteModal}
+              >
+            <FaTrash className="text-lg" />
+            <span className="ml-2">Delete Post</span>
+              </button>
+            </li>
+          </ul>
+            </div>
+          )}
+        </div>
+        <hr className="border-gray-600 my-3" />
+        {/* Post Content */}
       <p className="text-white text-sm mb-4">{post.text}</p>
 
       {post.img && (
-        <img
-          src={post.img}
-          className="w-full h-64 object-cover rounded-lg mb-4"
-          alt="Post"
-        />
+        <div className="w-full rounded-lg mb-4 overflow-hidden"> {/* Added wrapper for overflow handling */}
+          <img
+            src={post.img}
+            className="w-full h-auto object-cover" // Key changes here
+            alt="Post"
+            style={{ maxHeight: '500px' }} // Optional: set a max height
+          />
+        </div>
       )}
 
       {/* Actions */}
       <div className="flex justify-around text-gray-400">
+      {/* Delete Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-secondary p-6 rounded-xl max-w-sm w-full">
+            <h3 className="text-lg font-bold text-white mb-4">Delete Post</h3>
+            <p className="text-gray-300 mb-4">Are you sure you want to delete this post? This action cannot be undone.</p>
+            <div className="flex justify-end gap-4">
+              <button className="btn btn-ghost" onClick={closeDeleteModal}>Cancel</button>
+              <button className="btn btn-error rounded-xl text-white" onClick={() => deletePost()}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+
         <button
           onClick={() => likePost()}
           className="flex items-center space-x-1"
@@ -175,13 +222,13 @@ const Post = ({ post }) => {
           {isLiked ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
           <span>{post.likes.length}</span>
         </button>
-
+  
         <button onClick={openModal} className="flex items-center space-x-1">
           <MdInsertComment />
           <span>{post.comments.length}</span>
         </button>
-
-        <button className="flex items-center space-x-1">
+  
+        <button className="flex items-center space-x-1" onClick={handleShare}>
           <RiShareForwardFill />
         </button>
       </div>
@@ -222,8 +269,8 @@ const Post = ({ post }) => {
               </div>
             ))}
           </div>
-          <div className="mt-4">
-            <textarea
+          <div className="mt-4 flex items-center gap-2">
+            <input
               className="w-full p-2 rounded-lg bg-gray-700 text-white"
               placeholder="Add a comment..."
               value={comment}
@@ -231,14 +278,14 @@ const Post = ({ post }) => {
             />
             <button
               onClick={() => addComment()}
-              className="btn btn-primary mt-2"
+              className="text-primary"
             >
-              Post Comment
+             <IoSend className="text-2xl -rotate-12"/>
             </button>
           </div>
           <div className="modal-action">
             <button className="btn" onClick={closeModal}>
-              Close
+               Close
             </button>
           </div>
         </div>

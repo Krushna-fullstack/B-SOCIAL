@@ -11,7 +11,9 @@ const ResourcesList = () => {
 
   // Initialize modal state based on localStorage
   const [showModal, setShowModal] = useState(() => {
-    return !localStorage.getItem("resourceNoticeShown");
+    const shown = localStorage.getItem("resourceNoticeShown");
+    console.log("Initial modal state from localStorage:", shown);
+    return shown !== "true"; // Always show if it's null or not "true"
   });
 
   // Handle modal close
@@ -19,6 +21,14 @@ const ResourcesList = () => {
     setShowModal(false);
     localStorage.setItem("resourceNoticeShown", "true");
   };
+
+  // Ensure the modal always appears on the first visit
+  useEffect(() => {
+    if (localStorage.getItem("resourceNoticeShown") === null) {
+      setShowModal(true);
+      localStorage.setItem("resourceNoticeShown", "false");
+    }
+  }, []);
 
   // Filtered data based on selected stream
   const filteredData =
@@ -109,3 +119,4 @@ const ResourcesList = () => {
 };
 
 export default ResourcesList;
+
