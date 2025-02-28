@@ -3,10 +3,12 @@ import CreatePost from "./CreatePost";
 import Posts from "../../components/common/Posts";
 import { Link } from "react-router-dom";
 import { VscAccount } from "react-icons/vsc";
+import { FaBahai } from "react-icons/fa";
+
 //home page component
 const HomePage = () => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
-
+  
   return (
     <div className="flex flex-col items-center">
       <div className="flex items-center justify-between w-full max-w-sm px-4 lg:ml-4">
@@ -24,18 +26,23 @@ const HomePage = () => {
             <VscAccount className="w-12 h-12 rounded-full text-gray-400" />
           )}
         </Link>
-
+        
         {/* Logo */}
         <img
           src="/logo.png"
           alt="BJB Social Logo"
           className="w-20 h-auto my-1 mx-auto"
         />
-      </div>
 
+        {/* Bahai Icon */}
+        <Link to="/elite" className="flex-shrink-0">
+        <FaBahai className="w-10 h-10 text-primary"  />
+        </Link>
+      </div>
+      
       {/* Horizontal Line */}
       <hr className="w-full max-w-sm border-t border-gray-300 my-4" />
-
+      
       {/* Create Post and Posts Section */}
       <CreatePost />
       <Posts />
