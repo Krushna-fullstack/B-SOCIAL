@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { MdVerified } from "react-icons/md";
+import { RotateLoader } from "react-spinners";
 import ShinyText from "../../../ui-components/ShinyText";
-import GradientText from "../../../ui-components/GradiantText";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ const SignUpPage = () => {
   const queryClient = useQueryClient();
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async ({ email, username, fullName, password }) => {
       const res = await fetch("/api/v1/auth/signup", {
         method: "POST",
@@ -192,13 +192,19 @@ const SignUpPage = () => {
 
             <button
               type="submit"
-              className={`btn w-full py-3 text-lg font-semibold rounded-lg bg-primary hover:bg-primary-dark transition-colors ${
+              className={`btn w-full py-3 text-lg font-semibold rounded-lg bg-primary hover:bg-primary-dark transition-colors flex items-center justify-center ${
                 !isTermsAccepted ? "opacity-50 cursor-not-allowed" : ""
               }`}
-              disabled={!isTermsAccepted}
+              disabled={!isTermsAccepted || isPending}
             >
-              Create Account
-              <MdVerified className="ml-2 text-xl" />
+              {isPending ? (
+                <RotateLoader color="#ffffff" size={8} margin={2} />
+              ) : (
+                <>
+                  Create Account
+                  <MdVerified className="ml-2 text-xl" />
+                </>
+              )}
             </button>
           </form>
 

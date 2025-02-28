@@ -4,9 +4,8 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { IoLogIn } from "react-icons/io5";
-import { BlurText } from "../../../ui-components/BlurText";
+import { RotateLoader } from "react-spinners";
 import ShinyText from "../../../ui-components/ShinyText";
-import GradientText from "../../../ui-components/GradiantText";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +16,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async ({ email, password }) => {
       const res = await fetch("/api/v1/auth/login", {
         method: "POST",
@@ -64,11 +63,11 @@ const LoginPage = () => {
           className="w-32 h-32 rounded-full shadow-lg border-2 border-primary mb-4"
         />
         <ShinyText
-              text="TOGETHER WE THRIVE"
-              disabled={false}
-              speed={3}
-              className="text-3xl font-bold text-center mb-8 mx-auto"
-            />
+          text="TOGETHER WE THRIVE"
+          disabled={false}
+          speed={3}
+          className="text-3xl font-bold text-center mb-8 mx-auto"
+        />
       </div>
 
       <div className="card w-full max-w-lg bg-base rounded-lg shadow-lg border border-gray-700">
@@ -128,10 +127,17 @@ const LoginPage = () => {
             </div>
             <button
               type="submit"
-              className="btn w-full py-3 text-lg font-semibold rounded-lg bg-primary hover:bg-primary-dark transition-colors"
+              className="btn w-full py-3 text-lg font-semibold rounded-lg bg-primary hover:bg-primary-dark transition-colors flex items-center justify-center"
+              disabled={isPending}
             >
-              Login
-              <IoLogIn className="ml-2 text-xl" />
+              {isPending ? (
+                <RotateLoader color="#ffffff" size={8} margin={2} />
+              ) : (
+                <>
+                  Login
+                  <IoLogIn className="ml-2 text-xl" />
+                </>
+              )}
             </button>
           </form>
           <p className="text-center mt-4 text-sm text-gray-400">
@@ -141,11 +147,11 @@ const LoginPage = () => {
               className="text-primary hover:underline hover:text-primary-light"
             >
               <ShinyText
-                  text="Signup"
-                  disabled={false}
-                  speed={3}
-                  className="custom-class text-lg underline"
-                />
+                text="Signup"
+                disabled={false}
+                speed={3}
+                className="custom-class text-lg underline"
+              />
             </Link>
           </p>
         </div>
