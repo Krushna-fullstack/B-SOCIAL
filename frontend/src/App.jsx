@@ -15,6 +15,7 @@ import Pg from "./pages/Pg/Pg";
 import Notices from "./pages/Notice/Notices";
 import ResourcesList from "./pages/Resources/ResourcesList";
 import DocsPage from "./pages/Resources/DocsPage";
+import ChatbotMain from "./pages/chatbot/ChatbotMain";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -81,6 +82,10 @@ const App = () => {
           element={authUser ? <DocsPage /> : <Navigate to="/" />}
         />
         <Route path="/pg" element={authUser ? <Pg /> : <Navigate to="/" />} />
+        <Route
+          path="/elite"
+          element={authUser ? <ChatbotMain /> : <Navigate to="/" />}
+        />
       </Routes>
       <Toaster />
       {authUser && <BottomNavbar />}
