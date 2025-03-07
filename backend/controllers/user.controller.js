@@ -126,3 +126,23 @@ export const followUnfollowUser = asyncHandler(async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+export const searchUsers = asyncHandler(async (req, res) => {
+  const { username } = req.query;
+
+  try {
+    if (!username) {
+      return res.status(400).json({ error: "Username query is required" });
+    }
+
+    // Case-insensitive partial matching using regex
+    const users = await User.find(
+      { username: { $regex: username, $options: "i" } },
+      "username fullName profileImg"
+    ).limit(10); // Limits results to 10 for better performance
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Server error. Try again later." });
+  }
+});
