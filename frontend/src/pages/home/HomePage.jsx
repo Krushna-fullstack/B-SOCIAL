@@ -16,6 +16,31 @@ const HomePage = () => {
   const [results, setResults] = useState([]);
   const debounceRef = useRef(null);
 
+  // const fetchSearchResults = async (value) => {
+  //   if (!value.trim()) {
+  //     setResults([]);
+  //     setIsLoading(false);
+  //     return;
+  //   }
+  //   setIsLoading(true);
+  //   try {
+  //     const { data } = await axios.get(`/api/v1/user/search?username=${value}`);
+  //     setResults(
+  //       data?.map((user) => ({
+  //         _id: user._id,
+  //         username: user.username || user.Username,
+  //         profileImg: user.profileImg || user.ProfileImg,
+  //         fullname: user.fullName || user.FullName,
+  //       }))
+  //     );
+  //   } catch (error) {
+  //     console.error("Error fetching search results:", error);
+  //     setResults([]);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const fetchSearchResults = async (value) => {
     if (!value.trim()) {
       setResults([]);
@@ -25,14 +50,19 @@ const HomePage = () => {
     setIsLoading(true);
     try {
       const { data } = await axios.get(`/api/v1/user/search?username=${value}`);
-      setResults(
-        data?.map((user) => ({
-          _id: user._id,
-          username: user.username || user.Username,
-          profileImg: user.profileImg || user.ProfileImg,
-          fullname: user.fullName || user.FullName,
-        }))
-      );
+      if (Array.isArray(data)) {
+        // Add check here
+        setResults(
+          data.map((user) => ({
+            _id: user._id,
+            username: user.username || user.Username,
+            profileImg: user.profileImg || user.ProfileImg,
+            fullname: user.fullName || user.FullName,
+          }))
+        );
+      } else {
+        setResults([]);
+      }
     } catch (error) {
       console.error("Error fetching search results:", error);
       setResults([]);
