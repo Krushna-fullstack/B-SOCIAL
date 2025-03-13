@@ -1,112 +1,137 @@
-import React, { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import PostSkeleton from "./../skeletons/PostSkeleton";
+import React, { useEffect, useRef, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { SyncLoader } from "react-spinners";
+import PostSkeleton from "../skeletons/PostSkeleton";
 import Post from "./Post";
 
 const Posts = ({ feedType, username }) => {
-  const [isUploading, setIsUploading] = useState(false); // State for image upload loading
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const observerTarget = useRef(null);
 
-  // Determine the API endpoint based on the feed type
   const getPostEndpoint = () => {
-    switch (feedType) {
-      case "forYou":
-        return "/api/v1/posts/all";
-      case "posts":
-        return `/api/v1/posts/user/${username}`;
-      default:
-        return "/api/v1/posts/all";
-    }
+    return feedType === "posts"
+      ? `/api/v1/posts/user/${username}`
+      : "/api/v1/posts/all";
   };
 
   const POST_ENDPOINT = getPostEndpoint();
 
-  // Fetch posts using React Query
   const {
-    data: posts,
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading,
+    isError,
+    error,
     refetch,
-    isRefetching,
-  } = useQuery({
-    queryKey: ["posts"],
-    queryFn: async () => {
-      const res = await fetch(POST_ENDPOINT);
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Something went wrong");
+  } = useInfiniteQuery({
+    queryKey: ["infinitePosts", feedType, username],
+    queryFn: async ({ pageParam = 1 }) => {
+      try {
+        const url = `${POST_ENDPOINT}?page=${pageParam}&limit=10`;
+
+        const res = await fetch(url);
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || "Failed to fetch posts");
+        }
+
+        const responseData = await res.json();
+        if (!responseData || !Array.isArray(responseData.posts)) {
+          console.error("Invalid API response format:", responseData);
+          return { posts: [] };
+        }
+
+        return responseData;
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        throw error;
       }
-      return data;
     },
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage?.posts?.length > 0 ? allPages.length + 1 : undefined,
+    staleTime: 0,
+    initialData: { pages: [], pageParams: [] },
   });
 
-  // Refetch posts when feedType or username changes
   useEffect(() => {
-    refetch();
-  }, [feedType, refetch, username]);
+    console.log("Data update:", data);
+  }, [data]);
 
-  // Handle image upload
-  const handleImageUpload = async (file) => {
-    setIsUploading(true); // Show spinner
-    try {
-      const formData = new FormData();
-      formData.append("image", file);
-
-      // Upload image to the server
-      const response = await fetch("/api/v1/posts/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Image upload failed");
-      }
-
-      const result = await response.json();
-      console.log("Image uploaded successfully:", result);
-
-      // Refetch posts to update the list
+  useEffect(() => {
+    if (feedType) {
+      console.log("Refetching due to feedType change:", { feedType, username });
       refetch();
-    } catch (error) {
-      console.error("Error uploading image:", error);
-    } finally {
-      setIsUploading(false); // Hide spinner
     }
-  };
+  }, [feedType, username, refetch]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isFetchingMore) {
+          setIsFetchingMore(true);
+          fetchNextPage()
+            .then(() => setIsFetchingMore(false))
+            .catch((err) => {
+              console.error("Error fetching next page:", err);
+              setIsFetchingMore(false);
+            });
+        }
+      },
+      { threshold: 0.1, rootMargin: "200px" }
+    );
+
+    const currentTarget = observerTarget.current;
+    if (currentTarget) observer.observe(currentTarget);
+    return () => currentTarget && observer.unobserve(currentTarget);
+  }, [fetchNextPage, isFetchingMore]);
+
+  const allPosts = data?.pages.flatMap((page) => page?.posts || []);
 
   return (
     <div className="container mx-auto p-4">
-      {/* Show skeleton loading while fetching posts */}
-      {(isLoading || isRefetching) && (
-        <div>
-          <PostSkeleton />
-          <PostSkeleton />
-          <PostSkeleton />
+      {isLoading && (
+        <div className="flex justify-center items-center py-8">
+          <SyncLoader color="#3b82f6" size={10} />
         </div>
       )}
 
-      {/* Show message if there are no posts */}
-      {!isLoading && !isRefetching && posts?.length === 0 && (
-        <p className="text-center">No Posts</p>
-      )}
-
-      {/* Render posts */}
-      {!isLoading && !isRefetching && posts?.length > 0 && (
-        <div className="grid grid-cols-1 gap-4">
-          {posts.map((post) => (
-            <Post
-              key={post._id}
-              post={post}
-              onImageUpload={handleImageUpload}
-            />
-          ))}
+      {isError && (
+        <div className="text-red-500 p-4 border border-red-300 rounded">
+          <p>Error: {error?.message || "Failed to load posts"}</p>
+          <button
+            onClick={() => refetch()}
+            className="mt-2 bg-red-100 text-red-800 px-4 py-1 rounded"
+          >
+            Try Again
+          </button>
         </div>
       )}
 
-      {/* Show spinner while uploading image */}
-      {isUploading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
-        </div>
+      {!isLoading && allPosts.length === 0 && (
+        <p className="text-center py-8">No Posts Available</p>
       )}
+
+      <div className="grid grid-cols-1 gap-4">
+        {allPosts.map((post, index) =>
+          post && post._id ? (
+            <Post key={`${post._id}-${index}`} post={post} />
+          ) : null
+        )}
+      </div>
+
+      <div
+        ref={observerTarget}
+        className="h-20 flex items-center justify-center my-6 border-t pt-4"
+      >
+        {isFetchingNextPage && <SyncLoader color="#3b82f6" size={10} />}
+        {!isFetchingNextPage && allPosts.length > 0 && (
+          <div className="text-center text-gray-400">
+            {hasNextPage ? "Scroll for more" : "You've seen all posts"}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
