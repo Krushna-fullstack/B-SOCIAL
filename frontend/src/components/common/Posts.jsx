@@ -110,7 +110,7 @@ const Posts = ({ feedType, username }) => {
       )}
 
       {!isLoading && allPosts.length === 0 && (
-        <p className="text-center py-8">No Posts Available</p>
+        <p className="text-center py-8">Loading post...</p>
       )}
 
       <div className="grid grid-cols-1 gap-4">
