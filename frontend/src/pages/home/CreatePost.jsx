@@ -13,24 +13,15 @@ const CreatePost = () => {
   const queryClient = useQueryClient();
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
-  const {
-    mutate: createPost,
-    isLoading,
-    isError,
-    error,
-  } = useMutation({
+  const { mutate: createPost, isLoading } = useMutation({
     mutationFn: async ({ text, img }) => {
       const res = await fetch("/api/v1/posts/create", {
         method: "POST",
         body: JSON.stringify({ text, img }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
       const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Something went wrong");
-      }
+      if (!res.ok) throw new Error(data.error || "Failed to create post");
       return data;
     },
     onSuccess: () => {
@@ -40,15 +31,13 @@ const CreatePost = () => {
       imgRef.current.value = null;
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
+    onError: (error) => toast.error(error.message),
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (text.trim() || img) {
-      createPost({ text, img });
-    } else {
-      toast.error("Post content cannot be empty.");
-    }
+    if (!text.trim() && !img) return toast.error("Post content cannot be empty");
+    createPost({ text, img });
   };
 
   const handleImgChange = (e) => {
@@ -107,25 +96,26 @@ const CreatePost = () => {
               disabled={false}
               speed={3}
               className="custom-class flex justify-center my-2"
-            />{" "}
+            />
           </div>
           <button
             type="submit"
             className={`btn bg-primary rounded-full px-8 text-white transition-all text-lg ${
-              isLoading ? "opacity-70 cursor-not-allowed" : ""
+              isLoading ? "opacity-90 cursor-not-allowed" : ""
             }`}
             disabled={isLoading}
             onClick={handleSubmit}
           >
-            {isLoading ? "Posting..." : "Post"}
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <span className="loading loading-spinner loading-sm"></span>
+                Posting...
+              </span>
+            ) : (
+              "Post"
+            )}
           </button>
         </div>
-
-        {isError && (
-          <div className="text-red-500 text-sm mt-2">
-            {error.message || "Something went wrong."}
-          </div>
-        )}
       </div>
     </div>
   );
