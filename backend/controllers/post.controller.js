@@ -135,8 +135,40 @@ export const likeUnlikePost = async (req, res) => {
 
 export const getAllPosts = async (req, res) => {
   try {
+    let { page, limit } = req.query;
+
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 10; // Default limit is 10 posts
+
+    // Get total posts count for wrapping pagination
+    const totalPosts = await Post.countDocuments();
+
+    // If there are no posts at all, return empty array
+    if (totalPosts === 0) {
+      return res.status(200).json({
+        posts: [],
+        totalPosts: 0,
+        pagination: {
+          currentPage: page,
+          totalPages: 0,
+          hasMore: false,
+        },
+      });
+    }
+
+    // Calculate skip with wrapping behavior
+    // When we reach the end, we'll start over from the beginning
+    const totalPages = Math.ceil(totalPosts / limit);
+    const wrappedPage = ((page - 1) % totalPages) + 1;
+    const skip = (wrappedPage - 1) * limit;
+
+    
+
+    // Find posts with wrapped pagination
     const posts = await Post.find()
       .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
       .populate({
         path: "user",
         select: "-password",
@@ -146,14 +178,27 @@ export const getAllPosts = async (req, res) => {
         select: "-password",
       });
 
-    if (posts.length === 0) {
-      return res.status(200).json([]);
-    }
+    // Create a response object
+    const response = {
+      posts,
+      totalPosts,
+      pagination: {
+        currentPage: page,
+        wrappedPage: wrappedPage,
+        totalPages: totalPages,
+        // Always true since we're implementing circular scrolling
+        hasMore: true,
+      },
+    };
 
-    res.status(200).json(posts);
+    // Set cache control headers to prevent caching issues
+    res.setHeader("Cache-Control", "no-store");
+    res.status(200).json(response);
   } catch (error) {
-    console.log("Error in getAllPosts controller: ", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.error("Error in getAllPosts controller: ", error);
+    res
+      .status(500)
+      .json({ error: "Internal server error", details: error.message });
   }
 };
 
