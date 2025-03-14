@@ -38,6 +38,55 @@ const Post = ({ post }) => {
     exit: { opacity: 0, x: 10 }
   };
 
+  // Helper function to safely update a post in the cache
+  const updatePostInCache = (postId, updater) => {
+    // Get all post query keys 
+    const postQueryKeys = queryClient.getQueryCache().findAll(['posts']);
+    
+    for (const query of postQueryKeys) {
+      // Skip if there's no data
+      if (!query.state.data) continue;
+
+      // Check if the data is structured with pages (infinite query)
+      if (query.state.data.pages) {
+        queryClient.setQueryData(query.queryKey, (oldData) => {
+          if (!oldData || !oldData.pages) return oldData;
+          
+          return {
+            ...oldData,
+            pages: oldData.pages.map(page => {
+              // Check if page has a posts array
+              if (Array.isArray(page.posts)) {
+                return {
+                  ...page,
+                  posts: page.posts.map(oldPost => 
+                    oldPost._id === postId ? updater(oldPost) : oldPost
+                  )
+                };
+              } 
+              // Check if page is directly an array of posts
+              else if (Array.isArray(page)) {
+                return page.map(oldPost => 
+                  oldPost._id === postId ? updater(oldPost) : oldPost
+                );
+              }
+              // No recognized structure, return unchanged
+              return page;
+            })
+          };
+        });
+      } 
+      // Handle case where the query data is a simple array of posts
+      else if (Array.isArray(query.state.data)) {
+        queryClient.setQueryData(query.queryKey, (oldPosts) => 
+          oldPosts.map(oldPost => 
+            oldPost._id === postId ? updater(oldPost) : oldPost
+          )
+        );
+      }
+    }
+  };
+
   const { mutate: likePost, isPending: isLiking } = useMutation({
     mutationFn: async () => {
       const res = await fetch(`/api/v1/posts/like/${post._id}`, { method: "POST" });
@@ -46,26 +95,34 @@ const Post = ({ post }) => {
     },
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["posts"] });
-      const previousPosts = queryClient.getQueryData(["posts"]);
+      
+      // Get snapshot of current state
+      const queryKeysWithState = queryClient.getQueryCache()
+        .findAll(['posts'])
+        .filter(query => query.state.data)
+        .map(query => [query.queryKey, queryClient.getQueryData(query.queryKey)]);
+      
+      // Optimistically update the UI
+      updatePostInCache(post._id, (oldPost) => ({
+        ...oldPost,
+        likes: isLiked
+          ? oldPost.likes.filter((id) => id !== authUser?._id)
+          : [...oldPost.likes, authUser?._id],
+      }));
 
-      queryClient.setQueryData(["posts"], (oldPosts) =>
-        oldPosts.map((oldPost) =>
-          oldPost._id === post._id
-            ? {
-                ...oldPost,
-                likes: isLiked
-                  ? oldPost.likes.filter((id) => id !== authUser?._id)
-                  : [...oldPost.likes, authUser?._id],
-              }
-            : oldPost
-        )
-      );
-
-      return { previousPosts };
+      return { queryKeysWithState };
     },
     onError: (error, _, context) => {
-      queryClient.setQueryData(["posts"], context.previousPosts);
+      // Restore from snapshot on error
+      if (context?.queryKeysWithState) {
+        for (const [queryKey, state] of context.queryKeysWithState) {
+          queryClient.setQueryData(queryKey, state);
+        }
+      }
       toast.error(error.message);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
     }
   });
 
@@ -81,38 +138,45 @@ const Post = ({ post }) => {
     },
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["posts"] });
-      const previousPosts = queryClient.getQueryData(["posts"]);
+      
+      // Get snapshot of current state
+      const queryKeysWithState = queryClient.getQueryCache()
+        .findAll(['posts'])
+        .filter(query => query.state.data)
+        .map(query => [query.queryKey, queryClient.getQueryData(query.queryKey)]);
+      
+      // Optimistically update the UI
+      updatePostInCache(post._id, (oldPost) => ({
+        ...oldPost,
+        comments: [
+          ...oldPost.comments,
+          {
+            _id: Date.now().toString(),
+            text: comment,
+            user: authUser,
+            createdAt: new Date().toISOString()
+          }
+        ]
+      }));
 
-      queryClient.setQueryData(["posts"], (oldPosts) =>
-        oldPosts.map((oldPost) =>
-          oldPost._id === post._id
-            ? {
-                ...oldPost,
-                comments: [
-                  ...oldPost.comments,
-                  {
-                    _id: Date.now().toString(),
-                    text: comment,
-                    user: authUser,
-                    createdAt: new Date().toISOString()
-                  }
-                ]
-              }
-            : oldPost
-        )
-      );
-
-      return { previousPosts };
+      return { queryKeysWithState };
     },
     onSuccess: () => {
       setComment("");
       toast.success("Comment added");
     },
     onError: (error, _, context) => {
-      queryClient.setQueryData(["posts"], context.previousPosts);
+      // Restore from snapshot on error
+      if (context?.queryKeysWithState) {
+        for (const [queryKey, state] of context.queryKeysWithState) {
+          queryClient.setQueryData(queryKey, state);
+        }
+      }
       toast.error(error.message);
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["posts"] })
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    }
   });
 
   const { mutate: deleteComment } = useMutation({
@@ -125,24 +189,32 @@ const Post = ({ post }) => {
     },
     onMutate: async (commentId) => {
       await queryClient.cancelQueries({ queryKey: ["posts"] });
-      const previousPosts = queryClient.getQueryData(["posts"]);
+      
+      // Get snapshot of current state
+      const queryKeysWithState = queryClient.getQueryCache()
+        .findAll(['posts'])
+        .filter(query => query.state.data)
+        .map(query => [query.queryKey, queryClient.getQueryData(query.queryKey)]);
+      
+      // Optimistically update the UI
+      updatePostInCache(post._id, (oldPost) => ({
+        ...oldPost,
+        comments: oldPost.comments.filter(c => c._id !== commentId)
+      }));
 
-      queryClient.setQueryData(["posts"], (oldPosts) =>
-        oldPosts.map((oldPost) =>
-          oldPost._id === post._id
-            ? {
-                ...oldPost,
-                comments: oldPost.comments.filter(c => c._id !== commentId)
-              }
-            : oldPost
-        )
-      );
-
-      return { previousPosts };
+      return { queryKeysWithState };
     },
     onError: (error, _, context) => {
-      queryClient.setQueryData(["posts"], context.previousPosts);
+      // Restore from snapshot on error
+      if (context?.queryKeysWithState) {
+        for (const [queryKey, state] of context.queryKeysWithState) {
+          queryClient.setQueryData(queryKey, state);
+        }
+      }
       toast.error(error.message);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
     }
   });
 
@@ -391,7 +463,7 @@ const Post = ({ post }) => {
                   placeholder="Add a comment..."
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && addComment()}
+                  onKeyDown={(e) => e.key === "Enter" && comment.trim() && addComment()}
                 />
                 <button 
                   onClick={addComment} 
