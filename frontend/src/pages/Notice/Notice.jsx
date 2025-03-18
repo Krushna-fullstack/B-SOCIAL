@@ -20,7 +20,7 @@ const Notice = ({ notice }) => {
 
   const formattedDate = formatPostDate(notice.createdAt);
 
-  const { mutate: likeNotice, isPending: isLiking } = useMutation({
+  const { mutate: likeNotice } = useMutation({
     mutationFn: async () => {
       const res = await fetch(`/api/v1/notices/like/${notice._id}`, {
         method: "POST",
@@ -28,15 +28,42 @@ const Notice = ({ notice }) => {
       if (!res.ok) throw new Error("Something went wrong");
       return res.json();
     },
-    onSuccess: (updatedLikes) => {
+    onMutate: async () => {
+      // Cancel ongoing queries to prevent conflicts
+      await queryClient.cancelQueries(["notices"]);
+
+      // Get previous data snapshot for rollback
+      const previousNotices = queryClient.getQueryData(["notices"]);
+
+      // Optimistically update UI before API call finishes
       queryClient.setQueryData(["notices"], (oldData) =>
         oldData.map((n) =>
-          n._id === notice._id ? { ...n, likes: updatedLikes } : n
+          n._id === notice._id
+            ? {
+                ...n,
+                likes: isLiked
+                  ? n.likes.filter((id) => id !== authUser._id) // Remove like (Unlike)
+                  : [...n.likes, authUser._id], // Add like (Like)
+              }
+            : n
         )
       );
+
+      return { previousNotices }; // Return snapshot in case of rollback
     },
-    onError: (error) => toast.error(error.message),
+    onError: (error, _, context) => {
+      toast.error(error.message);
+      queryClient.setQueryData(["notices"], context.previousNotices); // Rollback on error
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["notices"]); // Final sync with backend
+    },
   });
+
+  // Optimized Click Handler
+  const handleLikeNotice = () => {
+    likeNotice();
+  };
 
   // Mutation for deleting a notice
   const { mutate: deleteNotice, isPending: isDeleting } = useMutation({
@@ -59,10 +86,6 @@ const Notice = ({ notice }) => {
   };
 
   // Handler for like button click
-  const handleLikeNotice = () => {
-    if (isLiking) return;
-    likeNotice();
-  };
 
   // Handler for image click to open modal
   const handleImageClick = (imgSrc) => {
@@ -121,13 +144,7 @@ const Notice = ({ notice }) => {
           onClick={handleLikeNotice}
           className="flex items-center space-x-1 cursor-pointer text-gray-500 hover:text-blue-500 transition-colors"
         >
-          {isLiking ? (
-            <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-400"></div>
-          ) : isLiked ? (
-            <FaHeart className="text-red-500" />
-          ) : (
-            <FaRegHeart />
-          )}
+          {isLiked ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
           <span className="text-sm">{notice.likes.length}</span>
         </div>
 

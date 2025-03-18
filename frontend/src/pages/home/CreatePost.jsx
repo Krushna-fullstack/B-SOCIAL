@@ -24,15 +24,51 @@ const CreatePost = () => {
       if (!res.ok) throw new Error(data.error || "Failed to create post");
       return data;
     },
+    onMutate: async (newPost) => {
+      await queryClient.cancelQueries({ queryKey: ["posts"] });
+  
+      // Get previous post data
+      const previousPosts = queryClient.getQueryData(["posts"]);
+  
+      // Optimistically update cache
+      queryClient.setQueryData(["posts"], (oldData) => {
+        if (!oldData) return [newPost]; // If no data, just return the new post
+        return [{ 
+          ...newPost, 
+          _id: Date.now().toString(), // Temporary ID until API response
+          user: authUser,
+          likes: [],
+          comments: [],
+          createdAt: new Date().toISOString()
+        }, ...oldData]; // Prepend new post
+      });
+  
+      return { previousPosts };
+    },
     onSuccess: () => {
       toast.success("Post created successfully");
       setText("");
       setImg(null);
       imgRef.current.value = null;
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    
+      // Ensure we are invalidating the correct query key
+      queryClient.invalidateQueries({ queryKey: ["infinitePosts"] });
     },
-    onError: (error) => toast.error(error.message),
+    
+    onError: (error, _, context) => {
+      toast.error(error.message);
+  
+      // Rollback in case of an error
+      if (context?.previousPosts) {
+        queryClient.setQueryData(["posts"], context.previousPosts);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    }
   });
+  
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();

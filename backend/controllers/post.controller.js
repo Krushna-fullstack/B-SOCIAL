@@ -262,14 +262,16 @@ export const getUserPosts = async (req, res) => {
 };
 
 export const deleteComment = asyncHandler(async (req, res) => {
-  const postId = req.params.postId;
-  const commentId = req.params.commentId;
+  const { postId, commentId } = req.params;
+  const userId = req.user._id; // Ensure `req.user` exists from auth middleware
 
+  // 1️⃣ Find the post
   const post = await Post.findById(postId);
   if (!post) {
     return res.status(404).json({ error: "Post not found" });
   }
 
+  // 2️⃣ Find the comment
   const commentIndex = post.comments.findIndex(
     (comment) => comment._id.toString() === commentId
   );
@@ -277,10 +279,23 @@ export const deleteComment = asyncHandler(async (req, res) => {
     return res.status(404).json({ error: "Comment not found" });
   }
 
-  post.comments.splice(commentIndex, 1);
-  await post.save();
+  const comment = post.comments[commentIndex];
 
-  res.status(200).json({ message: "Comment deleted successfully" });
+  // 3️⃣ Check if the user is authorized to delete the comment
+  if (comment.user.toString() !== userId.toString() && post.user.toString() !== userId.toString()) {
+    return res.status(403).json({ error: "Not authorized to delete this comment" });
+  }
+
+  // 4️⃣ Remove the comment
+  post.comments.splice(commentIndex, 1);
+
+  try {
+    await post.save();
+    res.status(200).json({ success: true, message: "Comment deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 
