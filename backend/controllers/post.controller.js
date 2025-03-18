@@ -138,7 +138,7 @@ export const getAllPosts = async (req, res) => {
     let { page, limit } = req.query;
 
     page = parseInt(page) || 1;
-    limit = parseInt(limit) || 10; // Default limit is 10 posts
+    limit = parseInt(limit) || 5; // Default limit is 10 posts
 
     // Get total posts count for wrapping pagination
     const totalPosts = await Post.countDocuments();
@@ -205,15 +205,32 @@ export const getAllPosts = async (req, res) => {
 export const getUserPosts = async (req, res) => {
   try {
     const { username } = req.params;
+    let { page, limit } = req.query;
 
-    const user = await User.findOne({ username });
+    // Validate and parse pagination parameters
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 5;
+    page = Math.max(1, page);
+    limit = Math.max(1, Math.min(limit, 10)); // Limit to max 10 posts per request
 
+    // Find the target user
+    const user = await User.findOne({ username }).select("-password");
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
+    // Get total posts count for pagination
+    const totalPosts = await Post.countDocuments({ user: user._id });
+
+    // Calculate pagination values
+    const skip = (page - 1) * limit;
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    // Fetch posts with pagination
     const posts = await Post.find({ user: user._id })
       .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
       .populate({
         path: "user",
         select: "-password",
@@ -223,10 +240,24 @@ export const getUserPosts = async (req, res) => {
         select: "-password",
       });
 
-    res.status(200).json(posts);
+    // Structure response to match getAllPosts format
+    const response = {
+      posts,
+      totalPosts,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        hasMore: page < totalPages,
+      },
+    };
+
+    res.status(200).json(response);
   } catch (error) {
-    console.log("Error in getUserPosts controller: ", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.error("Error in getUserPosts controller: ", error);
+    res.status(500).json({ 
+      error: "Internal server error",
+      message: error.message 
+    });
   }
 };
 
@@ -251,3 +282,5 @@ export const deleteComment = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Comment deleted successfully" });
 });
+
+

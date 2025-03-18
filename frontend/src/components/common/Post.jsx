@@ -16,6 +16,7 @@ const Post = ({ post }) => {
   const [comment, setComment] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+  const [isDeletingComment, setIsDeletingComment] = useState(false);
 
   const { data: authUser = {} } = useQuery({ queryKey: ["authUser"] });
   const queryClient = useQueryClient();
@@ -179,13 +180,24 @@ const Post = ({ post }) => {
     }
   });
 
-  const { mutate: deleteComment } = useMutation({
-    mutationFn: async (commentId) => {
+ const { mutate: deleteComment, isPending: isDeletingCommentState } = useMutation({
+  mutationFn: async (commentId) => {
+    setIsDeletingComment(true);
+    try {
       const res = await fetch(`/api/v1/posts/${post._id}/comments/${commentId}`, { 
-        method: "DELETE" 
+        method: "DELETE",
+        credentials: 'include'
       });
-      if (!res.ok) throw new Error("Failed to delete comment");
-      return res.json();
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          throw new Error(errorData.message || "Failed to delete comment");
+        }
+        return res.json();
+      } catch (error) {
+        throw error;
+      } finally {
+        setIsDeletingComment(false);
+      }
     },
     onMutate: async (commentId) => {
       await queryClient.cancelQueries({ queryKey: ["posts"] });
@@ -204,6 +216,9 @@ const Post = ({ post }) => {
 
       return { queryKeysWithState };
     },
+    onSuccess: () => {
+      toast.success("Comment deleted");
+    },
     onError: (error, _, context) => {
       // Restore from snapshot on error
       if (context?.queryKeysWithState) {
@@ -211,7 +226,7 @@ const Post = ({ post }) => {
           queryClient.setQueryData(queryKey, state);
         }
       }
-      toast.error(error.message);
+      toast.error(error.message || "Failed to delete comment");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -239,6 +254,11 @@ const Post = ({ post }) => {
       url: window.location.href
     }).catch(() => null);
   }, [post.text]);
+
+  const handleDeleteComment = (commentId) => {
+    if (isDeletingComment) return;
+    deleteComment(commentId);
+  };
 
   return (
     <div className="bg-secondary rounded-xl shadow-md p-6 mb-2 w-full max-w-md mx-auto">
@@ -443,7 +463,7 @@ const Post = ({ post }) => {
                           </div>
                           {authUser?._id === comment.user._id && (
                             <button
-                              onClick={() => deleteComment(comment._id)}
+                              onClick={() => handleDeleteComment(comment._id)}
                               className="text-red-500 hover:text-red-700"
                             >
                               <FaTrash className="text-lg" />
