@@ -18,7 +18,7 @@ import { MdOutlinePersonRemoveAlt1 } from "react-icons/md";
 const Profile = () => {
   const location = useLocation();
   const { username } = useParams();
-  const [feedType, setFeedType] = useState("posts");
+  const [feedType] = useState("userPosts"); // Removed state setter since we don't change feed type
   const [coverImg, setCoverImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
 
@@ -33,15 +33,16 @@ const Profile = () => {
     isRefetching,
     refetch,
   } = useQuery({
-    queryKey: ["userProfile"],
+    queryKey: ["userProfile", username], // Add username to query key
     queryFn: async () => {
       const res = await fetch(`/api/v1/user/profile/${username}`);
-      const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error);
+        const error = await res.json();
+        throw new Error(error.message || "Failed to fetch profile");
       }
-      return data;
+      return res.json();
     },
+    retry: 1,
   });
 
   const { updateProfile, isUpdatingProfile } = useUpdateUserProfile();
@@ -52,10 +53,6 @@ const Profile = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-
-  useEffect(() => {
-    refetch();
-  }, [username, refetch]);
 
   const handleImgChange = (e, state) => {
     const file = e.target.files[0];
@@ -73,23 +70,28 @@ const Profile = () => {
     <div className="flex justify-center min-h-screen bg-black">
       <div className="w-full max-w-3xl mx-auto border-r border-gray-700 min-h-screen flex flex-col">
         {(isLoading || isRefetching) && <ProfileHeaderSkeleton />}
+        
         {!isLoading && !isRefetching && !user && (
           <p className="text-center text-lg mt-4">User not found</p>
         )}
+
         <div className="flex flex-col">
           {!isLoading && !isRefetching && user && (
             <>
+              {/* Profile Header */}
               <div className="flex gap-10 px-4 py-2 items-center">
                 <Link to="/">
                   <FaArrowLeft className="w-4 h-4" />
                 </Link>
                 <ShinyText
                   text={user?.fullName}
-                  disabled={false}
+                  className="font-bold text-lg"
                   speed={3}
-                  className="custom-class font-bold text-lg"
+                  disabled={false}
                 />
               </div>
+
+              {/* Cover Image Section */}
               <div className="relative group/cover">
                 <img
                   src={coverImg || user?.coverImg || "/background-pic.png"}
@@ -118,14 +120,12 @@ const Profile = () => {
                   ref={profileImgRef}
                   onChange={(e) => handleImgChange(e, "profileImg")}
                 />
+                
+                {/* Profile Image Section */}
                 <div className="avatar absolute -bottom-16 left-4">
                   <div className="w-32 rounded-full relative group/avatar">
                     <img
-                      src={
-                        profileImg ||
-                        user?.profileImg ||
-                        "/avatar-placeholder.png"
-                      }
+                      src={profileImg || user?.profileImg || "/avatar-placeholder.png"}
                       className="rounded-full"
                       alt="profile"
                     />
@@ -140,103 +140,83 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Action Buttons */}
               <div className="flex justify-end px-4 mt-5">
-                {isMyProfile && <EditProfileModal authUser={authUser} />}
-                {!isMyProfile && (
+                {isMyProfile ? (
+                  <EditProfileModal authUser={authUser} />
+                ) : (
                   <button
                     className="btn btn-outline rounded-full btn-sm"
                     onClick={() => follow(user?._id)}
+                    disabled={isPending}
                   >
-                    {isPending && (
-                      <ShinyText
-                        text="Loading..."
-                        disabled={false}
-                        speed={3}
-                        className="custom-class text-base"
-                      />
-                    )}
-                    {!isPending && amIFollowing && (
-                      <div className="flex justify-center items-center gap-2">
-                        <MdOutlinePersonRemoveAlt1 className="text-base" />
-                        <ShinyText
-                          text="Unfollow"
-                          disabled={false}
-                          speed={3}
-                          className="custom-class text-base"
-                        />
+                    {isPending ? (
+                      <ShinyText text="Loading..." className="text-base" />
+                    ) : amIFollowing ? (
+                      <div className="flex items-center gap-2">
+                        <MdOutlinePersonRemoveAlt1 />
+                        <ShinyText text="Unfollow" className="text-base" />
                       </div>
-                    )}
-                    {!isPending && !amIFollowing && (
-                      <div className="flex justify-center items-center gap-2">
-                        <MdOutlinePersonAddAlt className="text-base" />
-                        <ShinyText
-                          text="Follow"
-                          disabled={false}
-                          speed={3}
-                          className="custom-class text-base"
-                        />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <MdOutlinePersonAddAlt />
+                        <ShinyText text="Follow" className="text-base" />
                       </div>
                     )}
                   </button>
                 )}
+                
                 {(coverImg || profileImg) && (
                   <button
-                    disabled={isUpdatingProfile}
                     className="btn btn-primary rounded-full btn-sm text-white px-4 ml-2"
-                    onClick={async () => {
-                      await updateProfile({ coverImg, profileImg });
+                    onClick={() => {
+                      updateProfile({ coverImg, profileImg });
                       setCoverImg(null);
                       setProfileImg(null);
                     }}
+                    disabled={isUpdatingProfile}
                   >
                     {isUpdatingProfile ? "Updating..." : "Update"}
                   </button>
                 )}
               </div>
+
+              {/* Profile Info */}
               <div className="flex flex-col gap-4 mt-14 px-4">
                 <div className="flex flex-col">
-                  <span className="font-bold text-lg">{user?.fullName}</span>
-                  <span className="text-sm text-slate-500">
-                    @{user?.username}
-                  </span>
-                  <span className="text-sm my-1">{user?.bio}</span>
+                  <span className="font-bold text-lg">{user.fullName}</span>
+                  <span className="text-sm text-slate-500">@{user.username}</span>
+                  <span className="text-sm my-1">{user.bio}</span>
                 </div>
+
                 <div className="flex gap-2 flex-wrap">
-                  {user?.link && (
-                    <div className="flex gap-1 items-center">
+                  {user.link && (
+                    <div className="flex items-center gap-1">
                       <FaLink className="w-3 h-3 text-slate-500" />
                       <a
-                        href={
-                          user.link.startsWith("http")
-                            ? user.link
-                            : `https://${user.link}`
-                        }
+                        href={user.link.startsWith("http") ? user.link : `https://${user.link}`}
                         target="_blank"
                         rel="noreferrer"
                         className="text-sm text-blue-500 hover:underline"
                       >
-                        {user?.link}
+                        {user.link}
                       </a>
                     </div>
                   )}
-                  <div className="flex gap-2 items-center">
+                  <div className="flex items-center gap-2">
                     <IoCalendarOutline className="w-4 h-4 text-slate-500" />
-                    <span className="text-sm text-slate-500">
-                      {memberSinceDate}
-                    </span>
+                    <span className="text-sm text-slate-500">{memberSinceDate}</span>
                   </div>
                 </div>
+
                 <div className="flex gap-2">
-                  <div className="flex gap-1 items-center">
-                    <span className="font-bold text-md">
-                      {user?.following.length}
-                    </span>
+                  <div className="flex items-center gap-1">
+                    <span className="font-bold text-md">{user.following.length}</span>
                     <span className="text-slate-500 text-md">Following</span>
                   </div>
-                  <div className="flex gap-1 items-center">
-                    <span className="font-bold text-md">
-                      {user?.followers.length}
-                    </span>
+                  <div className="flex items-center gap-1">
+                    <span className="font-bold text-md">{user.followers.length}</span>
                     <span className="text-slate-500 text-md">Followers</span>
                   </div>
                 </div>
@@ -244,13 +224,20 @@ const Profile = () => {
             </>
           )}
 
-          <ShinyText
-            text="Posts"
-            disabled={false}
-            speed={3}
-            className="custom-class text-xl font-semibold flex justify-center mt-5"
-          />
-          <Posts feedType={feedType} username={username} userId={user?._id} />
+          {/* Posts Section */}
+          <div className="mt-8">
+            <ShinyText
+              text="Posts"
+              className="text-xl font-semibold flex justify-center"
+              speed={3}
+              disabled={false}
+            />
+            <Posts 
+              feedType={feedType} 
+              username={username}
+              key={username} // Force re-render when username changes
+            />
+          </div>
         </div>
       </div>
     </div>
