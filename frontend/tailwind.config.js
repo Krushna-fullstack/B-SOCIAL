@@ -28,7 +28,8 @@ module.exports = {
       animation: {
         shine: "shine 5s linear infinite",
         gradient: "gradient 8s linear infinite",
-        "star-movement-bottom": "star-movement-bottom linear infinite alternate",
+        "star-movement-bottom":
+          "star-movement-bottom linear infinite alternate",
         "star-movement-top": "star-movement-top linear infinite alternate",
       },
     },
