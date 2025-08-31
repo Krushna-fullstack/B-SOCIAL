@@ -179,57 +179,60 @@ const Post = ({ post }) => {
     },
   });
 
-  const { mutate: deleteComment, isPending: isDeletingCommentState } = useMutation({
-    mutationFn: async (commentId) => {
-      setIsDeletingComment(true);
-      try {
-        const res = await fetch(`/api/v1/posts/${post._id}/comments/${commentId}`, {
-          method: "DELETE",
-          credentials: "include",
-        });
-  
-        if (!res.ok) {
-          const errorData = await res.json().catch(() => ({}));
-          throw new Error(errorData.message || "Failed to delete comment");
+  const { mutate: deleteComment, isPending: isDeletingCommentState } =
+    useMutation({
+      mutationFn: async (commentId) => {
+        setIsDeletingComment(true);
+        try {
+          const res = await fetch(
+            `/api/v1/posts/${post._id}/comments/${commentId}`,
+            {
+              method: "DELETE",
+              credentials: "include",
+            }
+          );
+
+          if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData.message || "Failed to delete comment");
+          }
+
+          return res.json();
+        } catch (error) {
+          console.error("Delete comment error:", error);
+          throw error;
+        } finally {
+          setIsDeletingComment(false);
         }
-  
-        return res.json();
-      } catch (error) {
-        console.error("Delete comment error:", error);
-        throw error;
-      } finally {
-        setIsDeletingComment(false);
-      }
-    },
-    onMutate: async (commentId) => {
-      await queryClient.cancelQueries({ queryKey: ["posts"] });
-  
-      // Optimistically update UI
-      updatePostInCache(post._id, (oldPost) => ({
-        ...oldPost,
-        comments: oldPost.comments.map((comment) =>
-          comment._id === commentId
-            ? { ...comment, user: comment.user || authUser }
-            : comment
-        ),
-      }));
-      
-    },
-    onSuccess: (data) => {
-      if (data?.success) {
-        toast.success("Comment deleted successfully");
-      } else {
-        toast.error("Failed to delete comment. Try again.");
-      }
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to delete comment");
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-    },
-  });
-  
+      },
+      onMutate: async (commentId) => {
+        await queryClient.cancelQueries({ queryKey: ["posts"] });
+
+        // Optimistically update UI
+        updatePostInCache(post._id, (oldPost) => ({
+          ...oldPost,
+          comments: oldPost.comments.map((comment) =>
+            comment._id === commentId
+              ? { ...comment, user: comment.user || authUser }
+              : comment
+          ),
+        }));
+      },
+      onSuccess: (data) => {
+        if (data?.success) {
+          toast.success("Comment deleted successfully");
+        } else {
+          toast.error("Failed to delete comment. Try again.");
+        }
+      },
+      onError: (error) => {
+        toast.error(error.message || "Failed to delete comment");
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
+      },
+    });
+
   const { mutate: deletePost, isPending: isDeletingPost } = useMutation({
     mutationFn: async () => {
       const res = await fetch(`/api/v1/posts/${post._id}`, {

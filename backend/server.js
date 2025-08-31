@@ -3,7 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 // import morgan from "morgan";
-import cors from "cors";
+// import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
 
 import connectDB from "./db/db.js";
@@ -18,17 +18,13 @@ cloudinary.config({
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-// const HOST = "0.0.0.0";
 
 app.use(express.json({ limit: "15mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"],
-    credentials: true,
-  })
-);
+
+// app.use(cors({ origin: "*", credentials: true }));
+
 // app.use(morgan("dev"));
 
 // Routes Import

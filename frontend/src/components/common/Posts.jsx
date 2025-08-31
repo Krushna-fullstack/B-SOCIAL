@@ -1,45 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Post from "./Post";
 import PostSkeleton from "../skeletons/PostSkeleton";
 
 const Posts = ({ feedType, username }) => {
-  const getPostEndpoint = () => {
-    return feedType === "userPosts"
+  const getPostEndpoint = () =>
+    feedType === "userPosts"
       ? `/api/v1/posts/user/${username}`
       : "/api/v1/posts/all";
-  };
 
-  const { data, isLoading, isError, error, refetch } = useQuery({
+  const { data, isLoading, isError, error, refetch, isRefetching } = useQuery({
     queryKey: ["posts", feedType, username],
     queryFn: async () => {
-      try {
-        const res = await fetch(getPostEndpoint());
-        const contentType = res.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-          throw new Error("Received non-JSON response");
-        }
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(
-            errorData.error || `HTTP error! status: ${res.status}`
-          );
-        }
-        return await res.json();
-      } catch (error) {
-        console.error("Fetch error:", error);
-        throw new Error(`Failed to load posts: ${error.message}`);
-      }
+      const res = await fetch(getPostEndpoint(), { credentials: "include" });
+      const payload = await res.json();
+      if (!res.ok)
+        throw new Error(
+          payload?.error || payload?.message || "Something went wrong!"
+        );
+      return payload;
     },
-    staleTime: 1000 * 60 * 5,
-    retry: 2,
+    keepPreviousData: true,
+    staleTime: 1000 * 60,
   });
 
-  const allPosts = data?.posts || [];
+  const allPosts = Array.isArray(data) ? data : data?.posts ?? data?.data ?? [];
 
+  useEffect(() => {
+    // optional explicit refetch; the queryKey change will already refetch automatically
+    refetch();
+  }, [feedType, username, refetch]);
+
+  // current user is read by Post via `authUser` query; pass nothing extra here
   return (
     <div className="container mx-auto p-4">
-      {isLoading && (
+      {(isLoading || isRefetching) && (
         <div className="flex flex-col gap-4">
           <PostSkeleton />
           <PostSkeleton />
@@ -50,10 +45,10 @@ const Posts = ({ feedType, username }) => {
       {isError && (
         <div className="text-red-500 p-4 border border-red-300 rounded-lg mt-4">
           <p className="font-medium">Error loading posts:</p>
-          <p className="text-sm mt-2">{error.message}</p>
+          <p className="text-sm mt-2">{error?.message ?? "Unknown error"}</p>
           <button
             onClick={() => refetch()}
-            className="mt-3 bg-red-100 hover:bg-red-200 text-red-800 px-4 py-2 rounded-md text-sm transition-colors"
+            className="mt-3 bg-red-100 hover:bg-red-200 text-red-800 px-4 py-2 rounded-md text-sm"
           >
             Retry
           </button>

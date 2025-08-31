@@ -22,7 +22,9 @@ const App = () => {
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
-        const res = await fetch("/api/v1/auth/me");
+        const res = await fetch("/api/v1/auth/me", {
+          credentials: "include",
+        });
         const data = await res.json();
 
         if (data.error) {
